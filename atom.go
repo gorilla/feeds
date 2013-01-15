@@ -79,12 +79,16 @@ func newAtomEntry(i *Item) *atomEntry {
 }
 
 func (a *Atom) FeedXml() interface{} {
+	ts := a.Updated
+	if ts.IsZero() {
+		ts = a.Created
+	}
 	feed := &atomFeed{
 		Ns:      ns,
 		Title:   a.Title,
 		Link:    &atomLink{Href: a.Link.Href, Rel: a.Link.Rel},
 		Id:      a.Link.Href,
-		Updated: a.Updated.Format(time.RFC3339)}
+		Updated: ts.Format(time.RFC3339)}
 	for _, e := range a.Items {
 		feed.Entries = append(feed.Entries, newAtomEntry(e))
 	}

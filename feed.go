@@ -29,12 +29,12 @@ type Item struct {
 type Feed struct {
 	Title       string
 	Link        *Link
-	Author      *Author
-	Created     time.Time
-	Updated     time.Time
 	Description string
-	Subtitle    string
+	Author      *Author
+	Updated     time.Time
 	Id          string
+	Subtitle    string
+	Created     time.Time
 	Items       []*Item
 }
 
@@ -48,10 +48,11 @@ type XmlFeed interface {
 
 func ToXML(feed XmlFeed) (string, error) {
 	x := feed.FeedXml()
-	data, err := xml.MarshalIndent(x, " ", " ")
+	data, err := xml.MarshalIndent(x, "", "  ")
 	if err != nil {
 		return "", err
 	}
+	// strip empty line from default xml header
 	s := xml.Header[:len(xml.Header)-1] + string(data)
 	return s, nil
 }
