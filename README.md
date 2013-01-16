@@ -4,5 +4,7 @@ Usage:
 
 ```golang
 
+import "syndicate"
+
 ```
 

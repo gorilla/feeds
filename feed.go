@@ -2,18 +2,15 @@ package syndicate
 
 import (
 	"encoding/xml"
-	"fmt"
 	"time"
 )
 
 type Link struct {
-	Href string
-	Rel  string
+	Href, Rel string
 }
 
 type Author struct {
-	Name  string
-	Email string
+	Name, Email string
 }
 
 type Item struct {
@@ -42,6 +39,16 @@ func (f *Feed) Add(item *Item) {
 	f.Items = append(f.Items, item)
 }
 
+// returns the first non-zero time formatted as a string or "" 
+func anyTimeFormat(format string, times ...time.Time) string {
+	for _, t := range times {
+		if !t.IsZero() {
+			return t.Format(format)
+		}
+	}
+	return ""
+}
+
 type XmlFeed interface {
 	FeedXml() interface{}
 }
@@ -62,14 +69,7 @@ func (f *Feed) ToAtom() (string, error) {
 	return ToXML(a)
 }
 
-func (f *Feed) ToRss(version ...float64) (string, error) {
-	vers := 2.0
-	if len(version) > 0 {
-		vers = version[0]
-	}
-	/*
-		r := &RssFeed{f}
-		return ToXML(r)
-	*/
-	return fmt.Sprint(vers), nil
+func (f *Feed) ToRss() (string, error) {
+	r := &Rss{f}
+	return ToXML(r)
 }

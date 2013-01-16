@@ -16,4 +16,5 @@ func TestFeed(t *testing.T) {
 	}
 
 	fmt.Println(feed.ToAtom())
+	fmt.Println(feed.ToRss())
 }

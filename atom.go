@@ -11,55 +11,50 @@ import (
 
 const ns = "http://www.w3.org/2005/Atom"
 
-type atomSummary struct {
+type AtomSummary struct {
 	S    string `xml:",chardata"`
 	Type string `xml:"type,attr"`
 }
 
-type atomEntry struct {
+type AtomEntry struct {
 	XMLName xml.Name `xml:"entry"`
 	Title   string   `xml:"title"`
-	Link    *atomLink
+	Link    *AtomLink
 	Updated string       `xml:"updated"`
 	Id      string       `xml:"id"`
-	Summary *atomSummary `xml:"summary"`
+	Summary *AtomSummary `xml:"summary,omitempty"`
 }
 
-type atomLink struct {
+type AtomLink struct {
 	XMLName xml.Name `xml:"link"`
 	Href    string   `xml:"href,attr"`
-	Rel     string   `xml:"rel,attr"`
+	Rel     string   `xml:"rel,attr,omitempty"`
 }
 
-type atomFeed struct {
+type AtomFeed struct {
 	XMLName xml.Name `xml:"feed"`
 	Ns      string   `xml:"xmlns,attr"`
 	Title   string   `xml:"title"`
-	Link    *atomLink
-	Id      string `xml:"id"`
+	Link    *AtomLink
+	Id      string `xml:"id,omitempty"`
 	Updated string `xml:"updated"`
-	Entries []*atomEntry
+	Summary string `xml:"summary,omitempty"`
+	Entries []*AtomEntry
 }
 
 type Atom struct {
 	*Feed
 }
 
-func newAtomEntry(i *Item) *atomEntry {
+func newAtomEntry(i *Item) *AtomEntry {
 	id := i.Id
 	// assume the description is html
-	s := &atomSummary{i.Description, "html"}
+	s := &AtomSummary{i.Description, "html"}
 
-	// try to get a single timestamp, since we only have one  in atom 
-	ts := i.Updated
-	if ts.IsZero() {
-		ts = i.Created
-	}
-	// <id>tag:blog.kowalczyk.info,2012-09-11:/item/1.html</id>
 	if len(id) == 0 {
 		// if there's no id set, try to create one, either from data or just a uuid
 		if len(i.Link.Href) > 0 && (!i.Created.IsZero() || !i.Updated.IsZero()) {
-			dateStr := ts.Format("2006-01-02")
+			dateStr := anyTimeFormat("2006-01-02", i.Updated, i.Created)
 			host, path := i.Link.Href, "/invalid.html"
 			if url, err := url.Parse(i.Link.Href); err == nil {
 				host, path = url.Host, url.Path
@@ -69,9 +64,9 @@ func newAtomEntry(i *Item) *atomEntry {
 			id = "urn:uuid:" + NewUUID().String()
 		}
 	}
-	x := &atomEntry{
+	x := &AtomEntry{
 		Title:   i.Title,
-		Link:    &atomLink{Href: i.Link.Href, Rel: i.Link.Rel},
+		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel},
 		Summary: s,
 		Id:      id,
 		Updated: i.Updated.Format(time.RFC3339)}
@@ -79,19 +74,17 @@ func newAtomEntry(i *Item) *atomEntry {
 }
 
 func (a *Atom) FeedXml() interface{} {
-	ts := a.Updated
-	if ts.IsZero() {
-		ts = a.Created
-	}
-	feed := &atomFeed{
+	updated := anyTimeFormat(time.RFC3339, a.Updated, a.Created)
+	feed := &AtomFeed{
 		Ns:      ns,
 		Title:   a.Title,
-		Link:    &atomLink{Href: a.Link.Href, Rel: a.Link.Rel},
+		Link:    &AtomLink{Href: a.Link.Href, Rel: a.Link.Rel},
+		Summary: a.Description,
 		Id:      a.Link.Href,
-		Updated: ts.Format(time.RFC3339)}
+		Updated: updated,
+	}
 	for _, e := range a.Items {
 		feed.Entries = append(feed.Entries, newAtomEntry(e))
 	}
-
 	return feed
 }
