@@ -56,12 +56,12 @@ Outputs:
   <title>jmoiron.net blog</title>
   <link href="http://jmoiron.net/blog"></link>
   <id>http://jmoiron.net/blog</id>
-  <updated>2013-01-16T03:22:24-05:00</updated>
+  <updated>2013-01-16T03:26:01-05:00</updated>
   <summary>discussion about tech, footie, photos</summary>
   <entry>
     <title>Limiting Concurrency in Go</title>
     <link href="http://jmoiron.net/blog/limiting-concurrency-in-go/"></link>
-    <updated>0001-01-01T00:00:00Z</updated>
+    <updated>2013-01-16T03:26:01-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/limiting-concurrency-in-go/</id>
     <summary type="html">A discussion on controlled parallelism in golang</summary>
     <author>
@@ -72,7 +72,7 @@ Outputs:
   <entry>
     <title>Logic-less Template Redux</title>
     <link href="http://jmoiron.net/blog/logicless-template-redux/"></link>
-    <updated>0001-01-01T00:00:00Z</updated>
+    <updated>2013-01-16T03:26:01-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/logicless-template-redux/</id>
     <summary type="html">More thoughts on logicless templates</summary>
     <author></author>
@@ -80,7 +80,7 @@ Outputs:
   <entry>
     <title>Idiomatic Code Reuse in Go</title>
     <link href="http://jmoiron.net/blog/idiomatic-code-reuse-in-go/"></link>
-    <updated>0001-01-01T00:00:00Z</updated>
+    <updated>2013-01-16T03:26:01-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/idiomatic-code-reuse-in-go/</id>
     <summary type="html">How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</summary>
     <author></author>

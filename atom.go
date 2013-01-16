@@ -75,7 +75,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 		Link:        &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel},
 		Summary:     s,
 		Id:          id,
-		Updated:     i.Updated.Format(time.RFC3339),
+		Updated:     anyTimeFormat(time.RFC3339, i.Updated, i.Created),
 		AuthorName:  name,
 		AuthorEmail: email,
 	}
