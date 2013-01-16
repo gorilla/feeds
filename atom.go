@@ -17,12 +17,14 @@ type AtomSummary struct {
 }
 
 type AtomEntry struct {
-	XMLName xml.Name `xml:"entry"`
-	Title   string   `xml:"title"`
-	Link    *AtomLink
-	Updated string       `xml:"updated"`
-	Id      string       `xml:"id"`
-	Summary *AtomSummary `xml:"summary,omitempty"`
+	XMLName     xml.Name `xml:"entry"`
+	Title       string   `xml:"title"`
+	Link        *AtomLink
+	Updated     string       `xml:"updated"`
+	Id          string       `xml:"id"`
+	Summary     *AtomSummary `xml:"summary,omitempty"`
+	AuthorName  string       `xml:"author>name,omitempty"`
+	AuthorEmail string       `xml:"author>email,omitempty"`
 }
 
 type AtomLink struct {
@@ -64,12 +66,19 @@ func newAtomEntry(i *Item) *AtomEntry {
 			id = "urn:uuid:" + NewUUID().String()
 		}
 	}
+	var name, email string
+	if i.Author != nil {
+		name, email = i.Author.Name, i.Author.Email
+	}
 	x := &AtomEntry{
-		Title:   i.Title,
-		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel},
-		Summary: s,
-		Id:      id,
-		Updated: i.Updated.Format(time.RFC3339)}
+		Title:       i.Title,
+		Link:        &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel},
+		Summary:     s,
+		Id:          id,
+		Updated:     i.Updated.Format(time.RFC3339),
+		AuthorName:  name,
+		AuthorEmail: email,
+	}
 	return x
 }
 
