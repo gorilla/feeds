@@ -68,6 +68,7 @@ func newRssItem(i *Item) *RssItem {
 		Link:        i.Link.Href,
 		Description: i.Description,
 		Guid:        i.Id,
+		PubDate:     anyTimeFormat(time.RFC3339, i.Created, i.Updated),
 	}
 	return item
 }

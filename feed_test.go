@@ -33,7 +33,7 @@ func TestFeed(t *testing.T) {
 		&Item{
 			Title:       "Idiomatic Code Reuse in Go",
 			Link:        &Link{Href: "http://jmoiron.net/blog/idiomatic-code-reuse-in-go/"},
-			Description: "How to use interfaces effectively",
+			Description: "How to use interfaces <em>effectively</em>",
 			Created:     now,
 		},
 	}
