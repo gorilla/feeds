@@ -62,7 +62,7 @@ You can also get access to the underlying objects that syndicate uses to export 
 From here, you can modify or add each syndication's specific fields before outputting
 
 	atomFeed.Subtitle = "plays the blues"
-    atom, err := ToXML(atomFeed)
+	atom, err := ToXML(atomFeed)
 	rssFeed.Generator = "Golang Syndicate v1.0 (github.com/jmoiron/syndicate)"
 	rss, err := ToXML(rssFeed)
 
