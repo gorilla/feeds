@@ -7,13 +7,15 @@ import (
 	"time"
 )
 
-type RssFeed struct {
+// private wrapper around the RssFeed which gives us the <rss>..</rss> xml
+type rssFeedXml struct {
 	XMLName xml.Name `xml:"rss"`
 	Version string   `xml:"version,attr"`
-	Channel *RssChannel
+	Channel *RssFeed
 }
 
-type RssChannel struct {
+// rss feed object which 
+type RssFeed struct {
 	XMLName        xml.Name `xml:"channel"`
 	Title          string   `xml:"title"`       // required
 	Link           string   `xml:"link"`        // required
@@ -81,9 +83,9 @@ func (r *Rss) FeedXml() interface{} {
 	if len(r.Author.Name) > 0 {
 		author = fmt.Sprintf("%s (%s)", r.Author.Email, r.Author.Name)
 	}
-	feed := &RssFeed{
+	feed := &rssFeedXml{
 		Version: "2.0",
-		Channel: &RssChannel{
+		Channel: &RssFeed{
 			Title:          r.Title,
 			Link:           r.Link.Href,
 			Description:    r.Description,

@@ -29,10 +29,11 @@ type Feed struct {
 	Description string
 	Author      *Author
 	Updated     time.Time
+	Created     time.Time
 	Id          string
 	Subtitle    string
-	Created     time.Time
 	Items       []*Item
+	Copyright   string
 }
 
 func (f *Feed) Add(item *Item) {
