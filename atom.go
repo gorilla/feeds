@@ -52,8 +52,8 @@ type AtomFeed struct {
 	XMLName     xml.Name `xml:"feed"`
 	Xmlns       string   `xml:"xmlns,attr"`
 	Category    string   `xml:"category,omitempty"`
-	Icon        string   `xml:"icon"`
-	Logo        string   `xml:"logo"`
+	Icon        string   `xml:"icon,omitempty"`
+	Logo        string   `xml:"logo,omitempty"`
 	Rights      string   `xml:"rights,omitempty"`
 	Title       string   `xml:"title"`
 	Subtitle    string   `xml:"subtitle,omitempty"`
@@ -113,9 +113,15 @@ func (a *Atom) FeedXml() interface{} {
 		Subtitle: a.Description,
 		Id:       a.Link.Href,
 		Updated:  updated,
+		Rights:   a.Copyright,
 	}
 	for _, e := range a.Items {
 		feed.Entries = append(feed.Entries, newAtomEntry(e))
 	}
 	return feed
+}
+
+// support the ToXML function for AtomFeeds directly
+func (a *AtomFeed) FeedXml() interface{} {
+	return a
 }

@@ -92,6 +92,7 @@ func (r *Rss) FeedXml() interface{} {
 			ManagingEditor: author,
 			PubDate:        pub,
 			LastBuildDate:  build,
+			Copyright:      r.Copyright,
 		},
 	}
 	for _, i := range r.Items {
@@ -99,4 +100,8 @@ func (r *Rss) FeedXml() interface{} {
 	}
 	return feed
 
+}
+
+func (r *RssFeed) FeedXml() interface{} {
+	return &rssFeedXml{Version: "2.0", Channel: r}
 }

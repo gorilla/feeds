@@ -14,6 +14,7 @@ func TestFeed(t *testing.T) {
 		Description: "discussion about tech, footie, photos",
 		Author:      &Author{"Jason Moiron", "jmoiron@jmoiron.net"},
 		Created:     now,
+		Copyright:   "This work is copyright © Benjamin Button",
 	}
 
 	feed.Items = []*Item{
