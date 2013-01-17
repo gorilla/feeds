@@ -36,6 +36,7 @@ type Feed struct {
 	Copyright   string
 }
 
+// add a new Item to a Feed
 func (f *Feed) Add(item *Item) {
 	f.Items = append(f.Items, item)
 }
@@ -50,10 +51,13 @@ func anyTimeFormat(format string, times ...time.Time) string {
 	return ""
 }
 
+// interface used by ToXML to get a object suitable for exporting XML.
 type XmlFeed interface {
 	FeedXml() interface{}
 }
 
+// turn a feed object (either a Feed, AtomFeed, or RssFeed) into xml
+// returns an error if xml marshaling fails
 func ToXML(feed XmlFeed) (string, error) {
 	x := feed.FeedXml()
 	data, err := xml.MarshalIndent(x, "", "  ")
@@ -65,11 +69,13 @@ func ToXML(feed XmlFeed) (string, error) {
 	return s, nil
 }
 
+// creates an Atom representation of this feed
 func (f *Feed) ToAtom() (string, error) {
 	a := &Atom{f}
 	return ToXML(a)
 }
 
+// creates an Rss representation of this feed
 func (f *Feed) ToRss() (string, error) {
 	r := &Rss{f}
 	return ToXML(r)
