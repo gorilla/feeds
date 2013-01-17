@@ -33,13 +33,19 @@ type AtomContributor struct {
 }
 
 type AtomEntry struct {
-	XMLName xml.Name `xml:"entry"`
-	Title   string   `xml:"title"`
-	Link    *AtomLink
-	Updated string       `xml:"updated"`
-	Id      string       `xml:"id"`
-	Summary *AtomSummary `xml:"summary,omitempty"`
-	Author  *AtomAuthor
+	XMLName     xml.Name `xml:"entry"`
+	Title       string   `xml:"title"`   // required
+	Updated     string   `xml:"updated"` // required
+	Id          string   `xml:"id"`      // required
+	Category    string   `xml:"category,omitempty"`
+	Content     string   `xml:"content,omitempty"`
+	Rights      string   `xml:"rights,omitempty"`
+	Source      string   `xml:"source,omitempty"`
+	Published   string   `xml:"published,omitempty"`
+	Contributor *AtomContributor
+	Link        *AtomLink    // required if no child 'content' elements
+	Summary     *AtomSummary // required if content has src or content is base64
+	Author      *AtomAuthor  // required if feed lacks an author
 }
 
 type AtomLink struct {
@@ -51,15 +57,16 @@ type AtomLink struct {
 type AtomFeed struct {
 	XMLName     xml.Name `xml:"feed"`
 	Xmlns       string   `xml:"xmlns,attr"`
+	Title       string   `xml:"title"`   // required
+	Id          string   `xml:"id"`      // required
+	Updated     string   `xml:"updated"` // required
 	Category    string   `xml:"category,omitempty"`
 	Icon        string   `xml:"icon,omitempty"`
 	Logo        string   `xml:"logo,omitempty"`
-	Rights      string   `xml:"rights,omitempty"`
-	Title       string   `xml:"title"`
+	Rights      string   `xml:"rights,omitempty"` // copyright used
 	Subtitle    string   `xml:"subtitle,omitempty"`
-	Id          string   `xml:"id,omitempty"`
-	Updated     string   `xml:"updated"`
 	Link        *AtomLink
+	Author      *AtomAuthor // required 
 	Contributor *AtomContributor
 	Entries     []*AtomEntry
 }
@@ -104,7 +111,8 @@ func newAtomEntry(i *Item) *AtomEntry {
 	return x
 }
 
-func (a *Atom) FeedXml() interface{} {
+// create a new AtomFeed with a generic Feed struct's data
+func (a *Atom) AtomFeed() *AtomFeed {
 	updated := anyTimeFormat(time.RFC3339, a.Updated, a.Created)
 	feed := &AtomFeed{
 		Xmlns:    ns,
@@ -115,13 +123,23 @@ func (a *Atom) FeedXml() interface{} {
 		Updated:  updated,
 		Rights:   a.Copyright,
 	}
+	if a.Author != nil {
+		feed.Author = &AtomAuthor{AtomPerson: AtomPerson{Name: a.Author.Name, Email: a.Author.Email}}
+	} else {
+		feed.Author = &AtomAuthor{AtomPerson: AtomPerson{Name: "", Email: ""}}
+	}
 	for _, e := range a.Items {
 		feed.Entries = append(feed.Entries, newAtomEntry(e))
 	}
 	return feed
 }
 
-// support the ToXML function for AtomFeeds directly
+// return an XML-Ready object for an Atom object
+func (a *Atom) FeedXml() interface{} {
+	return a.AtomFeed()
+}
+
+// return an XML-ready object for an AtomFeed object
 func (a *AtomFeed) FeedXml() interface{} {
 	return a
 }

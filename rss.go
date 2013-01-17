@@ -1,5 +1,9 @@
 package syndicate
 
+// rss support
+// validation done according to spec here:
+//    http://cyber.law.harvard.edu/rss/rss.html
+
 import (
 	"encoding/xml"
 	"fmt"
@@ -14,7 +18,23 @@ type rssFeedXml struct {
 	Channel *RssFeed
 }
 
-// rss feed object which 
+type RssImage struct {
+	XMLName xml.Name `xml:"image"`
+	Url     string   `xml:"url"`
+	Title   string   `xml:"title"`
+	Link    string   `xml:"link"`
+	Width   int      `xml:"width,omitempty"`
+	Height  int      `xml:"height,omitempty"`
+}
+
+type RssTextInput struct {
+	XMLName     xml.Name `xml:"textInput"`
+	Title       string   `xml:"title"`
+	Description string   `xml:"description"`
+	Name        string   `xml:"name"`
+	Link        string   `xml:"link"`
+}
+
 type RssFeed struct {
 	XMLName        xml.Name `xml:"channel"`
 	Title          string   `xml:"title"`       // required
@@ -30,12 +50,12 @@ type RssFeed struct {
 	Generator      string   `xml:"generator,omitempty"`
 	Docs           string   `xml:"docs,omitempty"`
 	Cloud          string   `xml:"cloud,omitempty"`
-	Ttl            string   `xml:"ttl,omitempty"`
-	Image          string   `xml:"image,omitempty"`
+	Ttl            int      `xml:"ttl,omitempty"`
 	Rating         string   `xml:"rating,omitempty"`
-	TextInput      string   `xml:"textInput,omitempty"`
 	SkipHours      string   `xml:"skipHours,omitempty"`
 	SkipDays       string   `xml:"skipDays,omitempty"`
+	Image          *RssImage
+	TextInput      *RssTextInput
 	Items          []*RssItem
 }
 
@@ -64,6 +84,7 @@ type Rss struct {
 	*Feed
 }
 
+// create a new RssItem with a generic Item struct's data
 func newRssItem(i *Item) *RssItem {
 	item := &RssItem{
 		Title:       i.Title,
@@ -75,33 +96,38 @@ func newRssItem(i *Item) *RssItem {
 	return item
 }
 
-func (r *Rss) FeedXml() interface{} {
-	// only generate version 2.0 feeds for now
+// create a new RssFeed with a generic Feed struct's data
+func (r *Rss) RssFeed() *RssFeed {
 	pub := anyTimeFormat(time.RFC3339, r.Created, r.Updated)
 	build := anyTimeFormat(time.RFC3339, r.Updated)
 	author := r.Author.Email
 	if len(r.Author.Name) > 0 {
 		author = fmt.Sprintf("%s (%s)", r.Author.Email, r.Author.Name)
 	}
-	feed := &rssFeedXml{
-		Version: "2.0",
-		Channel: &RssFeed{
-			Title:          r.Title,
-			Link:           r.Link.Href,
-			Description:    r.Description,
-			ManagingEditor: author,
-			PubDate:        pub,
-			LastBuildDate:  build,
-			Copyright:      r.Copyright,
-		},
+
+	channel := &RssFeed{
+		Title:          r.Title,
+		Link:           r.Link.Href,
+		Description:    r.Description,
+		ManagingEditor: author,
+		PubDate:        pub,
+		LastBuildDate:  build,
+		Copyright:      r.Copyright,
 	}
 	for _, i := range r.Items {
-		feed.Channel.Items = append(feed.Channel.Items, newRssItem(i))
+		channel.Items = append(channel.Items, newRssItem(i))
 	}
-	return feed
+	return channel
+}
+
+// return an XML-Ready object for an Rss object
+func (r *Rss) FeedXml() interface{} {
+	// only generate version 2.0 feeds for now
+	return r.RssFeed().FeedXml()
 
 }
 
+// return an XML-ready object for an RssFeed object
 func (r *RssFeed) FeedXml() interface{} {
 	return &rssFeedXml{Version: "2.0", Channel: r}
 }

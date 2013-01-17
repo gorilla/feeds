@@ -1,13 +1,81 @@
 package syndicate
 
 import (
-	"fmt"
 	"testing"
 	"time"
 )
 
+var atomOutput = `<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>jmoiron.net blog</title>
+  <id>http://jmoiron.net/blog</id>
+  <updated>2013-01-16T21:52:35-05:00</updated>
+  <rights>This work is copyright © Benjamin Button</rights>
+  <subtitle>discussion about tech, footie, photos</subtitle>
+  <link href="http://jmoiron.net/blog"></link>
+  <author>
+    <name>Jason Moiron</name>
+    <email>jmoiron@jmoiron.net</email>
+  </author>
+  <entry>
+    <title>Limiting Concurrency in Go</title>
+    <updated>2013-01-16T21:52:35-05:00</updated>
+    <id>tag:jmoiron.net,2013-01-16:/blog/limiting-concurrency-in-go/</id>
+    <link href="http://jmoiron.net/blog/limiting-concurrency-in-go/"></link>
+    <Summary type="html">A discussion on controlled parallelism in golang</Summary>
+    <author>
+      <name>Jason Moiron</name>
+      <email>jmoiron@jmoiron.net</email>
+    </author>
+  </entry>
+  <entry>
+    <title>Logic-less Template Redux</title>
+    <updated>2013-01-16T21:52:35-05:00</updated>
+    <id>tag:jmoiron.net,2013-01-16:/blog/logicless-template-redux/</id>
+    <link href="http://jmoiron.net/blog/logicless-template-redux/"></link>
+    <Summary type="html">More thoughts on logicless templates</Summary>
+  </entry>
+  <entry>
+    <title>Idiomatic Code Reuse in Go</title>
+    <updated>2013-01-16T21:52:35-05:00</updated>
+    <id>tag:jmoiron.net,2013-01-16:/blog/idiomatic-code-reuse-in-go/</id>
+    <link href="http://jmoiron.net/blog/idiomatic-code-reuse-in-go/"></link>
+    <Summary type="html">How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</Summary>
+  </entry>
+</feed>`
+
+var rssOutput = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>jmoiron.net blog</title>
+    <link>http://jmoiron.net/blog</link>
+    <description>discussion about tech, footie, photos</description>
+    <copyright>This work is copyright © Benjamin Button</copyright>
+    <managingEditor>jmoiron@jmoiron.net (Jason Moiron)</managingEditor>
+    <pubDate>2013-01-16T21:52:35-05:00</pubDate>
+    <item>
+      <title>Limiting Concurrency in Go</title>
+      <link>http://jmoiron.net/blog/limiting-concurrency-in-go/</link>
+      <description>A discussion on controlled parallelism in golang</description>
+      <pubDate>2013-01-16T21:52:35-05:00</pubDate>
+    </item>
+    <item>
+      <title>Logic-less Template Redux</title>
+      <link>http://jmoiron.net/blog/logicless-template-redux/</link>
+      <description>More thoughts on logicless templates</description>
+      <pubDate>2013-01-16T21:52:35-05:00</pubDate>
+    </item>
+    <item>
+      <title>Idiomatic Code Reuse in Go</title>
+      <link>http://jmoiron.net/blog/idiomatic-code-reuse-in-go/</link>
+      <description>How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</description>
+      <pubDate>2013-01-16T21:52:35-05:00</pubDate>
+    </item>
+  </channel>
+</rss>`
+
 func TestFeed(t *testing.T) {
-	now := time.Now()
+	now, _ := time.Parse(time.RFC3339, "2013-01-16T21:52:35-05:00")
 	feed := &Feed{
 		Title:       "jmoiron.net blog",
 		Link:        &Link{Href: "http://jmoiron.net/blog"},
@@ -38,7 +106,14 @@ func TestFeed(t *testing.T) {
 			Created:     now,
 		},
 	}
+	atom, _ := feed.ToAtom()
+	rss, _ := feed.ToRss()
 
-	fmt.Println(feed.ToAtom())
-	fmt.Println(feed.ToRss())
+	if atom != atomOutput {
+		t.Errorf("Atom not what was expected.  Got:\n%s\n\nExpected:\n%s\n", atom, atomOutput)
+	}
+
+	if rss != rssOutput {
+		t.Errorf("Rss not what was expected.  Got:\n%s\n\nExpected:\n%s\n", rss, rssOutput)
+	}
 }
