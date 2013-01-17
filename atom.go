@@ -18,8 +18,15 @@ type AtomPerson struct {
 }
 
 type AtomSummary struct {
-	Content string `xml:",chardata"`
-	Type    string `xml:"type,attr"`
+	XMLName xml.Name `xml:"summary"`
+	Content string   `xml:",chardata"`
+	Type    string   `xml:"type,attr"`
+}
+
+type AtomContent struct {
+	XMLName xml.Name `xml:"content"`
+	Content string   `xml:",chardata"`
+	Type    string   `xml:"type,attr"`
 }
 
 type AtomAuthor struct {
@@ -38,10 +45,10 @@ type AtomEntry struct {
 	Updated     string   `xml:"updated"` // required
 	Id          string   `xml:"id"`      // required
 	Category    string   `xml:"category,omitempty"`
-	Content     string   `xml:"content,omitempty"`
-	Rights      string   `xml:"rights,omitempty"`
-	Source      string   `xml:"source,omitempty"`
-	Published   string   `xml:"published,omitempty"`
+	Content     *AtomContent
+	Rights      string `xml:"rights,omitempty"`
+	Source      string `xml:"source,omitempty"`
+	Published   string `xml:"published,omitempty"`
 	Contributor *AtomContributor
 	Link        *AtomLink    // required if no child 'content' elements
 	Summary     *AtomSummary // required if content has src or content is base64
@@ -78,7 +85,7 @@ type Atom struct {
 func newAtomEntry(i *Item) *AtomEntry {
 	id := i.Id
 	// assume the description is html
-	s := &AtomSummary{i.Description, "html"}
+	c := &AtomContent{Content: i.Description, Type: "html"}
 
 	if len(id) == 0 {
 		// if there's no id set, try to create one, either from data or just a uuid
@@ -101,7 +108,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 	x := &AtomEntry{
 		Title:   i.Title,
 		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel},
-		Summary: s,
+		Content: c,
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
 	}

@@ -21,8 +21,8 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?>
     <title>Limiting Concurrency in Go</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/limiting-concurrency-in-go/</id>
+    <content type="html">A discussion on controlled parallelism in golang</content>
     <link href="http://jmoiron.net/blog/limiting-concurrency-in-go/"></link>
-    <Summary type="html">A discussion on controlled parallelism in golang</Summary>
     <author>
       <name>Jason Moiron</name>
       <email>jmoiron@jmoiron.net</email>
@@ -32,15 +32,15 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?>
     <title>Logic-less Template Redux</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/logicless-template-redux/</id>
+    <content type="html">More thoughts on logicless templates</content>
     <link href="http://jmoiron.net/blog/logicless-template-redux/"></link>
-    <Summary type="html">More thoughts on logicless templates</Summary>
   </entry>
   <entry>
     <title>Idiomatic Code Reuse in Go</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/idiomatic-code-reuse-in-go/</id>
+    <content type="html">How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</content>
     <link href="http://jmoiron.net/blog/idiomatic-code-reuse-in-go/"></link>
-    <Summary type="html">How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</Summary>
   </entry>
 </feed>`
 
