@@ -1,4 +1,4 @@
-package syndicate
+package feeds
 
 import (
 	"encoding/xml"

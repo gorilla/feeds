@@ -1,4 +1,4 @@
-package syndicate
+package feeds
 
 // relevant bits from https://github.com/abneptis/GoUUID/blob/master/uuid.go
 

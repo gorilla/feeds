@@ -1,13 +1,21 @@
-Syndication (feed) generator library for golang.
+## gorilla/feeds
 
-Usage:
+Web feed generator library.
+
+### Goals
+
+ * simple interface to create both Atom & RSS 2.0 feeds
+ * full support for Atom/RSS2.0 spec elements
+ * ability to modify particulars for each spec
+
+### Usage
 
 ```go
 
 import (
     "fmt"
     "time"
-    "github.com/jmoiron/syndicate"
+    "github.com/gorilla/syndicate"
 )
 
 now := time.Now()

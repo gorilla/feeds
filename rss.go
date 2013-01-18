@@ -1,4 +1,4 @@
-package syndicate
+package feeds
 
 // rss support
 // validation done according to spec here:
@@ -7,7 +7,6 @@ package syndicate
 import (
 	"encoding/xml"
 	"fmt"
-	//"net/url"
 	"time"
 )
 
