@@ -15,35 +15,35 @@ Web feed generator library.
 import (
     "fmt"
     "time"
-    "github.com/gorilla/syndicate"
+    "github.com/gorilla/feeds"
 )
 
 now := time.Now()
-feed := &syndicate.Feed{
+feed := &feeds.Feed{
     Title:       "jmoiron.net blog",
-    Link:        &syndicate.Link{Href: "http://jmoiron.net/blog"},
+    Link:        &feeds.Link{Href: "http://jmoiron.net/blog"},
     Description: "discussion about tech, footie, photos",
-    Author:      &syndicate.Author{"Jason Moiron", "jmoiron@jmoiron.net"},
+    Author:      &feeds.Author{"Jason Moiron", "jmoiron@jmoiron.net"},
     Created:     now,
 }
 
-feed.Items = []*syndicate.Item{
-    &syndicate.Item{
+feed.Items = []*feeds.Item{
+    &feeds.Item{
         Title:       "Limiting Concurrency in Go",
-        Link:        &syndicate.Link{Href: "http://jmoiron.net/blog/limiting-concurrency-in-go/"},
+        Link:        &feeds.Link{Href: "http://jmoiron.net/blog/limiting-concurrency-in-go/"},
         Description: "A discussion on controlled parallelism in golang",
-        Author:      &syndicate.Author{"Jason Moiron", "jmoiron@jmoiron.net"},
+        Author:      &feeds.Author{"Jason Moiron", "jmoiron@jmoiron.net"},
         Created:     now,
     },
-    &syndicate.Item{
+    &feeds.Item{
         Title:       "Logic-less Template Redux",
-        Link:        &syndicate.Link{Href: "http://jmoiron.net/blog/logicless-template-redux/"},
+        Link:        &feeds.Link{Href: "http://jmoiron.net/blog/logicless-template-redux/"},
         Description: "More thoughts on logicless templates",
         Created:     now,
     },
-    &syndicate.Item{
+    &feeds.Item{
         Title:       "Idiomatic Code Reuse in Go",
-        Link:        &syndicate.Link{Href: "http://jmoiron.net/blog/idiomatic-code-reuse-in-go/"},
+        Link:        &feeds.Link{Href: "http://jmoiron.net/blog/idiomatic-code-reuse-in-go/"},
         Description: "How to use interfaces <em>effectively</em>",
         Created:     now,
     },
