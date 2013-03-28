@@ -10,8 +10,7 @@ import (
 	"time"
 )
 
-// private wrapper around the RssFeed which gives us the <rss>..</rss> xml
-type rssFeedXml struct {
+type RssFeedXml struct {
 	XMLName xml.Name `xml:"rss"`
 	Version string   `xml:"version,attr"`
 	Channel *RssFeed
