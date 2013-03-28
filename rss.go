@@ -127,5 +127,5 @@ func (r *Rss) FeedXml() interface{} {
 
 // return an XML-ready object for an RssFeed object
 func (r *RssFeed) FeedXml() interface{} {
-	return &rssFeedXml{Version: "2.0", Channel: r}
+	return &RssFeedXml{Version: "2.0", Channel: r}
 }
