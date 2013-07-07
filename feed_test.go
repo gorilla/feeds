@@ -5,8 +5,7 @@ import (
 	"time"
 )
 
-var atomOutput = `<?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>jmoiron.net blog</title>
   <id>http://jmoiron.net/blog</id>
   <updated>2013-01-16T21:52:35-05:00</updated>
@@ -44,8 +43,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?>
   </entry>
 </feed>`
 
-var rssOutput = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
   <channel>
     <title>jmoiron.net blog</title>
     <link>http://jmoiron.net/blog</link>
