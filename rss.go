@@ -92,6 +92,9 @@ func newRssItem(i *Item) *RssItem {
 		Guid:        i.Id,
 		PubDate:     anyTimeFormat(time.RFC3339, i.Created, i.Updated),
 	}
+	if i.Author != nil {
+		item.Author = i.Author.Name
+	}
 	return item
 }
 

@@ -57,6 +57,7 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?>
       <title>Limiting Concurrency in Go</title>
       <link>http://jmoiron.net/blog/limiting-concurrency-in-go/</link>
       <description>A discussion on controlled parallelism in golang</description>
+      <author>Jason Moiron</author>
       <pubDate>2013-01-16T21:52:35-05:00</pubDate>
     </item>
     <item>
