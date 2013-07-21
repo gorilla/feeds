@@ -55,7 +55,7 @@ type RssFeed struct {
 	SkipDays       string   `xml:"skipDays,omitempty"`
 	Image          *RssImage
 	TextInput      *RssTextInput
-	Items          []*RssItem
+	Items          []*RssItem `xml:"item"`
 }
 
 type RssItem struct {

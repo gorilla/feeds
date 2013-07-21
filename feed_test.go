@@ -1,6 +1,7 @@
 package feeds
 
 import (
+	"encoding/xml"
 	"testing"
 	"time"
 )
@@ -114,5 +115,38 @@ func TestFeed(t *testing.T) {
 
 	if rss != rssOutput {
 		t.Errorf("Rss not what was expected.  Got:\n%s\n\nExpected:\n%s\n", rss, rssOutput)
+	}
+}
+
+func TestParsing(t *testing.T) {
+
+	atomFeed := &AtomFeed{}
+	err := xml.Unmarshal([]byte(atomOutput), atomFeed)
+	if err != nil {
+		t.Log("Error when unmarshaling:", err.Error())
+	}
+
+	atom, err := ToXML(atomFeed)
+	if err != nil {
+		t.Log("Error when remarshalling", err.Error())
+	}
+
+	if atom != atomOutput {
+		t.Errorf("Atom not what was expected.  Got:\n%s\n\nExpected:\n%s\n", atom, atomOutput)
+	}
+
+	rssFeed := &rssFeedXml{}
+	err = xml.Unmarshal([]byte(rssOutput), rssFeed)
+	if err != nil {
+		t.Log("Error when unmarshaling:", err.Error())
+	}
+
+	rss, err := ToXML(rssFeed.Channel)
+	if err != nil {
+		t.Log("Error when remarshalling", err.Error())
+	}
+
+	if rss != rssOutput {
+		t.Errorf("rss not what was expected.  Got:\n%s\n\nExpected:\n%s\n", rss, rssOutput)
 	}
 }
