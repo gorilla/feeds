@@ -85,7 +85,7 @@ func TestAtomFeedParsing(t *testing.T) {
 		t.Errorf("unexpected title: %v", title)
 	}
 
-	if l := len(atom.Entries); l > 0 {
+	if l := len(atom.Entries); l == 0 {
 		t.Errorf("Unexpected entries count: %v", l)
 	}
 }
