@@ -1,8 +1,10 @@
 package feeds
 
 import (
+	"bytes"
 	"encoding/xml"
 	"fmt"
+	"net/http"
 	"net/url"
 	"time"
 )
@@ -73,7 +75,7 @@ type AtomFeed struct {
 	Rights      string   `xml:"rights,omitempty"` // copyright used
 	Subtitle    string   `xml:"subtitle,omitempty"`
 	Link        *AtomLink
-	Author      *AtomAuthor // required 
+	Author      *AtomAuthor // required
 	Contributor *AtomContributor
 	Entries     []*AtomEntry
 }
@@ -149,4 +151,43 @@ func (a *Atom) FeedXml() interface{} {
 // return an XML-ready object for an AtomFeed object
 func (a *AtomFeed) FeedXml() interface{} {
 	return a
+}
+
+func ParseAtomFeed(content string) (*AtomFeed, error) {
+	var feed AtomFeed
+	decoder := xml.NewDecoder(bytes.NewBufferString(content))
+	decoder.Strict = true
+
+	if err := decoder.Decode(&feed); err != nil {
+		return nil, err
+	}
+
+	fmt.Printf("%+s", feed)
+
+	return &feed, nil
+}
+
+func DownloadAtomFeed(url string) (*AtomFeed, error) {
+	client := &http.Client{}
+
+	request, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	request.Header.Add("Accept", "application/atom+xml")
+
+	response, err := client.Do(request)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+
+	var feed AtomFeed
+	decoder := xml.NewDecoder(response.Body)
+	if err := decoder.Decode(&feed); err != nil {
+		return nil, err
+	}
+
+	return &feed, nil
 }
