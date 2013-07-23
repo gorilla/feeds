@@ -52,7 +52,7 @@ type AtomEntry struct {
 	Source      string `xml:"source,omitempty"`
 	Published   string `xml:"published,omitempty"`
 	Contributor *AtomContributor
-	Link        *AtomLink    // required if no child 'content' elements
+	Link        []*AtomLink  `xml:"link"` // required if no child 'content' elements
 	Summary     *AtomSummary // required if content has src or content is base64
 	Author      *AtomAuthor  // required if feed lacks an author
 }
@@ -64,20 +64,20 @@ type AtomLink struct {
 }
 
 type AtomFeed struct {
-	XMLName     xml.Name `xml:"feed"`
-	Xmlns       string   `xml:"xmlns,attr"`
-	Title       string   `xml:"title"`   // required
-	Id          string   `xml:"id"`      // required
-	Updated     string   `xml:"updated"` // required
-	Category    string   `xml:"category,omitempty"`
-	Icon        string   `xml:"icon,omitempty"`
-	Logo        string   `xml:"logo,omitempty"`
-	Rights      string   `xml:"rights,omitempty"` // copyright used
-	Subtitle    string   `xml:"subtitle,omitempty"`
-	Link        *AtomLink
-	Author      *AtomAuthor // required
-	Contributor *AtomContributor
-	Entries     []*AtomEntry `xml:"entry"`
+	XMLName     xml.Name         `xml:"feed"`
+	Xmlns       string           `xml:"xmlns,attr"`
+	Title       string           `xml:"title"`   // required
+	Id          string           `xml:"id"`      // required
+	Updated     string           `xml:"updated"` // required
+	Category    string           `xml:"category,omitempty"`
+	Icon        string           `xml:"icon,omitempty"`
+	Logo        string           `xml:"logo,omitempty"`
+	Rights      string           `xml:"rights,omitempty"` // copyright used
+	Subtitle    string           `xml:"subtitle,omitempty"`
+	Link        []*AtomLink      `xml:"link"`
+	Author      *AtomAuthor      `xml:"author"` // required
+	Contributor *AtomContributor `xml:"contributor"`
+	Entries     []*AtomEntry     `xml:"entry"`
 }
 
 type Atom struct {
@@ -109,7 +109,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 
 	x := &AtomEntry{
 		Title:   i.Title,
-		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel},
+		Link:    []*AtomLink{&AtomLink{Href: i.Link.Href, Rel: i.Link.Rel}},
 		Content: c,
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
@@ -126,7 +126,7 @@ func (a *Atom) AtomFeed() *AtomFeed {
 	feed := &AtomFeed{
 		Xmlns:    ns,
 		Title:    a.Title,
-		Link:     &AtomLink{Href: a.Link.Href, Rel: a.Link.Rel},
+		Link:     []*AtomLink{&AtomLink{Href: a.Link.Href, Rel: a.Link.Rel}},
 		Subtitle: a.Description,
 		Id:       a.Link.Href,
 		Updated:  updated,
