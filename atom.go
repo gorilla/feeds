@@ -77,7 +77,7 @@ type AtomFeed struct {
 	Link        *AtomLink
 	Author      *AtomAuthor // required
 	Contributor *AtomContributor
-	Entries     []*AtomEntry
+	Entries     []*AtomEntry `xml:"entry"`
 }
 
 type Atom struct {
