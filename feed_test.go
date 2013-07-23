@@ -84,6 +84,10 @@ func TestAtomFeedParsing(t *testing.T) {
 	if title := atom.Title; title != "Event stream 'bf24aec7-7357-4194-492b-263090208d78'" {
 		t.Errorf("unexpected title: %v", title)
 	}
+
+	if l := len(atom.Entries); l > 0 {
+		t.Errorf("Unexpected entries count: %v", l)
+	}
 }
 
 func TestFeed(t *testing.T) {
