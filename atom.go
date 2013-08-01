@@ -44,7 +44,7 @@ type AtomEntry struct {
 	Title       string   `xml:"title"`   // required
 	Updated     string   `xml:"updated"` // required
 	Id          string   `xml:"id"`      // required
-	Category    string   `xml:"category,omitempty"`
+	Category    []string   `xml:"category,omitempty"`
 	Content     *AtomContent
 	Rights      string `xml:"rights,omitempty"`
 	Source      string `xml:"source,omitempty"`
