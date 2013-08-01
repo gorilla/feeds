@@ -196,3 +196,27 @@ func TestParsing(t *testing.T) {
 		t.Errorf("rss not what was expected.  Got:\n%s\n\nExpected:\n%s\n", rss, rssOutput)
 	}
 }
+
+var atomWfw = `<feed xmlns:wfw="http://wellformedweb.org/CommentAPI/" xml:lang="en-US">
+  <entry>
+    <wfw:commentRss>http://some.host/some/path</wfw:commentRss>
+  </entry>
+</feed>`
+
+func testWfw(t *testing.T) {
+	atomFeed := &AtomFeed{}
+	err := xml.Unmarshal([]byte(atomWfw), atomFeed)
+	if err != nil {
+		t.Error("Error when unmarshaling:", err.Error())
+	}
+
+	if atomFeed.XmlLang != "en-US" {
+		t.Error("Error when decoding xml:lang")
+	}
+	if atomFeed.XmlnsWfw != "http://wellformedweb.org/CommentAPI" {
+		t.Error("Error when decoding xmlns:wfw")
+	}
+	if atomFeed.Entries[0].WfwCommentRSS != "http://some.host/some/path" {
+		t.Error("Error when decoding wfw:commentRss in entry")
+	}
+}

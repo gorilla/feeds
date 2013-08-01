@@ -42,19 +42,20 @@ type AtomContributor struct {
 }
 
 type AtomEntry struct {
-	XMLName     xml.Name `xml:"entry"`
-	Title       string   `xml:"title"`   // required
-	Updated     string   `xml:"updated"` // required
-	Id          string   `xml:"id"`      // required
-	Category    []string `xml:"category,omitempty"`
-	Content     *AtomContent
-	Rights      string `xml:"rights,omitempty"`
-	Source      string `xml:"source,omitempty"`
-	Published   string `xml:"published,omitempty"`
-	Contributor *AtomContributor
-	Link        []*AtomLink  `xml:"link"` // required if no child 'content' elements
-	Summary     *AtomSummary // required if content has src or content is base64
-	Author      *AtomAuthor  // required if feed lacks an author
+	XMLName       xml.Name `xml:"entry"`
+	Title         string   `xml:"title"`   // required
+	Updated       string   `xml:"updated"` // required
+	Id            string   `xml:"id"`      // required
+	Category      []string `xml:"category,omitempty"`
+	Content       *AtomContent
+	Rights        string `xml:"rights,omitempty"`
+	Source        string `xml:"source,omitempty"`
+	Published     string `xml:"published,omitempty"`
+	Contributor   *AtomContributor
+	Link          []*AtomLink  `xml:"link"` // required if no child 'content' elements
+	Summary       *AtomSummary // required if content has src or content is base64
+	Author        *AtomAuthor  // required if feed lacks an author
+	WfwCommentRSS string       `xml:"http://wellformedweb.org/CommentAPI/ commentRss,omitempty"`
 }
 
 type AtomLink struct {
@@ -66,6 +67,8 @@ type AtomLink struct {
 type AtomFeed struct {
 	XMLName     xml.Name         `xml:"feed"`
 	Xmlns       string           `xml:"xmlns,attr"`
+	XmlLang     string           `xml:"lang,attr,omitempty"`
+	XmlnsWfw    string           `xml:"xmlns wfw,attr,omitempty"`
 	Title       string           `xml:"title"`   // required
 	Id          string           `xml:"id"`      // required
 	Updated     string           `xml:"updated"` // required
@@ -161,8 +164,6 @@ func ParseAtomFeed(content string) (*AtomFeed, error) {
 	if err := decoder.Decode(&feed); err != nil {
 		return nil, err
 	}
-
-	fmt.Printf("%+s", feed)
 
 	return &feed, nil
 }
