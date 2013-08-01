@@ -1,8 +1,10 @@
 package feeds
 
 import (
+	"bytes"
 	"encoding/xml"
 	"fmt"
+	"net/http"
 	"net/url"
 	"time"
 )
@@ -40,19 +42,20 @@ type AtomContributor struct {
 }
 
 type AtomEntry struct {
-	XMLName     xml.Name `xml:"entry"`
-	Title       string   `xml:"title"`   // required
-	Updated     string   `xml:"updated"` // required
-	Id          string   `xml:"id"`      // required
-	Category    string   `xml:"category,omitempty"`
-	Content     *AtomContent
-	Rights      string `xml:"rights,omitempty"`
-	Source      string `xml:"source,omitempty"`
-	Published   string `xml:"published,omitempty"`
-	Contributor *AtomContributor
-	Link        *AtomLink    // required if no child 'content' elements
-	Summary     *AtomSummary // required if content has src or content is base64
-	Author      *AtomAuthor  // required if feed lacks an author
+	XMLName       xml.Name `xml:"entry"`
+	Title         string   `xml:"title"`   // required
+	Updated       string   `xml:"updated"` // required
+	Id            string   `xml:"id"`      // required
+	Category      []string `xml:"category,omitempty"`
+	Content       *AtomContent
+	Rights        string `xml:"rights,omitempty"`
+	Source        string `xml:"source,omitempty"`
+	Published     string `xml:"published,omitempty"`
+	Contributor   *AtomContributor
+	Link          []*AtomLink  `xml:"link"` // required if no child 'content' elements
+	Summary       *AtomSummary // required if content has src or content is base64
+	Author        *AtomAuthor  // required if feed lacks an author
+	WfwCommentRSS string       `xml:"http://wellformedweb.org/CommentAPI/ commentRss,omitempty"`
 }
 
 type AtomLink struct {
@@ -62,20 +65,22 @@ type AtomLink struct {
 }
 
 type AtomFeed struct {
-	XMLName     xml.Name `xml:"feed"`
-	Xmlns       string   `xml:"xmlns,attr"`
-	Title       string   `xml:"title"`   // required
-	Id          string   `xml:"id"`      // required
-	Updated     string   `xml:"updated"` // required
-	Category    string   `xml:"category,omitempty"`
-	Icon        string   `xml:"icon,omitempty"`
-	Logo        string   `xml:"logo,omitempty"`
-	Rights      string   `xml:"rights,omitempty"` // copyright used
-	Subtitle    string   `xml:"subtitle,omitempty"`
-	Link        *AtomLink
-	Author      *AtomAuthor // required 
-	Contributor *AtomContributor
-	Entries     []*AtomEntry
+	XMLName     xml.Name         `xml:"feed"`
+	Xmlns       string           `xml:"xmlns,attr"`
+	XmlLang     string           `xml:"lang,attr,omitempty"`
+	XmlnsWfw    string           `xml:"xmlns wfw,attr,omitempty"`
+	Title       string           `xml:"title"`   // required
+	Id          string           `xml:"id"`      // required
+	Updated     string           `xml:"updated"` // required
+	Category    string           `xml:"category,omitempty"`
+	Icon        string           `xml:"icon,omitempty"`
+	Logo        string           `xml:"logo,omitempty"`
+	Rights      string           `xml:"rights,omitempty"` // copyright used
+	Subtitle    string           `xml:"subtitle,omitempty"`
+	Link        []*AtomLink      `xml:"link"`
+	Author      *AtomAuthor      `xml:"author"` // required
+	Contributor *AtomContributor `xml:"contributor"`
+	Entries     []*AtomEntry     `xml:"entry"`
 }
 
 type Atom struct {
@@ -107,7 +112,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 
 	x := &AtomEntry{
 		Title:   i.Title,
-		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel},
+		Link:    []*AtomLink{&AtomLink{Href: i.Link.Href, Rel: i.Link.Rel}},
 		Content: c,
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
@@ -124,7 +129,7 @@ func (a *Atom) AtomFeed() *AtomFeed {
 	feed := &AtomFeed{
 		Xmlns:    ns,
 		Title:    a.Title,
-		Link:     &AtomLink{Href: a.Link.Href, Rel: a.Link.Rel},
+		Link:     []*AtomLink{&AtomLink{Href: a.Link.Href, Rel: a.Link.Rel}},
 		Subtitle: a.Description,
 		Id:       a.Link.Href,
 		Updated:  updated,
@@ -149,4 +154,41 @@ func (a *Atom) FeedXml() interface{} {
 // return an XML-ready object for an AtomFeed object
 func (a *AtomFeed) FeedXml() interface{} {
 	return a
+}
+
+func ParseAtomFeed(content string) (*AtomFeed, error) {
+	var feed AtomFeed
+	decoder := xml.NewDecoder(bytes.NewBufferString(content))
+	decoder.Strict = true
+
+	if err := decoder.Decode(&feed); err != nil {
+		return nil, err
+	}
+
+	return &feed, nil
+}
+
+func DownloadAtomFeed(url string) (*AtomFeed, error) {
+	client := &http.Client{}
+
+	request, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	request.Header.Add("Accept", "application/atom+xml")
+
+	response, err := client.Do(request)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+
+	var feed AtomFeed
+	decoder := xml.NewDecoder(response.Body)
+	if err := decoder.Decode(&feed); err != nil {
+		return nil, err
+	}
+
+	return &feed, nil
 }
