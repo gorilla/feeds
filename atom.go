@@ -163,6 +163,16 @@ func (a *AtomFeed) Link(rel string) (string, bool) {
 	return "", false
 }
 
+func (a *AtomEntry) Link(rel string) (string, bool) {
+	for _, link := range a.Links {
+		if link.Rel == rel {
+			return link.Href, true
+		}
+	}
+
+	return "", false
+}
+
 func ParseAtomFeed(content string) (*AtomFeed, error) {
 	var feed AtomFeed
 	decoder := xml.NewDecoder(bytes.NewBufferString(content))
