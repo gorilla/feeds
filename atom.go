@@ -154,9 +154,9 @@ func (a *AtomFeed) FeedXml() interface{} {
 }
 
 // return an map that represents the link where the key is the rel and the value the href
-func LinksToMap(links []*feeds.AtomLink) map[string]string {
-	m := make(map[string]string, len(links))
-	for _, link := range links {
+func (a *Atom) LinksToMap() map[string]string {
+	m := make(map[string]string, len(a.Links))
+	for _, link := range a.Links {
 		m[link.Rel] = link.Href
 	}
 
