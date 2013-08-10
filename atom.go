@@ -153,6 +153,16 @@ func (a *AtomFeed) FeedXml() interface{} {
 	return a
 }
 
+// return an map that represents the link where the key is the rel and the value the href
+func LinksToMap(links []*feeds.AtomLink) map[string]string {
+	m := make(map[string]string, len(links))
+	for _, link := range links {
+		m[link.Rel] = link.Href
+	}
+
+	return m
+}
+
 func ParseAtomFeed(content string) (*AtomFeed, error) {
 	var feed AtomFeed
 	decoder := xml.NewDecoder(bytes.NewBufferString(content))
