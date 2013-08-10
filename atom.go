@@ -153,14 +153,14 @@ func (a *AtomFeed) FeedXml() interface{} {
 	return a
 }
 
-func (a *AtomFeed) Link(rel string) (*AtomLink, bool) {
+func (a *AtomFeed) Link(rel string) (string, bool) {
 	for _, link := range a.Links {
 		if link.Rel == rel {
-			return link, true
+			return link.Href, true
 		}
 	}
 
-	return nil, false
+	return "", false
 }
 
 func ParseAtomFeed(content string) (*AtomFeed, error) {
