@@ -90,7 +90,7 @@ func newRssItem(i *Item) *RssItem {
 		Link:        i.Link.Href,
 		Description: i.Description,
 		Guid:        i.Id,
-		PubDate:     anyTimeFormat(time.RFC3339, i.Created, i.Updated),
+		PubDate:     anyTimeFormat(time.RFC822, i.Created, i.Updated),
 	}
 	if i.Author != nil {
 		item.Author = i.Author.Name
@@ -100,8 +100,8 @@ func newRssItem(i *Item) *RssItem {
 
 // create a new RssFeed with a generic Feed struct's data
 func (r *Rss) RssFeed() *RssFeed {
-	pub := anyTimeFormat(time.RFC3339, r.Created, r.Updated)
-	build := anyTimeFormat(time.RFC3339, r.Updated)
+	pub := anyTimeFormat(time.RFC822, r.Created, r.Updated)
+	build := anyTimeFormat(time.RFC822, r.Updated)
 	author := r.Author.Email
 	if len(r.Author.Name) > 0 {
 		author = fmt.Sprintf("%s (%s)", r.Author.Email, r.Author.Name)
