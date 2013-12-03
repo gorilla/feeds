@@ -74,7 +74,7 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
 </rss>`
 
 func TestFeed(t *testing.T) {
-	now, _ := time.Parse(time.RFC3339, "2013-01-16T21:52:35-05:00")
+	now, _ := time.Parse("2006-01-02T15:04:05 MST", "2013-01-16T21:52:35 EST")
 	feed := &Feed{
 		Title:       "jmoiron.net blog",
 		Link:        &Link{Href: "http://jmoiron.net/blog"},
