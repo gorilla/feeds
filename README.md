@@ -2,6 +2,8 @@
 
 Web feed generator library.
 
+[![Build Status](https://travis-ci.org/gorilla/feeds.png?branch=master)](https://travis-ci.org/gorilla/feeds)
+
 ### Goals
 
  * simple interface to create both Atom & RSS 2.0 feeds
