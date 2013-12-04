@@ -75,6 +75,9 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
 
 func TestFeed(t *testing.T) {
 	now, _ := time.Parse("2006-01-02T15:04:05 MST", "2013-01-16T21:52:35 EST")
+	tz := time.FixedZone("EST", -5*60*60)
+	now = now.In(tz)
+
 	feed := &Feed{
 		Title:       "jmoiron.net blog",
 		Link:        &Link{Href: "http://jmoiron.net/blog"},
@@ -105,6 +108,7 @@ func TestFeed(t *testing.T) {
 			Created:     now,
 		},
 	}
+
 	atom, _ := feed.ToAtom()
 	rss, _ := feed.ToRss()
 
