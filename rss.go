@@ -102,9 +102,12 @@ func newRssItem(i *Item) *RssItem {
 func (r *Rss) RssFeed() *RssFeed {
 	pub := anyTimeFormat(time.RFC822, r.Created, r.Updated)
 	build := anyTimeFormat(time.RFC822, r.Updated)
-	author := r.Author.Email
-	if len(r.Author.Name) > 0 {
-		author = fmt.Sprintf("%s (%s)", r.Author.Email, r.Author.Name)
+	author := ""
+	if r.Author != nil {
+		author = r.Author.Email
+		if len(r.Author.Name) > 0 {
+			author = fmt.Sprintf("%s (%s)", r.Author.Email, r.Author.Name)
+		}
 	}
 
 	channel := &RssFeed{
