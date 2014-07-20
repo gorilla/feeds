@@ -2,6 +2,7 @@ package feeds
 
 import (
 	"encoding/xml"
+	"io"
 	"time"
 )
 
@@ -41,7 +42,7 @@ func (f *Feed) Add(item *Item) {
 	f.Items = append(f.Items, item)
 }
 
-// returns the first non-zero time formatted as a string or "" 
+// returns the first non-zero time formatted as a string or ""
 func anyTimeFormat(format string, times ...time.Time) string {
 	for _, t := range times {
 		if !t.IsZero() {
@@ -69,14 +70,37 @@ func ToXML(feed XmlFeed) (string, error) {
 	return s, nil
 }
 
+// Write a feed object (either a Feed, AtomFeed, or RssFeed) as XML into
+// the writer. Returns an error if XML marshaling fails.
+func WriteXML(feed XmlFeed, w io.Writer) error {
+	x := feed.FeedXml()
+	// write default xml header, without the newline
+	if _, err := w.Write([]byte(xml.Header[:len(xml.Header)-1])); err != nil {
+		return err
+	}
+	e := xml.NewEncoder(w)
+	e.Indent("", "  ")
+	return e.Encode(x)
+}
+
 // creates an Atom representation of this feed
 func (f *Feed) ToAtom() (string, error) {
 	a := &Atom{f}
 	return ToXML(a)
 }
 
+// Writes an Atom representation of this feed to the writer.
+func (f *Feed) WriteAtom(w io.Writer) error {
+	return WriteXML(&Atom{f}, w)
+}
+
 // creates an Rss representation of this feed
 func (f *Feed) ToRss() (string, error) {
 	r := &Rss{f}
 	return ToXML(r)
+}
+
+// Writes an RSS representation of this feed to the writer.
+func (f *Feed) WriteRss(w io.Writer) error {
+	return WriteXML(&Rss{f}, w)
 }

@@ -1,6 +1,7 @@
 package feeds
 
 import (
+	"bytes"
 	"testing"
 	"time"
 )
@@ -112,14 +113,33 @@ func TestFeed(t *testing.T) {
 		},
 	}
 
-	atom, _ := feed.ToAtom()
-	rss, _ := feed.ToRss()
-
+	atom, err := feed.ToAtom()
+	if err != nil {
+		t.Error("unexpected error encoding Atom: %v", err)
+	}
 	if atom != atomOutput {
 		t.Errorf("Atom not what was expected.  Got:\n%s\n\nExpected:\n%s\n", atom, atomOutput)
 	}
+	var buf bytes.Buffer
+	if err := feed.WriteAtom(&buf); err != nil {
+		t.Errorf("unexpected error writing Atom: %v", err)
+	}
+	if got := buf.String(); got != atomOutput {
+		t.Errorf("Atom not what was expected.  Got:\n%s\n\nExpected:\n%s\n", got, rssOutput)
+	}
 
+	rss, err := feed.ToRss()
+	if err != nil {
+		t.Errorf("unexpected error encoding RSS: %v", err)
+	}
 	if rss != rssOutput {
 		t.Errorf("Rss not what was expected.  Got:\n%s\n\nExpected:\n%s\n", rss, rssOutput)
+	}
+	buf.Reset()
+	if err := feed.WriteRss(&buf); err != nil {
+		t.Errorf("unexpected error writing RSS: %v", err)
+	}
+	if got := buf.String(); got != rssOutput {
+		t.Errorf("Rss not what was expected.  Got:\n%s\n\nExpected:\n%s\n", got, rssOutput)
 	}
 }
