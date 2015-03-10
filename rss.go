@@ -136,3 +136,32 @@ func (r *Rss) FeedXml() interface{} {
 func (r *RssFeed) FeedXml() interface{} {
 	return &rssFeedXml{Version: "2.0", Channel: r}
 }
+
+func (r *RssFeed) StandardFeed() *Feed {
+	feed := &Feed{
+		Author:      nil, // RssFeed has no Author field
+		Copyright:   r.Copyright,
+		Created:     time.Time{}, // RssFeed has no Created field
+		Description: r.Description,
+		Id:          "", // RssFeed has no Id field
+		Items:       make([]*Item, len(r.Items)),
+		Link:        &Link{Href: r.Link},
+		Subtitle:    "", // RssFeed has no Subtitle field
+		Title:       r.Title,
+		Updated:     time.Time{}, // RssFeed has no Updated field
+	}
+
+	for i, item := range r.Items {
+		feed.Items[i] = &Item{
+			Author:      &Author{Name: item.Author},
+			Created:     time.Time{}, // I suppose I could use item.PubDate, but I'm not sure how to parse it atm
+			Description: item.Description,
+			Id:          item.Guid,              // This works for Id, no?
+			Link:        &Link{Href: item.Link}, // This works for Link, no?
+			Title:       item.Title,
+			Updated:     time.Time{}, // no idea what to do with this field
+		}
+	}
+
+	return feed
+}
