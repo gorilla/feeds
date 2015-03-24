@@ -60,6 +60,8 @@ type AtomLink struct {
 	XMLName xml.Name `xml:"link"`
 	Href    string   `xml:"href,attr"`
 	Rel     string   `xml:"rel,attr,omitempty"`
+	Type    string   `xml:"type,attr,omitempty"`
+	Length  string   `xml:"length,attr,omitempty"`
 }
 
 type AtomFeed struct {
@@ -83,24 +85,54 @@ type Atom struct {
 	*Feed
 }
 
+func newId(i *Item) string {
+	var href string
+	if i.Link != nil {
+		href = i.Link.Href
+	} else {
+		href = i.Enclosure.Url
+	}
+
+	// if there's no id set, try to create one, either from data or just a uuid
+	if len(href) > 0 && (!i.Created.IsZero() || !i.Updated.IsZero()) {
+		dateStr := anyTimeFormat("2006-01-02", i.Updated, i.Created)
+		host, path := href, "/invalid.html"
+		if url, err := url.Parse(href); err == nil {
+			host, path = url.Host, url.Path
+		}
+		return fmt.Sprintf("tag:%s,%s:%s", host, dateStr, path)
+	} else {
+		return "urn:uuid:" + NewUUID().String()
+	}
+}
+
+func getLink(i *Item) *AtomLink {
+	if i.Enclosure != nil {
+		return &AtomLink{
+			Href:   i.Enclosure.Url,
+			Rel:    "enclosure",
+			Type:   i.Enclosure.Type,
+			Length: i.Enclosure.Length,
+		}
+	} else {
+		return &AtomLink{
+			Href: i.Link.Href,
+			Rel:  i.Link.Rel,
+		}
+	}
+}
+
 func newAtomEntry(i *Item) *AtomEntry {
-	id := i.Id
 	// assume the description is html
 	c := &AtomContent{Content: i.Description, Type: "html"}
 
-	if len(id) == 0 {
-		// if there's no id set, try to create one, either from data or just a uuid
-		if len(i.Link.Href) > 0 && (!i.Created.IsZero() || !i.Updated.IsZero()) {
-			dateStr := anyTimeFormat("2006-01-02", i.Updated, i.Created)
-			host, path := i.Link.Href, "/invalid.html"
-			if url, err := url.Parse(i.Link.Href); err == nil {
-				host, path = url.Host, url.Path
-			}
-			id = fmt.Sprintf("tag:%s,%s:%s", host, dateStr, path)
-		} else {
-			id = "urn:uuid:" + NewUUID().String()
-		}
+	var id string
+	if len(i.Id) > 0 {
+		id = i.Id
+	} else {
+		id = newId(i)
 	}
+
 	var name, email string
 	if i.Author != nil {
 		name, email = i.Author.Name, i.Author.Email
@@ -108,7 +140,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 
 	x := &AtomEntry{
 		Title:   i.Title,
-		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel},
+		Link:    getLink(i),
 		Content: c,
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),

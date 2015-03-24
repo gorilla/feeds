@@ -60,8 +60,8 @@ type RssFeed struct {
 
 type RssItem struct {
 	XMLName     xml.Name `xml:"item"`
-	Title       string   `xml:"title"`       // required
-	Link        string   `xml:"link"`        // required
+	Title       string   `xml:"title"` // required
+	Link        string   `xml:"link,omitempty"`
 	Description string   `xml:"description"` // required
 	Author      string   `xml:"author,omitempty"`
 	Category    string   `xml:"category,omitempty"`
