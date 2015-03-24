@@ -42,6 +42,13 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <content type="html">How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</content>
     <link href="http://jmoiron.net/blog/idiomatic-code-reuse-in-go/"></link>
   </entry>
+  <entry>
+    <title>Go Concurrency Patterns</title>
+    <updated>2013-01-16T21:52:35-05:00</updated>
+    <id>tag:cdn.go.com,2013-01-16:/gcp.mpeg</id>
+    <content type="html">An in-depth look at a real concurrent programming problem</content>
+    <link href="http://cdn.go.com/gcp.mpeg" rel="enclosure" type="video/mpeg" length="50000"></link>
+  </entry>
 </feed>`
 
 var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
@@ -69,6 +76,12 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
       <title>Idiomatic Code Reuse in Go</title>
       <link>http://jmoiron.net/blog/idiomatic-code-reuse-in-go/</link>
       <description>How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</description>
+      <pubDate>16 Jan 13 21:52 EST</pubDate>
+    </item>
+    <item>
+      <title>Go Concurrency Patterns</title>
+      <description>An in-depth look at a real concurrent programming problem</description>
+      <enclosure url="http://cdn.go.com/gcp.mpeg" length="50000" type="video/mpeg"></enclosure>
       <pubDate>16 Jan 13 21:52 EST</pubDate>
     </item>
   </channel>
