@@ -10,6 +10,10 @@ type Link struct {
 	Href, Rel string
 }
 
+type Enclosure struct {
+	Url, Length, Type string
+}
+
 type Author struct {
 	Name, Email string
 }
@@ -17,6 +21,7 @@ type Author struct {
 type Item struct {
 	Title       string
 	Link        *Link
+	Enclosure   *Enclosure
 	Author      *Author
 	Description string // used as description in rss, summary in atom
 	Id          string // used as guid in rss, id in atom

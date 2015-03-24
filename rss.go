@@ -87,7 +87,6 @@ type Rss struct {
 func newRssItem(i *Item) *RssItem {
 	item := &RssItem{
 		Title:       i.Title,
-		Link:        i.Link.Href,
 		Description: i.Description,
 		Guid:        i.Id,
 		PubDate:     anyTimeFormat(time.RFC822, i.Created, i.Updated),
@@ -95,6 +94,17 @@ func newRssItem(i *Item) *RssItem {
 	if i.Author != nil {
 		item.Author = i.Author.Name
 	}
+	if i.Link != nil {
+		item.Link = i.Link.Href
+	}
+	if i.Enclosure != nil {
+		item.Enclosure = &RssEnclosure{
+			Url:    i.Enclosure.Url,
+			Length: i.Enclosure.Length,
+			Type:   i.Enclosure.Type,
+		}
+	}
+
 	return item
 }
 

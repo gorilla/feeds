@@ -111,6 +111,12 @@ func TestFeed(t *testing.T) {
 			Description: "How to use interfaces <em>effectively</em>",
 			Created:     now,
 		},
+		&Item{
+			Title:       "Go Concurrency Patterns",
+			Enclosure:   &Enclosure{Url: "http://cdn.go.com/gcp.mpeg", Length: "50000", Type: "video/mpeg"},
+			Description: "An in-depth look at a real concurrent programming problem",
+			Created:     now,
+		},
 	}
 
 	atom, err := feed.ToAtom()
