@@ -125,7 +125,7 @@ func TestFeed(t *testing.T) {
 		t.Errorf("unexpected error writing Atom: %v", err)
 	}
 	if got := buf.String(); got != atomOutput {
-		t.Errorf("Atom not what was expected.  Got:\n%s\n\nExpected:\n%s\n", got, rssOutput)
+		t.Errorf("Atom not what was expected.  Got:\n%s\n\nExpected:\n%s\n", got, atomOutput)
 	}
 
 	rss, err := feed.ToRss()
