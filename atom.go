@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/url"
 	"time"
+	"strconv"
 )
 
 // Generates Atom feed as XML
@@ -57,9 +58,12 @@ type AtomEntry struct {
 }
 
 type AtomLink struct {
+	//Atom 1.0 <link rel="enclosure" type="audio/mpeg" title="MP3" href="http://www.example.org/myaudiofile.mp3" length="1234" />
 	XMLName xml.Name `xml:"link"`
 	Href    string   `xml:"href,attr"`
 	Rel     string   `xml:"rel,attr,omitempty"`
+	Type    string   `xml:"type,attr,omitempty"`
+	Length  string   `xml:"length,attr,omitempty"`
 }
 
 type AtomFeed struct {
@@ -74,7 +78,7 @@ type AtomFeed struct {
 	Rights      string   `xml:"rights,omitempty"` // copyright used
 	Subtitle    string   `xml:"subtitle,omitempty"`
 	Link        *AtomLink
-	Author      *AtomAuthor // required 
+	Author      *AtomAuthor // required
 	Contributor *AtomContributor
 	Entries     []*AtomEntry
 }
@@ -106,9 +110,14 @@ func newAtomEntry(i *Item) *AtomEntry {
 		name, email = i.Author.Name, i.Author.Email
 	}
 
+
+	if(i.Link.Length>0)	{
+		i.Link.Rel = "enclosure"
+	}
+
 	x := &AtomEntry{
 		Title:   i.Title,
-		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel},
+		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel, Type: i.Link.Type, Length: strconv.FormatInt(i.Link.Length,10)},
 		Content: c,
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),

@@ -73,6 +73,7 @@ type RssItem struct {
 }
 
 type RssEnclosure struct {
+	//RSS 2.0 <enclosure url="http://example.com/file.mp3" length="123456789" type="audio/mpeg" />
 	XMLName xml.Name `xml:"enclosure"`
 	Url     string   `xml:"url,attr"`
 	Length  string   `xml:"length,attr"`
@@ -90,6 +91,7 @@ func newRssItem(i *Item) *RssItem {
 		Link:        i.Link.Href,
 		Description: i.Description,
 		Guid:        i.Id,
+		Enclosure:   &RssEnclosure{Url: i.Link.Href, Type: i.Link.Type, Length: string(i.Link.Length)},
 		PubDate:     anyTimeFormat(time.RFC822, i.Created, i.Updated),
 	}
 	if i.Author != nil {

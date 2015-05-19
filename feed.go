@@ -7,7 +7,8 @@ import (
 )
 
 type Link struct {
-	Href, Rel string
+	Href, Rel,Type string
+	Length int64
 }
 
 type Author struct {
@@ -23,6 +24,7 @@ type Item struct {
 	Updated     time.Time
 	Created     time.Time
 }
+
 
 type Feed struct {
 	Title       string
