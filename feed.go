@@ -19,7 +19,7 @@ type Item struct {
 	Link        *Link
 	Author      *Author
 	Description string // used as description in rss, summary in atom
-	Id          string // used as guid in rss, id in atom
+	ID          string // used as guid in rss, id in atom
 	Updated     time.Time
 	Created     time.Time
 }
@@ -31,7 +31,7 @@ type Feed struct {
 	Author      *Author
 	Updated     time.Time
 	Created     time.Time
-	Id          string
+	ID          string
 	Subtitle    string
 	Items       []*Item
 	Copyright   string
@@ -53,14 +53,14 @@ func anyTimeFormat(format string, times ...time.Time) string {
 }
 
 // interface used by ToXML to get a object suitable for exporting XML.
-type XmlFeed interface {
-	FeedXml() interface{}
+type XMLFeed interface {
+	FeedXML() interface{}
 }
 
 // turn a feed object (either a Feed, AtomFeed, or RssFeed) into xml
 // returns an error if xml marshaling fails
-func ToXML(feed XmlFeed) (string, error) {
-	x := feed.FeedXml()
+func ToXML(feed XMLFeed) (string, error) {
+	x := feed.FeedXML()
 	data, err := xml.MarshalIndent(x, "", "  ")
 	if err != nil {
 		return "", err
@@ -72,8 +72,8 @@ func ToXML(feed XmlFeed) (string, error) {
 
 // Write a feed object (either a Feed, AtomFeed, or RssFeed) as XML into
 // the writer. Returns an error if XML marshaling fails.
-func WriteXML(feed XmlFeed, w io.Writer) error {
-	x := feed.FeedXml()
+func WriteXML(feed XMLFeed, w io.Writer) error {
+	x := feed.FeedXML()
 	// write default xml header, without the newline
 	if _, err := w.Write([]byte(xml.Header[:len(xml.Header)-1])); err != nil {
 		return err
