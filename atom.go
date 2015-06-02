@@ -13,7 +13,7 @@ const ns = "http://www.w3.org/2005/Atom"
 
 type AtomPerson struct {
 	Name  string `xml:"name,omitempty"`
-	Uri   string `xml:"uri,omitempty"`
+	URI   string `xml:"uri,omitempty"`
 	Email string `xml:"email,omitempty"`
 }
 
@@ -44,7 +44,7 @@ type AtomEntry struct {
 	Xmlns       string   `xml:"xmlns,attr,omitempty"`
 	Title       string   `xml:"title"`   // required
 	Updated     string   `xml:"updated"` // required
-	Id          string   `xml:"id"`      // required
+	ID          string   `xml:"id"`      // required
 	Category    string   `xml:"category,omitempty"`
 	Content     *AtomContent
 	Rights      string `xml:"rights,omitempty"`
@@ -66,7 +66,7 @@ type AtomFeed struct {
 	XMLName     xml.Name `xml:"feed"`
 	Xmlns       string   `xml:"xmlns,attr"`
 	Title       string   `xml:"title"`   // required
-	Id          string   `xml:"id"`      // required
+	ID          string   `xml:"id"`      // required
 	Updated     string   `xml:"updated"` // required
 	Category    string   `xml:"category,omitempty"`
 	Icon        string   `xml:"icon,omitempty"`
@@ -74,7 +74,7 @@ type AtomFeed struct {
 	Rights      string   `xml:"rights,omitempty"` // copyright used
 	Subtitle    string   `xml:"subtitle,omitempty"`
 	Link        *AtomLink
-	Author      *AtomAuthor // required 
+	Author      *AtomAuthor // required
 	Contributor *AtomContributor
 	Entries     []*AtomEntry
 }
@@ -84,7 +84,7 @@ type Atom struct {
 }
 
 func newAtomEntry(i *Item) *AtomEntry {
-	id := i.Id
+	id := i.ID
 	// assume the description is html
 	c := &AtomContent{Content: i.Description, Type: "html"}
 
@@ -110,7 +110,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 		Title:   i.Title,
 		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel},
 		Content: c,
-		Id:      id,
+		ID:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
 	}
 	if len(name) > 0 || len(email) > 0 {
@@ -127,7 +127,7 @@ func (a *Atom) AtomFeed() *AtomFeed {
 		Title:    a.Title,
 		Link:     &AtomLink{Href: a.Link.Href, Rel: a.Link.Rel},
 		Subtitle: a.Description,
-		Id:       a.Link.Href,
+		ID:       a.Link.Href,
 		Updated:  updated,
 		Rights:   a.Copyright,
 	}
@@ -143,11 +143,11 @@ func (a *Atom) AtomFeed() *AtomFeed {
 }
 
 // return an XML-Ready object for an Atom object
-func (a *Atom) FeedXml() interface{} {
+func (a *Atom) FeedXML() interface{} {
 	return a.AtomFeed()
 }
 
 // return an XML-ready object for an AtomFeed object
-func (a *AtomFeed) FeedXml() interface{} {
+func (a *AtomFeed) FeedXML() interface{} {
 	return a
 }

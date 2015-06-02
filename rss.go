@@ -11,7 +11,7 @@ import (
 )
 
 // private wrapper around the RssFeed which gives us the <rss>..</rss> xml
-type rssFeedXml struct {
+type rssFeedXML struct {
 	XMLName xml.Name `xml:"rss"`
 	Version string   `xml:"version,attr"`
 	Channel *RssFeed
@@ -89,7 +89,7 @@ func newRssItem(i *Item) *RssItem {
 		Title:       i.Title,
 		Link:        i.Link.Href,
 		Description: i.Description,
-		Guid:        i.Id,
+		Guid:        i.ID,
 		PubDate:     anyTimeFormat(time.RFC822, i.Created, i.Updated),
 	}
 	if i.Author != nil {
@@ -126,13 +126,13 @@ func (r *Rss) RssFeed() *RssFeed {
 }
 
 // return an XML-Ready object for an Rss object
-func (r *Rss) FeedXml() interface{} {
+func (r *Rss) FeedXML() interface{} {
 	// only generate version 2.0 feeds for now
-	return r.RssFeed().FeedXml()
+	return r.RssFeed().FeedXML()
 
 }
 
 // return an XML-ready object for an RssFeed object
-func (r *RssFeed) FeedXml() interface{} {
-	return &rssFeedXml{Version: "2.0", Channel: r}
+func (r *RssFeed) FeedXML() interface{} {
+	return &rssFeedXML{Version: "2.0", Channel: r}
 }
