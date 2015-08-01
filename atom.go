@@ -111,17 +111,20 @@ func newAtomEntry(i *Item) *AtomEntry {
 	}
 
 
-	if(i.Link.Length>0)	{
-		i.Link.Rel = "enclosure"
-	}
-
 	x := &AtomEntry{
 		Title:   i.Title,
-		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel, Type: i.Link.Type, Length: strconv.FormatInt(i.Link.Length,10)},
+		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel, Type: i.Link.Type},
 		Content: c,
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
 	}
+
+	if(i.Link.Length>0)	{
+		i.Link.Rel = "enclosure"
+		x.Link = &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel, Type: i.Link.Type, Length: strconv.FormatInt(i.Link.Length,10)}
+	}
+
+
 	if len(name) > 0 || len(email) > 0 {
 		x.Author = &AtomAuthor{AtomPerson: AtomPerson{Name: name, Email: email}}
 	}

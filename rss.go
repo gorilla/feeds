@@ -91,8 +91,10 @@ func newRssItem(i *Item) *RssItem {
 		Link:        i.Link.Href,
 		Description: i.Description,
 		Guid:        i.Id,
-		Enclosure:   &RssEnclosure{Url: i.Link.Href, Type: i.Link.Type, Length: i.Link.Length},
 		PubDate:     anyTimeFormat(time.RFC822, i.Created, i.Updated),
+	}
+	if(i.Link.Length > 0 || i.Link.Type != ""){
+		item.Enclosure = &RssEnclosure{Url: i.Link.Href, Type: i.Link.Type, Length: i.Link.Length}
 	}
 	if i.Author != nil {
 		item.Author = i.Author.Name
