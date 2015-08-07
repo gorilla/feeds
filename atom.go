@@ -1,8 +1,10 @@
 package feeds
 
 import (
+	"bytes"
 	"encoding/xml"
 	"fmt"
+	"net/http"
 	"net/url"
 	"time"
 )
@@ -51,7 +53,7 @@ type AtomEntry struct {
 	Source      string `xml:"source,omitempty"`
 	Published   string `xml:"published,omitempty"`
 	Contributor *AtomContributor
-	Link        *AtomLink    // required if no child 'content' elements
+	Links       []*AtomLink  `xml:"link"` // required if no child 'content' elements
 	Summary     *AtomSummary // required if content has src or content is base64
 	Author      *AtomAuthor  // required if feed lacks an author
 }
@@ -63,20 +65,20 @@ type AtomLink struct {
 }
 
 type AtomFeed struct {
-	XMLName     xml.Name `xml:"feed"`
-	Xmlns       string   `xml:"xmlns,attr"`
-	Title       string   `xml:"title"`   // required
-	Id          string   `xml:"id"`      // required
-	Updated     string   `xml:"updated"` // required
-	Category    string   `xml:"category,omitempty"`
-	Icon        string   `xml:"icon,omitempty"`
-	Logo        string   `xml:"logo,omitempty"`
-	Rights      string   `xml:"rights,omitempty"` // copyright used
-	Subtitle    string   `xml:"subtitle,omitempty"`
-	Link        *AtomLink
-	Author      *AtomAuthor // required 
-	Contributor *AtomContributor
-	Entries     []*AtomEntry
+	XMLName     xml.Name         `xml:"feed"`
+	Xmlns       string           `xml:"xmlns,attr"`
+	Title       string           `xml:"title"`   // required
+	Id          string           `xml:"id"`      // required
+	Updated     string           `xml:"updated"` // required
+	Category    string           `xml:"category,omitempty"`
+	Icon        string           `xml:"icon,omitempty"`
+	Logo        string           `xml:"logo,omitempty"`
+	Rights      string           `xml:"rights,omitempty"` // copyright used
+	Subtitle    string           `xml:"subtitle,omitempty"`
+	Links       []*AtomLink      `xml:"link"`
+	Author      *AtomAuthor      `xml:"author"` // required
+	Contributor *AtomContributor `xml:"contributor"`
+	Entries     []*AtomEntry     `xml:"entry"`
 }
 
 type Atom struct {
@@ -108,7 +110,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 
 	x := &AtomEntry{
 		Title:   i.Title,
-		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel},
+		Links:   []*AtomLink{&AtomLink{Href: i.Link.Href, Rel: i.Link.Rel}},
 		Content: c,
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
@@ -125,7 +127,7 @@ func (a *Atom) AtomFeed() *AtomFeed {
 	feed := &AtomFeed{
 		Xmlns:    ns,
 		Title:    a.Title,
-		Link:     &AtomLink{Href: a.Link.Href, Rel: a.Link.Rel},
+		Links:    []*AtomLink{&AtomLink{Href: a.Link.Href, Rel: a.Link.Rel}},
 		Subtitle: a.Description,
 		Id:       a.Link.Href,
 		Updated:  updated,
@@ -150,4 +152,63 @@ func (a *Atom) FeedXml() interface{} {
 // return an XML-ready object for an AtomFeed object
 func (a *AtomFeed) FeedXml() interface{} {
 	return a
+}
+
+func (a *AtomFeed) Link(rel string) (string, bool) {
+	for _, link := range a.Links {
+		if link.Rel == rel {
+			return link.Href, true
+		}
+	}
+
+	return "", false
+}
+
+func (a *AtomEntry) Link(rel string) (string, bool) {
+	for _, link := range a.Links {
+		if link.Rel == rel {
+			return link.Href, true
+		}
+	}
+
+	return "", false
+}
+
+func ParseAtomFeed(content string) (*AtomFeed, error) {
+	var feed AtomFeed
+	decoder := xml.NewDecoder(bytes.NewBufferString(content))
+	decoder.Strict = true
+
+	if err := decoder.Decode(&feed); err != nil {
+		return nil, err
+	}
+
+	fmt.Printf("%+s", feed)
+
+	return &feed, nil
+}
+
+func DownloadAtomFeed(url string) (*AtomFeed, error) {
+	client := &http.Client{}
+
+	request, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	request.Header.Add("Accept", "application/atom+xml")
+
+	response, err := client.Do(request)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+
+	var feed AtomFeed
+	decoder := xml.NewDecoder(response.Body)
+	if err := decoder.Decode(&feed); err != nil {
+		return nil, err
+	}
+
+	return &feed, nil
 }
