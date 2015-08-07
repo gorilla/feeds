@@ -5,7 +5,7 @@ Installing
 
 	go get github.com/gorilla/feeds
 
-Syndicate provides a simple, generic Feed interface with a generic Item object as well as RSS and Atom specific RssFeed and AtomFeed objects which allow access to all of each spec's defined elements.
+Feeds provides a simple, generic Feed interface with a generic Item object as well as RSS and Atom specific RssFeed and AtomFeed objects which allow access to all of each spec's defined elements.
 
 Examples
 
