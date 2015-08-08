@@ -127,7 +127,7 @@ func TestFeed(t *testing.T) {
 		},
 		&Item{
 			Title:       "Never Gonna Give You Up Mp3",
-			Link:        &Link{Href: "http://example.com/RickRoll.mp3",Length: 123456, Type: "audio/mpeg"},
+			Link:        &Link{Href: "http://example.com/RickRoll.mp3", Length: "123456", Type: "audio/mpeg"},
 			Description: "Never gonna give you up - Never gonna let you down.",
 			Created:     now,
 		},
