@@ -4,8 +4,8 @@ import (
 	"encoding/xml"
 	"fmt"
 	"net/url"
-	"time"
 	"strconv"
+	"time"
 )
 
 // Generates Atom feed as XML
@@ -110,7 +110,6 @@ func newAtomEntry(i *Item) *AtomEntry {
 		name, email = i.Author.Name, i.Author.Email
 	}
 
-
 	x := &AtomEntry{
 		Title:   i.Title,
 		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel, Type: i.Link.Type},
@@ -119,11 +118,12 @@ func newAtomEntry(i *Item) *AtomEntry {
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
 	}
 
-	if(i.Link.Length>0)	{
-		i.Link.Rel = "enclosure"
-		x.Link = &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel, Type: i.Link.Type, Length: strconv.FormatInt(i.Link.Length,10)}
-	}
+	int_Length, err := strconv.ParseInt(i.Link.Length, 10, 64)
 
+	if err == nil && (int_Length > 0 || i.Link.Type != "") {
+		i.Link.Rel = "enclosure"
+		x.Link = &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel, Type: i.Link.Type, Length: i.Link.Length}
+	}
 
 	if len(name) > 0 || len(email) > 0 {
 		x.Author = &AtomAuthor{AtomPerson: AtomPerson{Name: name, Email: email}}
