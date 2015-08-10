@@ -118,9 +118,9 @@ func newAtomEntry(i *Item) *AtomEntry {
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
 	}
 
-	int_Length, err := strconv.ParseInt(i.Link.Length, 10, 64)
+	intLength, err := strconv.ParseInt(i.Link.Length, 10, 64)
 
-	if err == nil && (int_Length > 0 || i.Link.Type != "") {
+	if err == nil && (intLength > 0 || i.Link.Type != "") {
 		i.Link.Rel = "enclosure"
 		x.Link = &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel, Type: i.Link.Type, Length: i.Link.Length}
 	}

@@ -95,9 +95,9 @@ func newRssItem(i *Item) *RssItem {
 		PubDate:     anyTimeFormat(time.RFC822, i.Created, i.Updated),
 	}
 
-	int_Length, err := strconv.ParseInt(i.Link.Length, 10, 64)
+	intLength, err := strconv.ParseInt(i.Link.Length, 10, 64)
 
-	if err == nil && (int_Length > 0 || i.Link.Type != "") {
+	if err == nil && (intLength > 0 || i.Link.Type != "") {
 		item.Enclosure = &RssEnclosure{Url: i.Link.Href, Type: i.Link.Type, Length: i.Link.Length}
 	}
 	if i.Author != nil {
