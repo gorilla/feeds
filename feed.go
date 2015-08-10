@@ -7,7 +7,7 @@ import (
 )
 
 type Link struct {
-	Href, Rel string
+	Href, Rel, Type, Length string
 }
 
 type Author struct {
