@@ -49,6 +49,13 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <content type="html">Never gonna give you up - Never gonna let you down.</content>
     <link href="http://example.com/RickRoll.mp3" rel="enclosure" type="audio/mpeg" length="123456"></link>
   </entry>
+  <entry>
+    <title>String formatting in Go</title>
+    <updated>2013-01-16T21:52:35-05:00</updated>
+    <id>tag:example.com,2013-01-16:/strings</id>
+    <content type="html">How to use things like %s, %v, %d, etc.</content>
+    <link href="http://example.com/strings"></link>
+  </entry>
 </feed>`
 
 var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
@@ -83,6 +90,12 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
       <link>http://example.com/RickRoll.mp3</link>
       <description>Never gonna give you up - Never gonna let you down.</description>
       <enclosure url="http://example.com/RickRoll.mp3" length="123456" type="audio/mpeg"></enclosure>
+      <pubDate>16 Jan 13 21:52 EST</pubDate>
+    </item>
+    <item>
+      <title>String formatting in Go</title>
+      <link>http://example.com/strings</link>
+      <description>How to use things like %s, %v, %d, etc.</description>
       <pubDate>16 Jan 13 21:52 EST</pubDate>
     </item>
   </channel>
@@ -131,11 +144,17 @@ func TestFeed(t *testing.T) {
 			Description: "Never gonna give you up - Never gonna let you down.",
 			Created:     now,
 		},
+		&Item{
+			Title:       "String formatting in Go",
+			Link:        &Link{Href: "http://example.com/strings"},
+			Description: "How to use things like %s, %v, %d, etc.",
+			Created:     now,
+		},
 	}
 
 	atom, err := feed.ToAtom()
 	if err != nil {
-		t.Error("unexpected error encoding Atom: %v", err)
+		t.Errorf("unexpected error encoding Atom: %v", err)
 	}
 	if atom != atomOutput {
 		t.Errorf("Atom not what was expected.  Got:\n%s\n\nExpected:\n%s\n", atom, atomOutput)
