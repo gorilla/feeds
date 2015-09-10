@@ -1,27 +1,27 @@
 ## gorilla/feeds
+![GoDoc](https://godoc.org/github.com/gorilla/feeds?status.svg)](https://godoc.org/github.com/gorilla/feeds) [![Build Status](https://travis-ci.org/gorilla/feeds.png?branch=master)](https://travis-ci.org/gorilla/feeds)
 
-Web feed generator library.
-
-[![Build Status](https://travis-ci.org/gorilla/feeds.png?branch=master)](https://travis-ci.org/gorilla/feeds)
+feeds is a web feed generator library for generating RSS and Atom feeds from Go
+applications.
 
 ### Goals
 
- * simple interface to create both Atom & RSS 2.0 feeds
- * full support for Atom/RSS2.0 spec elements
- * ability to modify particulars for each spec
+ * Provide a simple interface to create both Atom & RSS 2.0 feeds
+ * Full support for Atom and RSS2.0 spec elements
+ * Ability to modify particulars for each spec
 
 ### Usage
 
 ```go
+package main
 
-package main {
+import (
+    "fmt"
+    "time"
+    "github.com/gorilla/feeds"
+)
 
-    import (
-        "fmt"
-        "time"
-        "github.com/gorilla/feeds"
-    )
-
+func main() {
     now := time.Now()
     feed := &feeds.Feed{
         Title:       "jmoiron.net blog",
@@ -53,12 +53,18 @@ package main {
         },
     }
 
-    atom, _ := feed.ToAtom()  // _ parameter is err
-    rss, _  := feed.ToRss()   // _ parameter is err
+    atom, err := feed.ToAtom()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    rss, err := feed.ToRss()
+    if err != nil {
+        log.Fatal(err)
+    }
 
     fmt.Println(atom, "\n", rss)
 }
-
 ```
 
 Outputs:
