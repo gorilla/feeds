@@ -119,38 +119,37 @@ func TestFeed(t *testing.T) {
 	}
 
 	feed.Items = []*Item{
-		&Item{
+		{
 			Title:       "Limiting Concurrency in Go",
 			Link:        &Link{Href: "http://jmoiron.net/blog/limiting-concurrency-in-go/"},
 			Description: "A discussion on controlled parallelism in golang",
 			Author:      &Author{"Jason Moiron", "jmoiron@jmoiron.net"},
 			Created:     now,
 		},
-		&Item{
+		{
 			Title:       "Logic-less Template Redux",
 			Link:        &Link{Href: "http://jmoiron.net/blog/logicless-template-redux/"},
 			Description: "More thoughts on logicless templates",
 			Created:     now,
 		},
-		&Item{
+		{
 			Title:       "Idiomatic Code Reuse in Go",
 			Link:        &Link{Href: "http://jmoiron.net/blog/idiomatic-code-reuse-in-go/"},
 			Description: "How to use interfaces <em>effectively</em>",
 			Created:     now,
 		},
-		&Item{
+		{
 			Title:       "Never Gonna Give You Up Mp3",
 			Link:        &Link{Href: "http://example.com/RickRoll.mp3", Length: "123456", Type: "audio/mpeg"},
 			Description: "Never gonna give you up - Never gonna let you down.",
 			Created:     now,
 		},
-		&Item{
+		{
 			Title:       "String formatting in Go",
 			Link:        &Link{Href: "http://example.com/strings"},
 			Description: "How to use things like %s, %v, %d, etc.",
 			Created:     now,
-		},
-	}
+		}}
 
 	atom, err := feed.ToAtom()
 	if err != nil {
