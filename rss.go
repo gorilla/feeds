@@ -8,6 +8,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"strconv"
+	"time"
 )
 
 // private wrapper around the RssFeed which gives us the <rss>..</rss> xml
@@ -91,7 +92,7 @@ func newRssItem(i *Item) *RssItem {
 		Link:        i.Link.Href,
 		Description: i.Description,
 		Guid:        i.Id,
-		PubDate:     anyTimeFormat("2006-01-02T15:04:05-07:00", i.Created, i.Updated),
+		PubDate:     anyTimeFormat(time.RFC1123, i.Created, i.Updated),
 	}
 
 	intLength, err := strconv.ParseInt(i.Link.Length, 10, 64)
@@ -107,8 +108,8 @@ func newRssItem(i *Item) *RssItem {
 
 // create a new RssFeed with a generic Feed struct's data
 func (r *Rss) RssFeed() *RssFeed {
-	pub := anyTimeFormat("2006-01-02T15:04:05-07:00", r.Created, r.Updated)
-	build := anyTimeFormat("2006-01-02T15:04:05-07:00", r.Updated)
+	pub := anyTimeFormat(time.RFC1123, r.Created, r.Updated)
+	build := anyTimeFormat(time.RFC1123, r.Updated)
 	author := ""
 	if r.Author != nil {
 		author = r.Author.Email
