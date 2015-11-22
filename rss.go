@@ -8,7 +8,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"strconv"
-	"time"
 )
 
 // private wrapper around the RssFeed which gives us the <rss>..</rss> xml
