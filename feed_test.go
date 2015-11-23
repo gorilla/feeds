@@ -65,38 +65,38 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
     <description>discussion about tech, footie, photos</description>
     <copyright>This work is copyright © Benjamin Button</copyright>
     <managingEditor>jmoiron@jmoiron.net (Jason Moiron)</managingEditor>
-    <pubDate>16 Jan 13 21:52 EST</pubDate>
+    <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     <item>
       <title>Limiting Concurrency in Go</title>
       <link>http://jmoiron.net/blog/limiting-concurrency-in-go/</link>
       <description>A discussion on controlled parallelism in golang</description>
       <author>Jason Moiron</author>
-      <pubDate>16 Jan 13 21:52 EST</pubDate>
+      <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
     <item>
       <title>Logic-less Template Redux</title>
       <link>http://jmoiron.net/blog/logicless-template-redux/</link>
       <description>More thoughts on logicless templates</description>
-      <pubDate>16 Jan 13 21:52 EST</pubDate>
+      <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
     <item>
       <title>Idiomatic Code Reuse in Go</title>
       <link>http://jmoiron.net/blog/idiomatic-code-reuse-in-go/</link>
       <description>How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</description>
-      <pubDate>16 Jan 13 21:52 EST</pubDate>
+      <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
     <item>
       <title>Never Gonna Give You Up Mp3</title>
       <link>http://example.com/RickRoll.mp3</link>
       <description>Never gonna give you up - Never gonna let you down.</description>
       <enclosure url="http://example.com/RickRoll.mp3" length="123456" type="audio/mpeg"></enclosure>
-      <pubDate>16 Jan 13 21:52 EST</pubDate>
+      <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
     <item>
       <title>String formatting in Go</title>
       <link>http://example.com/strings</link>
       <description>How to use things like %s, %v, %d, etc.</description>
-      <pubDate>16 Jan 13 21:52 EST</pubDate>
+      <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
   </channel>
 </rss>`
