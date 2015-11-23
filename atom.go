@@ -163,3 +163,32 @@ func (a *Atom) FeedXml() interface{} {
 func (a *AtomFeed) FeedXml() interface{} {
 	return a
 }
+
+func (a *AtomFeed) StandardFeed() *Feed {
+	feed := &Feed{
+		Author:      &Author{Name: a.Author.Name, Email: a.Author.Email},
+		Copyright:   a.Rights,
+		Created:     time.Time{}, // not sure what to do with this... maybe parse from a.Updated?
+		Description: "",          // no description for atom?
+		Id:          a.Id,
+		Items:       make([]*Item, len(a.Entries)),
+		Link:        &Link{Href: a.Link.Href, Rel: a.Link.Rel},
+		Subtitle:    a.Subtitle,
+		Title:       a.Title,
+		Updated:     time.Time{}, // not sure how to parse from a.Updated at the moment
+	}
+
+	for i, entry := range a.Entries {
+		feed.Items[i] = &Item{
+			Author:      &Author{Name: entry.Author.Name, Email: entry.Author.Email},
+			Created:     time.Time{}, // not really a good match in AtomEntry
+			Description: entry.Summary.Content,
+			Id:          entry.Id,
+			Link:        &Link{Href: entry.Link.Href, Rel: entry.Link.Rel},
+			Title:       entry.Title,
+			Updated:     time.Time{}, // not sure how to parse from entry.Updated
+		}
+	}
+
+	return feed
+}
