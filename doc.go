@@ -22,7 +22,7 @@ Create a Feed and some Items in that feed using the generic interfaces:
 		Title:       "jmoiron.net blog",
 		Link:        &Link{Href: "http://jmoiron.net/blog"},
 		Description: "discussion about tech, footie, photos",
-		Author:      &Author{"Jason Moiron", "jmoiron@jmoiron.net"},
+		Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
 		Created:     now,
 		Copyright:   "This work is copyright © Benjamin Button",
 	}
@@ -32,7 +32,7 @@ Create a Feed and some Items in that feed using the generic interfaces:
 			Title:       "Limiting Concurrency in Go",
 			Link:        &Link{Href: "http://jmoiron.net/blog/limiting-concurrency-in-go/"},
 			Description: "A discussion on controlled parallelism in golang",
-			Author:      &Author{"Jason Moiron", "jmoiron@jmoiron.net"},
+			Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
 			Created:     now,
 		},
 		&Item{
