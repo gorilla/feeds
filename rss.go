@@ -90,10 +90,12 @@ func newRssItem(i *Item) *RssItem {
 	item := &RssItem{
 		Title:       i.Title,
 		Link:        i.Link.Href,
-		Source:      i.Source.Href,
 		Description: i.Description,
 		Guid:        i.Id,
 		PubDate:     anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
+	}
+	if i.Source != nil {
+		item.Source = i.Source.Href
 	}
 
 	intLength, err := strconv.ParseInt(i.Link.Length, 10, 64)
