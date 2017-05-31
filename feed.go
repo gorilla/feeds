@@ -17,6 +17,7 @@ type Author struct {
 type Item struct {
 	Title       string
 	Link        *Link
+	Source      *Link
 	Author      *Author
 	Description string // used as description in rss, summary in atom
 	Id          string // used as guid in rss, id in atom

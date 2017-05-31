@@ -90,6 +90,7 @@ func newRssItem(i *Item) *RssItem {
 	item := &RssItem{
 		Title:       i.Title,
 		Link:        i.Link.Href,
+		Source:      i.Source.Href,
 		Description: i.Description,
 		Guid:        i.Id,
 		PubDate:     anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
