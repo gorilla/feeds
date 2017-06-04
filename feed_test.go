@@ -101,6 +101,56 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
   </channel>
 </rss>`
 
+var jsonOutput = `{
+  "version": "https://jsonfeed.org/version/1",
+  "title": "jmoiron.net blog",
+  "home_page_url": "http://jmoiron.net/blog",
+  "description": "discussion about tech, footie, photos",
+  "author": {
+    "name": "Jason Moiron"
+  },
+  "items": [
+    {
+      "id": "",
+      "url": "http://jmoiron.net/blog/limiting-concurrency-in-go/",
+      "title": "Limiting Concurrency in Go",
+      "summary": "A discussion on controlled parallelism in golang",
+      "date_published": "2013-01-16T21:52:35-05:00",
+      "author": {
+        "name": "Jason Moiron"
+      }
+    },
+    {
+      "id": "",
+      "url": "http://jmoiron.net/blog/logicless-template-redux/",
+      "title": "Logic-less Template Redux",
+      "summary": "More thoughts on logicless templates",
+      "date_published": "2013-01-16T21:52:35-05:00"
+    },
+    {
+      "id": "",
+      "url": "http://jmoiron.net/blog/idiomatic-code-reuse-in-go/",
+      "title": "Idiomatic Code Reuse in Go",
+      "summary": "How to use interfaces \u003cem\u003eeffectively\u003c/em\u003e",
+      "date_published": "2013-01-16T21:52:35-05:00"
+    },
+    {
+      "id": "",
+      "url": "http://example.com/RickRoll.mp3",
+      "title": "Never Gonna Give You Up Mp3",
+      "summary": "Never gonna give you up - Never gonna let you down.",
+      "date_published": "2013-01-16T21:52:35-05:00"
+    },
+    {
+      "id": "",
+      "url": "http://example.com/strings",
+      "title": "String formatting in Go",
+      "summary": "How to use things like %s, %v, %d, etc.",
+      "date_published": "2013-01-16T21:52:35-05:00"
+    }
+  ]
+}`
+
 func TestFeed(t *testing.T) {
 	now, err := time.Parse(time.RFC3339, "2013-01-16T21:52:35-05:00")
 	if err != nil {
@@ -179,5 +229,20 @@ func TestFeed(t *testing.T) {
 	}
 	if got := buf.String(); got != rssOutput {
 		t.Errorf("Rss not what was expected.  Got:\n%s\n\nExpected:\n%s\n", got, rssOutput)
+	}
+
+	json, err := feed.ToJSON()
+	if err != nil {
+		t.Errorf("unexpected error encoding JSON: %v", err)
+	}
+	if json != jsonOutput {
+		t.Errorf("JSON not what was expected.  Got:\n%s\n\nExpected:\n%s\n", json, jsonOutput)
+	}
+	buf.Reset()
+	if err := feed.WriteJSON(&buf); err != nil {
+		t.Errorf("unexpected error writing JSON: %v", err)
+	}
+	if got := buf.String(); got != jsonOutput+"\n" { //json.Encode appends a newline after the JSON output: https://github.com/golang/go/commit/6f25f1d4c901417af1da65e41992d71c30f64f8f#diff-50848cbd686f250623a2ef6ddb07e157
+		t.Errorf("JSON not what was expected.  Got:\n||%s||\n\nExpected:\n||%s||\n", got, jsonOutput)
 	}
 }

@@ -1,6 +1,7 @@
 package feeds
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"io"
 	"time"
@@ -104,4 +105,20 @@ func (f *Feed) ToRss() (string, error) {
 // Writes an RSS representation of this feed to the writer.
 func (f *Feed) WriteRss(w io.Writer) error {
 	return WriteXML(&Rss{f}, w)
+}
+
+// creates an JSON representation of this feed
+func (f *Feed) ToJSON() (string, error) {
+	j := &JSON{f}
+	return j.ToJSON()
+}
+
+// Writes an JSON representation of this feed to the writer.
+func (f *Feed) WriteJSON(w io.Writer) error {
+	j := &JSON{f}
+	feed := j.JSONFeed()
+
+	e := json.NewEncoder(w)
+	e.SetIndent("", "  ")
+	return e.Encode(feed)
 }

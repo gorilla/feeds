@@ -5,7 +5,7 @@ Installing
 
 	go get github.com/gorilla/feeds
 
-Feeds provides a simple, generic Feed interface with a generic Item object as well as RSS and Atom specific RssFeed and AtomFeed objects which allow access to all of each spec's defined elements.
+Feeds provides a simple, generic Feed interface with a generic Item object as well as RSS, Atom and JSON Feed specific RssFeed, AtomFeed and JSONFeed objects which allow access to all of each spec's defined elements.
 
 Examples
 
@@ -49,15 +49,17 @@ Create a Feed and some Items in that feed using the generic interfaces:
 		},
 	}
 
-From here, you can output Atom or RSS versions of this feed easily
+From here, you can output Atom, RSS, or JSON Feed versions of this feed easily
 
 	atom, err := feed.ToAtom()
 	rss, err := feed.ToRss()
+	json, err := feed.ToJSON()
 
 You can also get access to the underlying objects that feeds uses to export its XML
 
 	atomFeed := &Atom{feed}.AtomFeed()
 	rssFeed := &Rss{feed}.RssFeed()
+	jsonFeed := &JSON{feed}.JSONFeed()
 
 From here, you can modify or add each syndication's specific fields before outputting
 
@@ -65,6 +67,7 @@ From here, you can modify or add each syndication's specific fields before outpu
 	atom, err := ToXML(atomFeed)
 	rssFeed.Generator = "gorilla/feeds v1.0 (github.com/gorilla/feeds)"
 	rss, err := ToXML(rssFeed)
-
+	jsonFeed.NextUrl = "https://www.example.com/feed.json?page=2"
+	json, err := jsonFeed.ToJSON()
 */
 package feeds

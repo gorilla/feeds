@@ -1,13 +1,13 @@
 ## gorilla/feeds
 [![GoDoc](https://godoc.org/github.com/gorilla/feeds?status.svg)](https://godoc.org/github.com/gorilla/feeds) [![Build Status](https://travis-ci.org/gorilla/feeds.png?branch=master)](https://travis-ci.org/gorilla/feeds)
 
-feeds is a web feed generator library for generating RSS and Atom feeds from Go
+feeds is a web feed generator library for generating RSS, Atom and JSON feeds from Go
 applications.
 
 ### Goals
 
  * Provide a simple interface to create both Atom & RSS 2.0 feeds
- * Full support for Atom and RSS2.0 spec elements
+ * Full support for Atom, RSS2.0, and JSON Feed Version 1 spec elements
  * Ability to modify particulars for each spec
 
 ### Usage
@@ -64,7 +64,12 @@ func main() {
         log.Fatal(err)
     }
 
-    fmt.Println(atom, "\n", rss)
+    json, err := feed.ToJSON()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println(atom, "\n", rss, "\n", json)
 }
 ```
 
@@ -136,5 +141,40 @@ Outputs:
   </channel>
 </rss>
 
+{
+  "version": "https://jsonfeed.org/version/1",
+  "title": "jmoiron.net blog",
+  "home_page_url": "http://jmoiron.net/blog",
+  "description": "discussion about tech, footie, photos",
+  "author": {
+    "name": "Jason Moiron"
+  },
+  "items": [
+    {
+      "id": "",
+      "url": "http://jmoiron.net/blog/limiting-concurrency-in-go/",
+      "title": "Limiting Concurrency in Go",
+      "summary": "A discussion on controlled parallelism in golang",
+      "date_published": "2013-01-16T03:22:24.530817846-05:00",
+      "author": {
+        "name": "Jason Moiron"
+      }
+    },
+    {
+      "id": "",
+      "url": "http://jmoiron.net/blog/logicless-template-redux/",
+      "title": "Logic-less Template Redux",
+      "summary": "More thoughts on logicless templates",
+      "date_published": "2013-01-16T03:22:24.530817846-05:00"
+    },
+    {
+      "id": "",
+      "url": "http://jmoiron.net/blog/idiomatic-code-reuse-in-go/",
+      "title": "Idiomatic Code Reuse in Go",
+      "summary": "How to use interfaces \u003cem\u003eeffectively\u003c/em\u003e",
+      "date_published": "2013-01-16T03:22:24.530817846-05:00"
+    }
+  ]
+}
 ```
 
