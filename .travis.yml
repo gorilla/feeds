@@ -1,9 +1,13 @@
 language: go
 sudo: false
-go:
-  - 1.7
-  - 1.8
-  - tip
+matrix:
+  include:
+    - go: 1.7
+    - go: 1.8
+    - go: 1.x
+    - go: master
+  allow_failures:
+    - go: master
 script:
   - go get -t -v ./...
   - diff -u <(echo -n) <(gofmt -d -s .)
