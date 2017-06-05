@@ -107,13 +107,13 @@ func (f *Feed) WriteRss(w io.Writer) error {
 	return WriteXML(&Rss{f}, w)
 }
 
-// creates an JSON representation of this feed
+// ToJSON creates a JSON Feed representation of this feed
 func (f *Feed) ToJSON() (string, error) {
 	j := &JSON{f}
 	return j.ToJSON()
 }
 
-// Writes an JSON representation of this feed to the writer.
+// WriteJSON writes an JSON representation of this feed to the writer.
 func (f *Feed) WriteJSON(w io.Writer) error {
 	j := &JSON{f}
 	feed := j.JSONFeed()
