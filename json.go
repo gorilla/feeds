@@ -124,22 +124,22 @@ func (f *JSONFeed) ToJSON() (string, error) {
 }
 
 // JSONFeed creates a new JSONFeed with a generic Feed struct's data
-func (a *JSON) JSONFeed() *JSONFeed {
+func (f *JSON) JSONFeed() *JSONFeed {
 	feed := &JSONFeed{
 		Version:     jsonFeedVersion,
-		Title:       a.Title,
-		Description: a.Description,
+		Title:       f.Title,
+		Description: f.Description,
 	}
 
-	if a.Link != nil {
-		feed.HomePageUrl = a.Link.Href
+	if f.Link != nil {
+		feed.HomePageUrl = f.Link.Href
 	}
-	if a.Author != nil {
+	if f.Author != nil {
 		feed.Author = &JSONAuthor{
-			Name: a.Author.Name,
+			Name: f.Author.Name,
 		}
 	}
-	for _, e := range a.Items {
+	for _, e := range f.Items {
 		feed.Items = append(feed.Items, newJSONItem(e))
 	}
 	return feed
