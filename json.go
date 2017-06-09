@@ -106,14 +106,17 @@ type JSONFeed struct {
 	Items       []*JSONItem `json:"items,omitempty"`
 }
 
+// JSON is used to convert a generic Feed to a JSONFeed.
 type JSON struct {
 	*Feed
 }
 
+// ToJSON encodes f into a JSON string. Returns an error if marshalling fails.
 func (f *JSON) ToJSON() (string, error) {
 	return f.JSONFeed().ToJSON()
 }
 
+// ToJSON encodes f into a JSON string. Returns an error if marshalling fails.
 func (f *JSONFeed) ToJSON() (string, error) {
 	data, err := json.MarshalIndent(f, "", "  ")
 	if err != nil {
@@ -123,7 +126,7 @@ func (f *JSONFeed) ToJSON() (string, error) {
 	return string(data), nil
 }
 
-// JSONFeed creates a new JSONFeed with a generic Feed struct's data
+// JSONFeed creates a new JSONFeed with a generic Feed struct's data.
 func (f *JSON) JSONFeed() *JSONFeed {
 	feed := &JSONFeed{
 		Version:     jsonFeedVersion,
