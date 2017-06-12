@@ -99,9 +99,7 @@ func newRssItem(i *Item) *RssItem {
 		item.Source = i.Source.Href
 	}
 
-	intLength, err := strconv.ParseInt(i.Enclosure.Length, 10, 64)
-
-	if err == nil && (intLength > 0 || i.Enclosure.Type != "") {
+	if err == nil && (i.Enclosure.Length > 0 || i.Enclosure.Type != "") {
 		item.Enclosure = &RssEnclosure{Url: i.Enclosure.Url, Type: i.Enclosure.Type, Length: i.Enclosure.Length}
 	}
 	if i.Author != nil {
@@ -122,7 +120,7 @@ func (r *Rss) RssFeed() *RssFeed {
 		}
 	}
 
-	image := &RssImage{Url: r.Image.Url, Title: r.Image.Title, Link: r.Image.Link, Width:r.Image.Width, Height:r.Image.Height}
+	image := &RssImage{Url: r.Image.Url, Title: r.Image.Title, Link: r.Image.Link, Width:r.Image.Width, Height: r.Image.Height}
 
 	channel := &RssFeed{
 		Title:          r.Title,

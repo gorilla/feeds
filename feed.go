@@ -21,7 +21,8 @@ type Image struct {
 }
 
 type Enclosure struct {
-	Url, Length, Type string
+	Url, Type string
+	Length int
 }
 
 type Item struct {
