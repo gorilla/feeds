@@ -7,8 +7,8 @@ package feeds
 import (
 	"encoding/xml"
 	"fmt"
-	"strconv"
 	"time"
+	"strconv"
 )
 
 // private wrapper around the RssFeed which gives us the <rss>..</rss> xml
@@ -99,7 +99,9 @@ func newRssItem(i *Item) *RssItem {
 		item.Source = i.Source.Href
 	}
 
-	if err == nil && (i.Enclosure.Length > 0 || i.Enclosure.Type != "") {
+	intLength, err := strconv.ParseInt(i.Enclosure.Length, 10, 64)
+
+	if err != nil && (intLength > 0 || i.Enclosure.Type != "") {
 		item.Enclosure = &RssEnclosure{Url: i.Enclosure.Url, Type: i.Enclosure.Type, Length: i.Enclosure.Length}
 	}
 	if i.Author != nil {
