@@ -101,10 +101,10 @@ func newRssItem(i *Item) *RssItem {
 
 	intLength, err := strconv.ParseInt(i.Enclosure.Length, 10, 64)
 
-	if err != nil && (intLength > 0 || i.Enclosure.Type != "") {
+	if err == nil && (intLength > 0 || i.Enclosure.Type != "") {
 		item.Enclosure = &RssEnclosure{Url: i.Enclosure.Url, Type: i.Enclosure.Type, Length: i.Enclosure.Length}
 	}
-	if i.Author != nil {
+	if i.Author == nil {
 		item.Author = i.Author.Name
 	}
 	return item
