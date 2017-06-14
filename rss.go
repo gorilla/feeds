@@ -7,8 +7,8 @@ package feeds
 import (
 	"encoding/xml"
 	"fmt"
-	"strconv"
 	"time"
+	"strconv"
 )
 
 // private wrapper around the RssFeed which gives us the <rss>..</rss> xml
@@ -87,6 +87,7 @@ type Rss struct {
 
 // create a new RssItem with a generic Item struct's data
 func newRssItem(i *Item) *RssItem {
+	// enclosure := &RssEnclosure{Url: i.Enclosure.Url,Type: i.Enclosure.Type,Length: i.Enclosure.Length,}
 	item := &RssItem{
 		Title:       i.Title,
 		Link:        i.Link.Href,
@@ -98,12 +99,12 @@ func newRssItem(i *Item) *RssItem {
 		item.Source = i.Source.Href
 	}
 
-	intLength, err := strconv.ParseInt(i.Link.Length, 10, 64)
+	intLength, err := strconv.ParseInt(i.Enclosure.Length, 10, 64)
 
-	if err == nil && (intLength > 0 || i.Link.Type != "") {
-		item.Enclosure = &RssEnclosure{Url: i.Link.Href, Type: i.Link.Type, Length: i.Link.Length}
+	if err == nil && (intLength > 0 || i.Enclosure.Type != "") {
+		item.Enclosure = &RssEnclosure{Url: i.Enclosure.Url, Type: i.Enclosure.Type, Length: i.Enclosure.Length}
 	}
-	if i.Author != nil {
+	if i.Author == nil {
 		item.Author = i.Author.Name
 	}
 	return item
@@ -121,6 +122,8 @@ func (r *Rss) RssFeed() *RssFeed {
 		}
 	}
 
+	image := &RssImage{Url: r.Image.Url, Title: r.Image.Title, Link: r.Image.Link, Width:r.Image.Width, Height: r.Image.Height}
+
 	channel := &RssFeed{
 		Title:          r.Title,
 		Link:           r.Link.Href,
@@ -129,6 +132,7 @@ func (r *Rss) RssFeed() *RssFeed {
 		PubDate:        pub,
 		LastBuildDate:  build,
 		Copyright:      r.Copyright,
+		Image:			image,
 	}
 	for _, i := range r.Items {
 		channel.Items = append(channel.Items, newRssItem(i))
