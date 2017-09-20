@@ -57,9 +57,9 @@ From here, you can output Atom, RSS, or JSON Feed versions of this feed easily
 
 You can also get access to the underlying objects that feeds uses to export its XML
 
-	atomFeed := &Atom{feed}.AtomFeed()
-	rssFeed := &Rss{feed}.RssFeed()
-	jsonFeed := &JSON{feed}.JSONFeed()
+	atomFeed := (&Atom{Feed: feed}).AtomFeed()
+	rssFeed := (&Rss{Feed: feed}).RssFeed()
+	jsonFeed := (&JSON{Feed: feed}).JSONFeed()
 
 From here, you can modify or add each syndication's specific fields before outputting
 
