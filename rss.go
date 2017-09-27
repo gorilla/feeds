@@ -7,8 +7,8 @@ package feeds
 import (
 	"encoding/xml"
 	"fmt"
-	"time"
 	"strconv"
+	"time"
 )
 
 // private wrapper around the RssFeed which gives us the <rss>..</rss> xml
@@ -122,7 +122,10 @@ func (r *Rss) RssFeed() *RssFeed {
 		}
 	}
 
-	image := &RssImage{Url: r.Image.Url, Title: r.Image.Title, Link: r.Image.Link, Width:r.Image.Width, Height: r.Image.Height}
+	var image *RssImage
+	if r.Image != nil {
+		image = &RssImage{Url: r.Image.Url, Title: r.Image.Title, Link: r.Image.Link, Width: r.Image.Width, Height: r.Image.Height}
+	}
 
 	channel := &RssFeed{
 		Title:          r.Title,
@@ -132,7 +135,7 @@ func (r *Rss) RssFeed() *RssFeed {
 		PubDate:        pub,
 		LastBuildDate:  build,
 		Copyright:      r.Copyright,
-		Image:			image,
+		Image:          image,
 	}
 	for _, i := range r.Items {
 		channel.Items = append(channel.Items, newRssItem(i))
