@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"net/url"
-	"strconv"
 	"time"
 )
 
@@ -118,11 +117,11 @@ func newAtomEntry(i *Item) *AtomEntry {
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
 	}
 
-	intLength, err := strconv.ParseInt(i.Link.Length, 10, 64)
-
-	if err == nil && (intLength > 0 || i.Link.Type != "") {
-		i.Link.Rel = "enclosure"
-		x.Link = &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel, Type: i.Link.Type, Length: i.Link.Length}
+	if i.Enclosure != nil {
+		// intLength, err := strconv.ParseInt(i.Enclosure.Length, 10, 64)
+		// if err == nil && intLength > 0 {
+		x.Link = &AtomLink{Href: i.Enclosure.Url, Rel: "enclosure", Type: i.Enclosure.Type, Length: i.Enclosure.Length}
+		// }
 	}
 
 	if len(name) > 0 || len(email) > 0 {

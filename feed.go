@@ -17,7 +17,7 @@ type Author struct {
 
 type Image struct {
 	Url, Title, Link string
-	Width, Height int 
+	Width, Height    int
 }
 
 type Enclosure struct {
@@ -33,7 +33,7 @@ type Item struct {
 	Id          string // used as guid in rss, id in atom
 	Updated     time.Time
 	Created     time.Time
-	Enclosure 	*Enclosure
+	Enclosure   *Enclosure
 }
 
 type Feed struct {
@@ -47,7 +47,7 @@ type Feed struct {
 	Subtitle    string
 	Items       []*Item
 	Copyright   string
-	Image		*Image
+	Image       *Image
 }
 
 // add a new Item to a Feed
