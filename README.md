@@ -1,11 +1,8 @@
-## gmemstr/feeds
+## gorilla/feeds
 [![GoDoc](https://godoc.org/github.com/gorilla/feeds?status.svg)](https://godoc.org/github.com/gorilla/feeds)
 
 feeds is a web feed generator library for generating RSS, Atom and JSON feeds from Go
 applications.
-
-This is a fork by gmemstr which aims to make feeds more "podcast-centered". Essentially making 
-things like optional iTunes tags work properly. 
 
 ### Goals
 

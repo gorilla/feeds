@@ -123,9 +123,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 	}
 
 	if i.Enclosure != nil && link_rel != "enclosure" {
-		// if intLength, err := strconv.ParseInt(i.Enclosure.Length, 10, 64); err == nil && intLength > 0 {
 		x.Links = append(x.Links, AtomLink{Href: i.Enclosure.Url, Rel: "enclosure", Type: i.Enclosure.Type, Length: i.Enclosure.Length})
-		// }
 	}
 
 	if len(name) > 0 || len(email) > 0 {
