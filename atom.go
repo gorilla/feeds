@@ -116,7 +116,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 	}
 	x := &AtomEntry{
 		Title:   i.Title,
-		Links:   []AtomLink{AtomLink{Href: i.Link.Href, Rel: link_rel, Type: i.Link.Type}},
+		Links:   []AtomLink{{Href: i.Link.Href, Rel: link_rel, Type: i.Link.Type}},
 		Content: c,
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
