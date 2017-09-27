@@ -2,6 +2,7 @@ package feeds
 
 import (
 	"encoding/json"
+	"strings"
 	"time"
 )
 
@@ -171,6 +172,9 @@ func newJSONItem(i *Item) *JSONItem {
 	}
 	if !i.Updated.IsZero() {
 		item.ModifiedDate = &i.Created
+	}
+	if i.Enclosure != nil && strings.HasPrefix(i.Enclosure.Type, "image/") {
+		item.Image = i.Enclosure.Url
 	}
 
 	return item

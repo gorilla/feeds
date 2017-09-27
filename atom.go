@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"net/url"
-	"strconv"
 	"time"
 )
 
@@ -52,11 +51,12 @@ type AtomEntry struct {
 	Source      string `xml:"source,omitempty"`
 	Published   string `xml:"published,omitempty"`
 	Contributor *AtomContributor
-	Link        *AtomLink    // required if no child 'content' elements
+	Links       []AtomLink   // required if no child 'content' elements
 	Summary     *AtomSummary // required if content has src or content is base64
 	Author      *AtomAuthor  // required if feed lacks an author
 }
 
+// Multiple links with different rel can coexist
 type AtomLink struct {
 	//Atom 1.0 <link rel="enclosure" type="audio/mpeg" title="MP3" href="http://www.example.org/myaudiofile.mp3" length="1234" />
 	XMLName xml.Name `xml:"link"`
@@ -110,19 +110,22 @@ func newAtomEntry(i *Item) *AtomEntry {
 		name, email = i.Author.Name, i.Author.Email
 	}
 
+	link_rel := i.Link.Rel
+	if link_rel == "" {
+		link_rel = "alternate"
+	}
 	x := &AtomEntry{
 		Title:   i.Title,
-		Link:    &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel, Type: i.Link.Type},
+		Links:   []AtomLink{AtomLink{Href: i.Link.Href, Rel: link_rel, Type: i.Link.Type}},
 		Content: c,
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
 	}
 
-	intLength, err := strconv.ParseInt(i.Link.Length, 10, 64)
-
-	if err == nil && (intLength > 0 || i.Link.Type != "") {
-		i.Link.Rel = "enclosure"
-		x.Link = &AtomLink{Href: i.Link.Href, Rel: i.Link.Rel, Type: i.Link.Type, Length: i.Link.Length}
+	if i.Enclosure != nil && link_rel != "enclosure" {
+		// if intLength, err := strconv.ParseInt(i.Enclosure.Length, 10, 64); err == nil && intLength > 0 {
+		x.Links = append(x.Links, AtomLink{Href: i.Enclosure.Url, Rel: "enclosure", Type: i.Enclosure.Type, Length: i.Enclosure.Length})
+		// }
 	}
 
 	if len(name) > 0 || len(email) > 0 {
