@@ -98,9 +98,8 @@ func newRssItem(i *Item) *RssItem {
 	}
 
 	// Define a closure
-	if i.Enclosure != nil && i.Enclosure.Type != "" && i.Enclosure.Length != "" {
-		// intLength, err := strconv.ParseInt(i.Enclosure.Length, 10, 64)
-		// if err == nil && intLength > 0 {
+	if i.Enclosure && i.Enclosure.Type != "" && i.Enclosure.Length != "" {
+		// if intLength, err := strconv.ParseInt(i.Enclosure.Length, 10, 64); err == nil && intLength > 0 {
 		item.Enclosure = &RssEnclosure{Url: i.Enclosure.Url, Type: i.Enclosure.Type, Length: i.Enclosure.Length}
 		// }
 	}
