@@ -22,7 +22,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/limiting-concurrency-in-go/</id>
     <content type="html">A discussion on controlled parallelism in golang</content>
-    <link href="http://jmoiron.net/blog/limiting-concurrency-in-go/"></link>
+    <link href="http://jmoiron.net/blog/limiting-concurrency-in-go/" rel="alternate"></link>
     <author>
       <name>Jason Moiron</name>
       <email>jmoiron@jmoiron.net</email>
@@ -33,20 +33,22 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/logicless-template-redux/</id>
     <content type="html">More thoughts on logicless templates</content>
-    <link href="http://jmoiron.net/blog/logicless-template-redux/"></link>
+    <link href="http://jmoiron.net/blog/logicless-template-redux/" rel="alternate"></link>
   </entry>
   <entry>
     <title>Idiomatic Code Reuse in Go</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/idiomatic-code-reuse-in-go/</id>
     <content type="html">How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</content>
-    <link href="http://jmoiron.net/blog/idiomatic-code-reuse-in-go/"></link>
+    <link href="http://jmoiron.net/blog/idiomatic-code-reuse-in-go/" rel="alternate"></link>
+    <link href="http://example.com/cover.jpg" rel="enclosure" type="image/jpg" length="123456"></link>
   </entry>
   <entry>
     <title>Never Gonna Give You Up Mp3</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:example.com,2013-01-16:/RickRoll.mp3</id>
     <content type="html">Never gonna give you up - Never gonna let you down.</content>
+    <link href="http://example.com/RickRoll.mp3" rel="alternate"></link>
     <link href="http://example.com/RickRoll.mp3" rel="enclosure" type="audio/mpeg" length="123456"></link>
   </entry>
   <entry>
@@ -54,7 +56,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:example.com,2013-01-16:/strings</id>
     <content type="html">How to use things like %s, %v, %d, etc.</content>
-    <link href="http://example.com/strings"></link>
+    <link href="http://example.com/strings" rel="alternate"></link>
   </entry>
 </feed>`
 
@@ -83,6 +85,7 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
       <title>Idiomatic Code Reuse in Go</title>
       <link>http://jmoiron.net/blog/idiomatic-code-reuse-in-go/</link>
       <description>How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</description>
+      <enclosure url="http://example.com/cover.jpg" length="123456" type="image/jpg"></enclosure>
       <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
     <item>
@@ -132,6 +135,7 @@ var jsonOutput = `{
       "url": "http://jmoiron.net/blog/idiomatic-code-reuse-in-go/",
       "title": "Idiomatic Code Reuse in Go",
       "summary": "How to use interfaces \u003cem\u003eeffectively\u003c/em\u003e",
+      "image": "http://example.com/cover.jpg",
       "date_published": "2013-01-16T21:52:35-05:00"
     },
     {
@@ -186,11 +190,13 @@ func TestFeed(t *testing.T) {
 			Title:       "Idiomatic Code Reuse in Go",
 			Link:        &Link{Href: "http://jmoiron.net/blog/idiomatic-code-reuse-in-go/"},
 			Description: "How to use interfaces <em>effectively</em>",
+			Enclosure:   &Enclosure{Url: "http://example.com/cover.jpg", Length: "123456", Type: "image/jpg"},
 			Created:     now,
 		},
 		{
 			Title:       "Never Gonna Give You Up Mp3",
-			Link:        &Link{Href: "http://example.com/RickRoll.mp3", Length: "123456", Type: "audio/mpeg"},
+			Link:        &Link{Href: "http://example.com/RickRoll.mp3"},
+			Enclosure:   &Enclosure{Url: "http://example.com/RickRoll.mp3", Length: "123456", Type: "audio/mpeg"},
 			Description: "Never gonna give you up - Never gonna let you down.",
 			Created:     now,
 		},
