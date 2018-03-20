@@ -92,12 +92,6 @@ func newAtomEntry(i *Item) *AtomEntry {
 	// assume the description is html
 	s := &AtomSummary{Content: i.Description, Type: "html"}
 
-	// if there's a content, assume it's html
-	var c *AtomContent
-	if len(i.Content) > 0 {
-		c = &AtomContent{Content: i.Content, Type: "html"}
-	}
-
 	if len(id) == 0 {
 		// if there's no id set, try to create one, either from data or just a uuid
 		if len(i.Link.Href) > 0 && (!i.Created.IsZero() || !i.Updated.IsZero()) {
@@ -123,10 +117,14 @@ func newAtomEntry(i *Item) *AtomEntry {
 	x := &AtomEntry{
 		Title:   i.Title,
 		Links:   []AtomLink{{Href: i.Link.Href, Rel: link_rel, Type: i.Link.Type}},
-		Content: c,
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
 		Summary: s,
+	}
+
+	// if there's a content, assume it's html
+	if len(i.Content) > 0 {
+		x.Content = &AtomContent{Content: i.Content, Type: "html"}
 	}
 
 	if i.Enclosure != nil && link_rel != "enclosure" {

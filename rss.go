@@ -92,19 +92,15 @@ type Rss struct {
 
 // create a new RssItem with a generic Item struct's data
 func newRssItem(i *Item) *RssItem {
-	// append an encoded content if one is provided
-	var c *RssContent
-	if len(i.Content) > 0 {
-		c = &RssContent{Content: i.Content}
-	}
-
 	item := &RssItem{
 		Title:       i.Title,
 		Link:        i.Link.Href,
 		Description: i.Description,
 		Guid:        i.Id,
 		PubDate:     anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
-		Content:     c,
+	}
+	if len(i.Content) > 0 {
+		item.Content = &RssContent{Content: i.Content}
 	}
 	if i.Source != nil {
 		item.Source = i.Source.Href
