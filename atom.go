@@ -90,7 +90,13 @@ type Atom struct {
 func newAtomEntry(i *Item) *AtomEntry {
 	id := i.Id
 	// assume the description is html
-	c := &AtomContent{Content: i.Description, Type: "html"}
+	s := &AtomSummary{Content: i.Description, Type: "html"}
+
+	// if there's a content, assume it's html
+	var c *AtomContent
+	if len(i.Content) > 0 {
+		c = &AtomContent{Content: i.Content, Type: "html"}
+	}
 
 	if len(id) == 0 {
 		// if there's no id set, try to create one, either from data or just a uuid
@@ -120,6 +126,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 		Content: c,
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
+		Summary: s,
 	}
 
 	if i.Enclosure != nil && link_rel != "enclosure" {

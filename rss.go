@@ -17,6 +17,11 @@ type rssFeedXml struct {
 	Channel *RssFeed
 }
 
+type RssContent struct {
+	XMLName xml.Name `xml:"content:encoded"`
+	Content string   `xml:",cdata"`
+}
+
 type RssImage struct {
 	XMLName xml.Name `xml:"image"`
 	Url     string   `xml:"url"`
@@ -70,6 +75,7 @@ type RssItem struct {
 	Guid        string `xml:"guid,omitempty"`    // Id used
 	PubDate     string `xml:"pubDate,omitempty"` // created or updated
 	Source      string `xml:"source,omitempty"`
+	Content     *RssContent
 }
 
 type RssEnclosure struct {
@@ -86,12 +92,19 @@ type Rss struct {
 
 // create a new RssItem with a generic Item struct's data
 func newRssItem(i *Item) *RssItem {
+	// append an encoded content if one is provided
+	var c *RssContent
+	if len(i.Content) > 0 {
+		c = &RssContent{Content: i.Content}
+	}
+
 	item := &RssItem{
 		Title:       i.Title,
 		Link:        i.Link.Href,
 		Description: i.Description,
 		Guid:        i.Id,
 		PubDate:     anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
+		Content:     c,
 	}
 	if i.Source != nil {
 		item.Source = i.Source.Href
