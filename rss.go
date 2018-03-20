@@ -12,9 +12,10 @@ import (
 
 // private wrapper around the RssFeed which gives us the <rss>..</rss> xml
 type rssFeedXml struct {
-	XMLName xml.Name `xml:"rss"`
-	Version string   `xml:"version,attr"`
-	Channel *RssFeed
+	XMLName          xml.Name `xml:"rss"`
+	Version          string   `xml:"version,attr"`
+	ContentNamespace string   `xml:"xmlns:content,attr"`
+	Channel          *RssFeed
 }
 
 type RssContent struct {
@@ -68,14 +69,14 @@ type RssItem struct {
 	Title       string   `xml:"title"`       // required
 	Link        string   `xml:"link"`        // required
 	Description string   `xml:"description"` // required
-	Author      string   `xml:"author,omitempty"`
-	Category    string   `xml:"category,omitempty"`
-	Comments    string   `xml:"comments,omitempty"`
+	Content     *RssContent
+	Author      string `xml:"author,omitempty"`
+	Category    string `xml:"category,omitempty"`
+	Comments    string `xml:"comments,omitempty"`
 	Enclosure   *RssEnclosure
 	Guid        string `xml:"guid,omitempty"`    // Id used
 	PubDate     string `xml:"pubDate,omitempty"` // created or updated
 	Source      string `xml:"source,omitempty"`
-	Content     *RssContent
 }
 
 type RssEnclosure struct {
@@ -159,5 +160,9 @@ func (r *Rss) FeedXml() interface{} {
 
 // return an XML-ready object for an RssFeed object
 func (r *RssFeed) FeedXml() interface{} {
-	return &rssFeedXml{Version: "2.0", Channel: r}
+	return &rssFeedXml{
+		Version:          "2.0",
+		Channel:          r,
+		ContentNamespace: "http://purl.org/rss/1.0/modules/content/",
+	}
 }
