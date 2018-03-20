@@ -34,6 +34,7 @@ type Item struct {
 	Updated     time.Time
 	Created     time.Time
 	Enclosure   *Enclosure
+	Content     string
 }
 
 type Feed struct {
