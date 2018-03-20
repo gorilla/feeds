@@ -21,8 +21,9 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <title>Limiting Concurrency in Go</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/limiting-concurrency-in-go/</id>
-    <content type="html">A discussion on controlled parallelism in golang</content>
+    <content type="html">&lt;p&gt;Go&#39;s goroutines make it easy to make &lt;a href=&#34;http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/&#34;&gt;embarrassingly parallel programs&lt;/a&gt;, but in many &amp;quot;real world&amp;quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.&lt;/p&gt;</content>
     <link href="http://jmoiron.net/blog/limiting-concurrency-in-go/" rel="alternate"></link>
+    <summary type="html">A discussion on controlled parallelism in golang</summary>
     <author>
       <name>Jason Moiron</name>
       <email>jmoiron@jmoiron.net</email>
@@ -32,31 +33,31 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <title>Logic-less Template Redux</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/logicless-template-redux/</id>
-    <content type="html">More thoughts on logicless templates</content>
     <link href="http://jmoiron.net/blog/logicless-template-redux/" rel="alternate"></link>
+    <summary type="html">More thoughts on logicless templates</summary>
   </entry>
   <entry>
     <title>Idiomatic Code Reuse in Go</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/idiomatic-code-reuse-in-go/</id>
-    <content type="html">How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</content>
     <link href="http://jmoiron.net/blog/idiomatic-code-reuse-in-go/" rel="alternate"></link>
     <link href="http://example.com/cover.jpg" rel="enclosure" type="image/jpg" length="123456"></link>
+    <summary type="html">How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</summary>
   </entry>
   <entry>
     <title>Never Gonna Give You Up Mp3</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:example.com,2013-01-16:/RickRoll.mp3</id>
-    <content type="html">Never gonna give you up - Never gonna let you down.</content>
     <link href="http://example.com/RickRoll.mp3" rel="alternate"></link>
     <link href="http://example.com/RickRoll.mp3" rel="enclosure" type="audio/mpeg" length="123456"></link>
+    <summary type="html">Never gonna give you up - Never gonna let you down.</summary>
   </entry>
   <entry>
     <title>String formatting in Go</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:example.com,2013-01-16:/strings</id>
-    <content type="html">How to use things like %s, %v, %d, etc.</content>
     <link href="http://example.com/strings" rel="alternate"></link>
+    <summary type="html">How to use things like %s, %v, %d, etc.</summary>
   </entry>
 </feed>`
 
@@ -74,6 +75,7 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
       <description>A discussion on controlled parallelism in golang</description>
       <author>Jason Moiron</author>
       <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
+      <content:encoded><![CDATA[<p>Go's goroutines make it easy to make <a href="http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/">embarrassingly parallel programs</a>, but in many &quot;real world&quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.</p>]]></content:encoded>
     </item>
     <item>
       <title>Logic-less Template Redux</title>
@@ -179,6 +181,7 @@ func TestFeed(t *testing.T) {
 			Description: "A discussion on controlled parallelism in golang",
 			Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
 			Created:     now,
+			Content:     `<p>Go's goroutines make it easy to make <a href="http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/">embarrassingly parallel programs</a>, but in many &quot;real world&quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.</p>`,
 		},
 		{
 			Title:       "Logic-less Template Redux",
