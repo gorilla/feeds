@@ -61,7 +61,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
   </entry>
 </feed>`
 
-var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
+var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>jmoiron.net blog</title>
     <link>http://jmoiron.net/blog</link>
@@ -73,9 +73,9 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
       <title>Limiting Concurrency in Go</title>
       <link>http://jmoiron.net/blog/limiting-concurrency-in-go/</link>
       <description>A discussion on controlled parallelism in golang</description>
+      <content:encoded><![CDATA[<p>Go's goroutines make it easy to make <a href="http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/">embarrassingly parallel programs</a>, but in many &quot;real world&quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.</p>]]></content:encoded>
       <author>Jason Moiron</author>
       <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
-      <content:encoded><![CDATA[<p>Go's goroutines make it easy to make <a href="http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/">embarrassingly parallel programs</a>, but in many &quot;real world&quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.</p>]]></content:encoded>
     </item>
     <item>
       <title>Logic-less Template Redux</title>
