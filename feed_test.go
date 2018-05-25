@@ -210,7 +210,7 @@ func TestFeed(t *testing.T) {
 			Created:     now,
 		}}
 
-	atom, err := feed.ToAtom()
+	atom, err := feed.ToAtom(false)
 	if err != nil {
 		t.Errorf("unexpected error encoding Atom: %v", err)
 	}
@@ -218,7 +218,7 @@ func TestFeed(t *testing.T) {
 		t.Errorf("Atom not what was expected.  Got:\n%s\n\nExpected:\n%s\n", atom, atomOutput)
 	}
 	var buf bytes.Buffer
-	if err := feed.WriteAtom(&buf); err != nil {
+	if err := feed.WriteAtom(&buf, false); err != nil {
 		t.Errorf("unexpected error writing Atom: %v", err)
 	}
 	if got := buf.String(); got != atomOutput {
