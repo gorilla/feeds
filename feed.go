@@ -98,14 +98,14 @@ func WriteXML(feed XmlFeed, w io.Writer) error {
 }
 
 // creates an Atom representation of this feed
-func (f *Feed) ToAtom() (string, error) {
-	a := &Atom{f}
+func (f *Feed) ToAtom(precisionMs bool) (string, error) {
+	a := &Atom{f, precisionMs}
 	return ToXML(a)
 }
 
 // Writes an Atom representation of this feed to the writer.
-func (f *Feed) WriteAtom(w io.Writer) error {
-	return WriteXML(&Atom{f}, w)
+func (f *Feed) WriteAtom(w io.Writer, precisionMs bool) error {
+	return WriteXML(&Atom{f, precisionMs}, w)
 }
 
 // creates an Rss representation of this feed
