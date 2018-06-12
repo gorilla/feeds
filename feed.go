@@ -4,8 +4,12 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"io"
+	"strings"
 	"time"
 )
+
+// default indentation level for feeds
+const defaultIndent = 2
 
 type Link struct {
 	Href, Rel, Type, Length string
@@ -37,6 +41,21 @@ type Item struct {
 	Content     string
 }
 
+// SerializeOpts represents serialization options for a feed.
+type SerializeOpts struct {
+	Indent int // how many spaces to indent
+}
+
+// get the indentation string for this option set
+func (s SerializeOpts) indentString() string {
+	return strings.Repeat(" ", s.Indent)
+}
+
+// DefaultOptions are the default serialization options for the module. This
+// object can be mutated to update the default options for the module.
+var DefaultOptions = &SerializeOpts{Indent: defaultIndent}
+
+// Feed represents a generic XML feed.
 type Feed struct {
 	Title       string
 	Link        *Link
@@ -49,6 +68,7 @@ type Feed struct {
 	Items       []*Item
 	Copyright   string
 	Image       *Image
+	Options     *SerializeOpts
 }
 
 // add a new Item to a Feed
@@ -71,11 +91,10 @@ type XmlFeed interface {
 	FeedXml() interface{}
 }
 
-// turn a feed object (either a Feed, AtomFeed, or RssFeed) into xml
-// returns an error if xml marshaling fails
-func ToXML(feed XmlFeed) (string, error) {
+// like ToXML, but with options
+func toXMLWithOptions(feed XmlFeed, opts *SerializeOpts) (string, error) {
 	x := feed.FeedXml()
-	data, err := xml.MarshalIndent(x, "", "  ")
+	data, err := xml.MarshalIndent(x, "", opts.indentString())
 	if err != nil {
 		return "", err
 	}
@@ -84,39 +103,58 @@ func ToXML(feed XmlFeed) (string, error) {
 	return s, nil
 }
 
-// Write a feed object (either a Feed, AtomFeed, or RssFeed) as XML into
-// the writer. Returns an error if XML marshaling fails.
-func WriteXML(feed XmlFeed, w io.Writer) error {
+// ToXML turns a feed object (either a Feed, AtomFeed, or RssFeed)
+// into XML, and returns an error if XML marshaling fails.
+func ToXML(feed XmlFeed) (string, error) {
+	return toXMLWithOptions(feed, DefaultOptions)
+}
+
+// like WriteXML, but with options
+func writeXMLWithOptions(feed XmlFeed, w io.Writer, opts *SerializeOpts) error {
 	x := feed.FeedXml()
 	// write default xml header, without the newline
 	if _, err := w.Write([]byte(xml.Header[:len(xml.Header)-1])); err != nil {
 		return err
 	}
 	e := xml.NewEncoder(w)
-	e.Indent("", "  ")
+	e.Indent("", opts.indentString())
 	return e.Encode(x)
+}
+
+// WriteXML writes a feed object (either a Feed, AtomFeed, or RssFeed) as XML
+// into the writer. Returns an error if XML marshaling fails.
+func WriteXML(feed XmlFeed, w io.Writer) error {
+	return writeXMLWithOptions(feed, w, DefaultOptions)
+}
+
+// return Options, or DefaultOptions if Options is unset
+func (f *Feed) options() *SerializeOpts {
+	if f.Options == nil {
+		return DefaultOptions
+	}
+	return f.Options
 }
 
 // creates an Atom representation of this feed
 func (f *Feed) ToAtom() (string, error) {
 	a := &Atom{f}
-	return ToXML(a)
+	return toXMLWithOptions(a, f.options())
 }
 
 // Writes an Atom representation of this feed to the writer.
 func (f *Feed) WriteAtom(w io.Writer) error {
-	return WriteXML(&Atom{f}, w)
+	return writeXMLWithOptions(&Atom{f}, w, f.options())
 }
 
 // creates an Rss representation of this feed
 func (f *Feed) ToRss() (string, error) {
 	r := &Rss{f}
-	return ToXML(r)
+	return toXMLWithOptions(r, f.options())
 }
 
 // Writes an RSS representation of this feed to the writer.
 func (f *Feed) WriteRss(w io.Writer) error {
-	return WriteXML(&Rss{f}, w)
+	return writeXMLWithOptions(&Rss{f}, w, f.options())
 }
 
 // ToJSON creates a JSON Feed representation of this feed
@@ -131,6 +169,6 @@ func (f *Feed) WriteJSON(w io.Writer) error {
 	feed := j.JSONFeed()
 
 	e := json.NewEncoder(w)
-	e.SetIndent("", "  ")
+	e.SetIndent("", f.options().indentString())
 	return e.Encode(feed)
 }
