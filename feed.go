@@ -35,9 +35,11 @@ type Item struct {
 	Created     time.Time
 	Enclosure   *Enclosure
 	Content     string
+	Extension   []interface{}
 }
 
 type Feed struct {
+	Attrs       []xml.Attr
 	Title       string
 	Link        *Link
 	Description string
@@ -54,6 +56,57 @@ type Feed struct {
 // add a new Item to a Feed
 func (f *Feed) Add(item *Item) {
 	f.Items = append(f.Items, item)
+}
+
+func (f *Feed) AddAttribute(name, nsURI string) {
+	f.Attrs = append(f.Attrs, xml.Attr{
+		Name:  xml.Name{Local: name},
+		Value: nsURI,
+	})
+}
+
+func (i *Item) AddExtension(extend interface{}) {
+	i.Extension = append(i.Extension, extend)
+}
+
+func (i *Item) AddExtensionString(name string, nsURI string, value string) {
+	i.Extension = append(i.Extension, struct {
+		XMLName xml.Name
+		Text    string `xml:",chardata"`
+	}{
+		XMLName: xml.Name{Local: name, Space: nsURI},
+		Text:    value,
+	})
+}
+
+func (i *Item) AddExtensionInt(name string, nsURI string, value int) {
+	i.Extension = append(i.Extension, struct {
+		XMLName xml.Name
+		Number  int `xml:",chardata"`
+	}{
+		XMLName: xml.Name{Local: name, Space: nsURI},
+		Number:  value,
+	})
+}
+
+func (i *Item) AddExtensionUint(name string, nsURI string, value uint) {
+	i.Extension = append(i.Extension, struct {
+		XMLName xml.Name
+		Number  uint `xml:",chardata"`
+	}{
+		XMLName: xml.Name{Local: name, Space: nsURI},
+		Number:  value,
+	})
+}
+
+func (i *Item) AddExtensionFloat64(name string, nsURI string, value float64) {
+	i.Extension = append(i.Extension, struct {
+		XMLName xml.Name
+		Number  float64 `xml:",chardata"`
+	}{
+		XMLName: xml.Name{Local: name, Space: nsURI},
+		Number:  value,
+	})
 }
 
 // returns the first non-zero time formatted as a string or ""

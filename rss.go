@@ -41,24 +41,25 @@ type RssTextInput struct {
 }
 
 type RssFeed struct {
-	XMLName        xml.Name `xml:"channel"`
-	Title          string   `xml:"title"`       // required
-	Link           string   `xml:"link"`        // required
-	Description    string   `xml:"description"` // required
-	Language       string   `xml:"language,omitempty"`
-	Copyright      string   `xml:"copyright,omitempty"`
-	ManagingEditor string   `xml:"managingEditor,omitempty"` // Author used
-	WebMaster      string   `xml:"webMaster,omitempty"`
-	PubDate        string   `xml:"pubDate,omitempty"`       // created or updated
-	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
-	Category       string   `xml:"category,omitempty"`
-	Generator      string   `xml:"generator,omitempty"`
-	Docs           string   `xml:"docs,omitempty"`
-	Cloud          string   `xml:"cloud,omitempty"`
-	Ttl            int      `xml:"ttl,omitempty"`
-	Rating         string   `xml:"rating,omitempty"`
-	SkipHours      string   `xml:"skipHours,omitempty"`
-	SkipDays       string   `xml:"skipDays,omitempty"`
+	XMLName        xml.Name   `xml:"channel"`
+	Attrs          []xml.Attr `xml:",attr"`
+	Title          string     `xml:"title"`       // required
+	Link           string     `xml:"link"`        // required
+	Description    string     `xml:"description"` // required
+	Language       string     `xml:"language,omitempty"`
+	Copyright      string     `xml:"copyright,omitempty"`
+	ManagingEditor string     `xml:"managingEditor,omitempty"` // Author used
+	WebMaster      string     `xml:"webMaster,omitempty"`
+	PubDate        string     `xml:"pubDate,omitempty"`       // created or updated
+	LastBuildDate  string     `xml:"lastBuildDate,omitempty"` // updated used
+	Category       string     `xml:"category,omitempty"`
+	Generator      string     `xml:"generator,omitempty"`
+	Docs           string     `xml:"docs,omitempty"`
+	Cloud          string     `xml:"cloud,omitempty"`
+	Ttl            int        `xml:"ttl,omitempty"`
+	Rating         string     `xml:"rating,omitempty"`
+	SkipHours      string     `xml:"skipHours,omitempty"`
+	SkipDays       string     `xml:"skipDays,omitempty"`
 	Image          *RssImage
 	TextInput      *RssTextInput
 	Items          []*RssItem
@@ -77,6 +78,7 @@ type RssItem struct {
 	Guid        string `xml:"guid,omitempty"`    // Id used
 	PubDate     string `xml:"pubDate,omitempty"` // created or updated
 	Source      string `xml:"source,omitempty"`
+	Extensions  interface{}
 }
 
 type RssEnclosure struct {
@@ -99,6 +101,7 @@ func newRssItem(i *Item) *RssItem {
 		Description: i.Description,
 		Guid:        i.Id,
 		PubDate:     anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
+		Extensions:  i.Extension,
 	}
 	if len(i.Content) > 0 {
 		item.Content = &RssContent{Content: i.Content}
@@ -136,6 +139,7 @@ func (r *Rss) RssFeed() *RssFeed {
 	}
 
 	channel := &RssFeed{
+		Attrs:          r.Attrs,
 		Title:          r.Title,
 		Link:           r.Link.Href,
 		Description:    r.Description,
