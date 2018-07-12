@@ -85,16 +85,16 @@ type AtomFeed struct {
 
 type Atom struct {
 	*Feed
-	precisionMs bool
+	opts *FeedOptions
 }
 
-func newAtomEntry(i *Item, precisionMs bool) *AtomEntry {
+func newAtomEntry(i *Item, opts *FeedOptions) *AtomEntry {
 	id := i.Id
 	// assume the description is html
 	s := &AtomSummary{Content: i.Description, Type: "html"}
 	var timeFormat = time.RFC3339
-	if precisionMs {
-		timeFormat = "2006-01-02T15:04:05.000Z07:00"
+	if opts != nil && opts.TimeFormat != "" {
+		timeFormat = opts.TimeFormat
 	}
 
 	if len(id) == 0 {
@@ -158,7 +158,7 @@ func (a *Atom) AtomFeed() *AtomFeed {
 		feed.Author = &AtomAuthor{AtomPerson: AtomPerson{Name: a.Author.Name, Email: a.Author.Email}}
 	}
 	for _, e := range a.Items {
-		feed.Entries = append(feed.Entries, newAtomEntry(e, a.precisionMs))
+		feed.Entries = append(feed.Entries, newAtomEntry(e, a.opts))
 	}
 	return feed
 }

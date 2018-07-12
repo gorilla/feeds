@@ -7,6 +7,10 @@ import (
 	"time"
 )
 
+type FeedOptions struct {
+	TimeFormat string
+}
+
 type Link struct {
 	Href, Rel, Type, Length string
 }
@@ -98,14 +102,14 @@ func WriteXML(feed XmlFeed, w io.Writer) error {
 }
 
 // creates an Atom representation of this feed
-func (f *Feed) ToAtom(precisionMs bool) (string, error) {
-	a := &Atom{f, precisionMs}
+func (f *Feed) ToAtom(opts *FeedOptions) (string, error) {
+	a := &Atom{f, opts}
 	return ToXML(a)
 }
 
 // Writes an Atom representation of this feed to the writer.
-func (f *Feed) WriteAtom(w io.Writer, precisionMs bool) error {
-	return WriteXML(&Atom{f, precisionMs}, w)
+func (f *Feed) WriteAtom(w io.Writer, opts *FeedOptions) error {
+	return WriteXML(&Atom{f, opts}, w)
 }
 
 // creates an Rss representation of this feed
