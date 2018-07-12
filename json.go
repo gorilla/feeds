@@ -154,6 +154,8 @@ func newJSONItem(i *Item) *JSONItem {
 		Id:      i.Id,
 		Title:   i.Title,
 		Summary: i.Description,
+
+		ContentHTML: i.Content,
 	}
 
 	if i.Link != nil {
