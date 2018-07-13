@@ -119,6 +119,7 @@ var jsonOutput = `{
       "id": "",
       "url": "http://jmoiron.net/blog/limiting-concurrency-in-go/",
       "title": "Limiting Concurrency in Go",
+      "content_html": "\u003cp\u003eGo's goroutines make it easy to make \u003ca href=\"http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/\"\u003eembarrassingly parallel programs\u003c/a\u003e, but in many \u0026quot;real world\u0026quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.\u003c/p\u003e",
       "summary": "A discussion on controlled parallelism in golang",
       "date_published": "2013-01-16T21:52:35-05:00",
       "author": {
