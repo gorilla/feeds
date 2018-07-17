@@ -19,7 +19,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
   </author>
   <entry>
     <title>Limiting Concurrency in Go</title>
-    <updated>2013-01-16T21:52:35-05:00</updated>
+    <updated>2013-01-16T21:52:35.000-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/limiting-concurrency-in-go/</id>
     <content type="html">&lt;p&gt;Go&#39;s goroutines make it easy to make &lt;a href=&#34;http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/&#34;&gt;embarrassingly parallel programs&lt;/a&gt;, but in many &amp;quot;real world&amp;quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.&lt;/p&gt;</content>
     <link href="http://jmoiron.net/blog/limiting-concurrency-in-go/" rel="alternate"></link>
@@ -31,14 +31,14 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
   </entry>
   <entry>
     <title>Logic-less Template Redux</title>
-    <updated>2013-01-16T21:52:35-05:00</updated>
+    <updated>2013-01-16T21:52:35.000-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/logicless-template-redux/</id>
     <link href="http://jmoiron.net/blog/logicless-template-redux/" rel="alternate"></link>
     <summary type="html">More thoughts on logicless templates</summary>
   </entry>
   <entry>
     <title>Idiomatic Code Reuse in Go</title>
-    <updated>2013-01-16T21:52:35-05:00</updated>
+    <updated>2013-01-16T21:52:35.000-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/idiomatic-code-reuse-in-go/</id>
     <link href="http://jmoiron.net/blog/idiomatic-code-reuse-in-go/" rel="alternate"></link>
     <link href="http://example.com/cover.jpg" rel="enclosure" type="image/jpg" length="123456"></link>
@@ -46,7 +46,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
   </entry>
   <entry>
     <title>Never Gonna Give You Up Mp3</title>
-    <updated>2013-01-16T21:52:35-05:00</updated>
+    <updated>2013-01-16T21:52:35.000-05:00</updated>
     <id>tag:example.com,2013-01-16:/RickRoll.mp3</id>
     <link href="http://example.com/RickRoll.mp3" rel="alternate"></link>
     <link href="http://example.com/RickRoll.mp3" rel="enclosure" type="audio/mpeg" length="123456"></link>
@@ -54,7 +54,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
   </entry>
   <entry>
     <title>String formatting in Go</title>
-    <updated>2013-01-16T21:52:35-05:00</updated>
+    <updated>2013-01-16T21:52:35.000-05:00</updated>
     <id>tag:example.com,2013-01-16:/strings</id>
     <link href="http://example.com/strings" rel="alternate"></link>
     <summary type="html">How to use things like %s, %v, %d, etc.</summary>
@@ -210,7 +210,9 @@ func TestFeed(t *testing.T) {
 			Created:     now,
 		}}
 
-	atom, err := feed.ToAtom(nil)
+	atom, err := feed.ToAtom(&FeedOptions{
+		TimeFormat: "2006-01-02T15:04:05.000Z07:00",
+	})
 	if err != nil {
 		t.Errorf("unexpected error encoding Atom: %v", err)
 	}
@@ -218,7 +220,9 @@ func TestFeed(t *testing.T) {
 		t.Errorf("Atom not what was expected.  Got:\n%s\n\nExpected:\n%s\n", atom, atomOutput)
 	}
 	var buf bytes.Buffer
-	if err := feed.WriteAtom(&buf, nil); err != nil {
+	if err := feed.WriteAtom(&buf, &FeedOptions{
+		TimeFormat: "2006-01-02T15:04:05.000Z07:00",
+	}); err != nil {
 		t.Errorf("unexpected error writing Atom: %v", err)
 	}
 	if got := buf.String(); got != atomOutput {
