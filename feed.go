@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"io"
+	"sort"
 	"time"
 )
 
@@ -36,6 +37,12 @@ type Item struct {
 	Enclosure   *Enclosure
 	Content     string
 }
+
+type byCreatedDate []*Item
+
+func (a byCreatedDate) Len() int           { return len(a) }
+func (a byCreatedDate) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a byCreatedDate) Less(i, j int) bool { return a[i].Created.After(a[j].Created) }
 
 type Feed struct {
 	Title       string
@@ -133,4 +140,9 @@ func (f *Feed) WriteJSON(w io.Writer) error {
 	e := json.NewEncoder(w)
 	e.SetIndent("", "  ")
 	return e.Encode(feed)
+}
+
+// Sort items in a feed by creation date in descending order
+func (f *Feed) SortItems() {
+	sort.Sort(byCreatedDate(f.Items))
 }
