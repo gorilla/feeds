@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"io"
+	"sort"
 	"time"
 )
 
@@ -133,4 +134,12 @@ func (f *Feed) WriteJSON(w io.Writer) error {
 	e := json.NewEncoder(w)
 	e.SetIndent("", "  ")
 	return e.Encode(feed)
+}
+
+// Sort sorts the Items in the feed with the given less function.
+func (f *Feed) Sort(less func(a, b *Item) bool) {
+	lessFunc := func(i, j int) bool {
+		return less(f.Items[i], f.Items[j])
+	}
+	sort.SliceStable(f.Items, lessFunc)
 }
