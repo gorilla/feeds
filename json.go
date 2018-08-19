@@ -173,7 +173,7 @@ func newJSONItem(i *Item) *JSONItem {
 		item.PublishedDate = &i.Created
 	}
 	if !i.Updated.IsZero() {
-		item.ModifiedDate = &i.Created
+		item.ModifiedDate = &i.Updated
 	}
 	if i.Enclosure != nil && strings.HasPrefix(i.Enclosure.Type, "image/") {
 		item.Image = i.Enclosure.Url
