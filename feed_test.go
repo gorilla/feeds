@@ -10,6 +10,8 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
   <title>jmoiron.net blog</title>
   <id>http://jmoiron.net/blog</id>
   <updated>2013-01-16T21:52:35-05:00</updated>
+  <category>Blog</category>
+  <category>Tech</category>
   <rights>This work is copyright © Benjamin Button</rights>
   <subtitle>discussion about tech, footie, photos</subtitle>
   <link href="http://jmoiron.net/blog"></link>
@@ -72,6 +74,8 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:
     <copyright>This work is copyright © Benjamin Button</copyright>
     <managingEditor>jmoiron@jmoiron.net (Jason Moiron)</managingEditor>
     <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
+    <category>Blog</category>
+    <category>Tech</category>
     <item>
       <title>Limiting Concurrency in Go</title>
       <link>http://jmoiron.net/blog/limiting-concurrency-in-go/</link>
@@ -179,6 +183,7 @@ func TestFeed(t *testing.T) {
 		Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
 		Created:     now,
 		Copyright:   "This work is copyright © Benjamin Button",
+		Categories:  []string{"Blog", "Tech"},
 	}
 
 	feed.Items = []*Item{

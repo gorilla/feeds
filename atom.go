@@ -74,7 +74,7 @@ type AtomFeed struct {
 	Title       string   `xml:"title"`   // required
 	Id          string   `xml:"id"`      // required
 	Updated     string   `xml:"updated"` // required
-	Category    string   `xml:"category,omitempty"`
+	Categories  AtomCategories `xml:"category"`
 	Icon        string   `xml:"icon,omitempty"`
 	Logo        string   `xml:"logo,omitempty"`
 	Rights      string   `xml:"rights,omitempty"` // copyright used
@@ -148,7 +148,7 @@ func (a *Atom) AtomFeed() *AtomFeed {
 		Title:    a.Title,
 		Link:     &AtomLink{Href: a.Link.Href, Rel: a.Link.Rel},
 		Subtitle: a.Description,
-		Category: a.Category,
+		Categories: a.Categories,
 		Id:       a.Link.Href,
 		Updated:  updated,
 		Rights:   a.Copyright,

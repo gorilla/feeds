@@ -53,7 +53,6 @@ type RssFeed struct {
 	WebMaster      string   `xml:"webMaster,omitempty"`
 	PubDate        string   `xml:"pubDate,omitempty"`       // created or updated
 	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
-	Category       string   `xml:"category,omitempty"`
 	Generator      string   `xml:"generator,omitempty"`
 	Docs           string   `xml:"docs,omitempty"`
 	Cloud          string   `xml:"cloud,omitempty"`
@@ -61,6 +60,7 @@ type RssFeed struct {
 	Rating         string   `xml:"rating,omitempty"`
 	SkipHours      string   `xml:"skipHours,omitempty"`
 	SkipDays       string   `xml:"skipDays,omitempty"`
+	Categories     RssCategories `xml:"category"`
 	Image          *RssImage
 	TextInput      *RssTextInput
 	Items          []*RssItem
@@ -145,7 +145,7 @@ func (r *Rss) RssFeed() *RssFeed {
 		ManagingEditor: author,
 		PubDate:        pub,
 		LastBuildDate:  build,
-		Category:       r.Category,
+		Categories:     r.Categories,
 		Copyright:      r.Copyright,
 		Image:          image,
 	}
