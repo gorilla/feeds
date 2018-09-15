@@ -188,7 +188,7 @@ func TestFeed(t *testing.T) {
 			Description: "A discussion on controlled parallelism in golang",
 			Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
 			Created:     now,
-			Categories: []string{"Programming"},
+			Categories:  []string{"Programming"},
 			Content:     `<p>Go's goroutines make it easy to make <a href="http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/">embarrassingly parallel programs</a>, but in many &quot;real world&quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.</p>`,
 		},
 		{

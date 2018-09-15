@@ -72,9 +72,9 @@ type RssItem struct {
 	Link        string   `xml:"link"`        // required
 	Description string   `xml:"description"` // required
 	Content     *RssContent
-	Author      string `xml:"author,omitempty"`
+	Author      string        `xml:"author,omitempty"`
 	Categories  RssCategories `xml:"category"`
-	Comments    string `xml:"comments,omitempty"`
+	Comments    string        `xml:"comments,omitempty"`
 	Enclosure   *RssEnclosure
 	Guid        string `xml:"guid,omitempty"`    // Id used
 	PubDate     string `xml:"pubDate,omitempty"` // created or updated

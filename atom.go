@@ -42,11 +42,11 @@ type AtomContributor struct {
 type AtomCategories []string
 
 type AtomEntry struct {
-	XMLName     xml.Name `xml:"entry"`
-	Xmlns       string   `xml:"xmlns,attr,omitempty"`
-	Title       string   `xml:"title"`   // required
-	Updated     string   `xml:"updated"` // required
-	Id          string   `xml:"id"`      // required
+	XMLName     xml.Name       `xml:"entry"`
+	Xmlns       string         `xml:"xmlns,attr,omitempty"`
+	Title       string         `xml:"title"`   // required
+	Updated     string         `xml:"updated"` // required
+	Id          string         `xml:"id"`      // required
 	Categories  AtomCategories `xml:"category"`
 	Content     *AtomContent
 	Rights      string `xml:"rights,omitempty"`
