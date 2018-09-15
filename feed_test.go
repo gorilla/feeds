@@ -21,6 +21,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <title>Limiting Concurrency in Go</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/limiting-concurrency-in-go/</id>
+    <category>Programming</category>
     <content type="html">&lt;p&gt;Go&#39;s goroutines make it easy to make &lt;a href=&#34;http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/&#34;&gt;embarrassingly parallel programs&lt;/a&gt;, but in many &amp;quot;real world&amp;quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.&lt;/p&gt;</content>
     <link href="http://jmoiron.net/blog/limiting-concurrency-in-go/" rel="alternate"></link>
     <summary type="html">A discussion on controlled parallelism in golang</summary>
@@ -33,6 +34,8 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <title>Logic-less Template Redux</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/logicless-template-redux/</id>
+    <category>Programming</category>
+    <category>React</category>
     <link href="http://jmoiron.net/blog/logicless-template-redux/" rel="alternate"></link>
     <summary type="html">More thoughts on logicless templates</summary>
   </entry>
@@ -75,12 +78,15 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:
       <description>A discussion on controlled parallelism in golang</description>
       <content:encoded><![CDATA[<p>Go's goroutines make it easy to make <a href="http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/">embarrassingly parallel programs</a>, but in many &quot;real world&quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.</p>]]></content:encoded>
       <author>Jason Moiron</author>
+      <category>Programming</category>
       <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
     <item>
       <title>Logic-less Template Redux</title>
       <link>http://jmoiron.net/blog/logicless-template-redux/</link>
       <description>More thoughts on logicless templates</description>
+      <category>Programming</category>
+      <category>React</category>
       <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
     <item>
@@ -182,12 +188,14 @@ func TestFeed(t *testing.T) {
 			Description: "A discussion on controlled parallelism in golang",
 			Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
 			Created:     now,
+			Categories: []string{"Programming"},
 			Content:     `<p>Go's goroutines make it easy to make <a href="http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/">embarrassingly parallel programs</a>, but in many &quot;real world&quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.</p>`,
 		},
 		{
 			Title:       "Logic-less Template Redux",
 			Link:        &Link{Href: "http://jmoiron.net/blog/logicless-template-redux/"},
 			Description: "More thoughts on logicless templates",
+			Categories:  []string{"Programming", "React"},
 			Created:     now,
 		},
 		{

@@ -40,6 +40,8 @@ type RssTextInput struct {
 	Link        string   `xml:"link"`
 }
 
+type RssCategories []string
+
 type RssFeed struct {
 	XMLName        xml.Name `xml:"channel"`
 	Title          string   `xml:"title"`       // required
@@ -71,7 +73,7 @@ type RssItem struct {
 	Description string   `xml:"description"` // required
 	Content     *RssContent
 	Author      string `xml:"author,omitempty"`
-	Category    string `xml:"category,omitempty"`
+	Categories  RssCategories `xml:"category"`
 	Comments    string `xml:"comments,omitempty"`
 	Enclosure   *RssEnclosure
 	Guid        string `xml:"guid,omitempty"`    // Id used
@@ -99,6 +101,7 @@ func newRssItem(i *Item) *RssItem {
 		Description: i.Description,
 		Guid:        i.Id,
 		PubDate:     anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
+		Categories:  i.Categories,
 	}
 	if len(i.Content) > 0 {
 		item.Content = &RssContent{Content: i.Content}
@@ -142,6 +145,7 @@ func (r *Rss) RssFeed() *RssFeed {
 		ManagingEditor: author,
 		PubDate:        pub,
 		LastBuildDate:  build,
+		Category:       r.Category,
 		Copyright:      r.Copyright,
 		Image:          image,
 	}

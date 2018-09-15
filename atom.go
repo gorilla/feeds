@@ -39,13 +39,15 @@ type AtomContributor struct {
 	AtomPerson
 }
 
+type AtomCategories []string
+
 type AtomEntry struct {
 	XMLName     xml.Name `xml:"entry"`
 	Xmlns       string   `xml:"xmlns,attr,omitempty"`
 	Title       string   `xml:"title"`   // required
 	Updated     string   `xml:"updated"` // required
 	Id          string   `xml:"id"`      // required
-	Category    string   `xml:"category,omitempty"`
+	Categories  AtomCategories `xml:"category"`
 	Content     *AtomContent
 	Rights      string `xml:"rights,omitempty"`
 	Source      string `xml:"source,omitempty"`
@@ -115,11 +117,12 @@ func newAtomEntry(i *Item) *AtomEntry {
 		link_rel = "alternate"
 	}
 	x := &AtomEntry{
-		Title:   i.Title,
-		Links:   []AtomLink{{Href: i.Link.Href, Rel: link_rel, Type: i.Link.Type}},
-		Id:      id,
-		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
-		Summary: s,
+		Title:      i.Title,
+		Links:      []AtomLink{{Href: i.Link.Href, Rel: link_rel, Type: i.Link.Type}},
+		Id:         id,
+		Categories: i.Categories,
+		Updated:    anyTimeFormat(time.RFC3339, i.Updated, i.Created),
+		Summary:    s,
 	}
 
 	// if there's a content, assume it's html
@@ -145,6 +148,7 @@ func (a *Atom) AtomFeed() *AtomFeed {
 		Title:    a.Title,
 		Link:     &AtomLink{Href: a.Link.Href, Rel: a.Link.Rel},
 		Subtitle: a.Description,
+		Category: a.Category,
 		Id:       a.Link.Href,
 		Updated:  updated,
 		Rights:   a.Copyright,

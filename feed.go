@@ -36,6 +36,7 @@ type Item struct {
 	Created     time.Time
 	Enclosure   *Enclosure
 	Content     string
+	Categories  []string
 }
 
 type Feed struct {
@@ -43,6 +44,7 @@ type Feed struct {
 	Link        *Link
 	Description string
 	Author      *Author
+	Category    string
 	Updated     time.Time
 	Created     time.Time
 	Id          string
