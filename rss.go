@@ -43,23 +43,23 @@ type RssTextInput struct {
 type RssCategories []string
 
 type RssFeed struct {
-	XMLName        xml.Name `xml:"channel"`
-	Title          string   `xml:"title"`       // required
-	Link           string   `xml:"link"`        // required
-	Description    string   `xml:"description"` // required
-	Language       string   `xml:"language,omitempty"`
-	Copyright      string   `xml:"copyright,omitempty"`
-	ManagingEditor string   `xml:"managingEditor,omitempty"` // Author used
-	WebMaster      string   `xml:"webMaster,omitempty"`
-	PubDate        string   `xml:"pubDate,omitempty"`       // created or updated
-	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
-	Generator      string   `xml:"generator,omitempty"`
-	Docs           string   `xml:"docs,omitempty"`
-	Cloud          string   `xml:"cloud,omitempty"`
-	Ttl            int      `xml:"ttl,omitempty"`
-	Rating         string   `xml:"rating,omitempty"`
-	SkipHours      string   `xml:"skipHours,omitempty"`
-	SkipDays       string   `xml:"skipDays,omitempty"`
+	XMLName        xml.Name      `xml:"channel"`
+	Title          string        `xml:"title"`       // required
+	Link           string        `xml:"link"`        // required
+	Description    string        `xml:"description"` // required
+	Language       string        `xml:"language,omitempty"`
+	Copyright      string        `xml:"copyright,omitempty"`
+	ManagingEditor string        `xml:"managingEditor,omitempty"` // Author used
+	WebMaster      string        `xml:"webMaster,omitempty"`
+	PubDate        string        `xml:"pubDate,omitempty"`       // created or updated
+	LastBuildDate  string        `xml:"lastBuildDate,omitempty"` // updated used
+	Generator      string        `xml:"generator,omitempty"`
+	Docs           string        `xml:"docs,omitempty"`
+	Cloud          string        `xml:"cloud,omitempty"`
+	Ttl            int           `xml:"ttl,omitempty"`
+	Rating         string        `xml:"rating,omitempty"`
+	SkipHours      string        `xml:"skipHours,omitempty"`
+	SkipDays       string        `xml:"skipDays,omitempty"`
 	Categories     RssCategories `xml:"category"`
 	Image          *RssImage
 	TextInput      *RssTextInput

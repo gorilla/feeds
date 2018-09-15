@@ -69,16 +69,16 @@ type AtomLink struct {
 }
 
 type AtomFeed struct {
-	XMLName     xml.Name `xml:"feed"`
-	Xmlns       string   `xml:"xmlns,attr"`
-	Title       string   `xml:"title"`   // required
-	Id          string   `xml:"id"`      // required
-	Updated     string   `xml:"updated"` // required
+	XMLName     xml.Name       `xml:"feed"`
+	Xmlns       string         `xml:"xmlns,attr"`
+	Title       string         `xml:"title"`   // required
+	Id          string         `xml:"id"`      // required
+	Updated     string         `xml:"updated"` // required
 	Categories  AtomCategories `xml:"category"`
-	Icon        string   `xml:"icon,omitempty"`
-	Logo        string   `xml:"logo,omitempty"`
-	Rights      string   `xml:"rights,omitempty"` // copyright used
-	Subtitle    string   `xml:"subtitle,omitempty"`
+	Icon        string         `xml:"icon,omitempty"`
+	Logo        string         `xml:"logo,omitempty"`
+	Rights      string         `xml:"rights,omitempty"` // copyright used
+	Subtitle    string         `xml:"subtitle,omitempty"`
 	Link        *AtomLink
 	Author      *AtomAuthor `xml:"author,omitempty"`
 	Contributor *AtomContributor
@@ -144,14 +144,14 @@ func newAtomEntry(i *Item) *AtomEntry {
 func (a *Atom) AtomFeed() *AtomFeed {
 	updated := anyTimeFormat(time.RFC3339, a.Updated, a.Created)
 	feed := &AtomFeed{
-		Xmlns:    ns,
-		Title:    a.Title,
-		Link:     &AtomLink{Href: a.Link.Href, Rel: a.Link.Rel},
-		Subtitle: a.Description,
+		Xmlns:      ns,
+		Title:      a.Title,
+		Link:       &AtomLink{Href: a.Link.Href, Rel: a.Link.Rel},
+		Subtitle:   a.Description,
 		Categories: a.Categories,
-		Id:       a.Link.Href,
-		Updated:  updated,
-		Rights:   a.Copyright,
+		Id:         a.Link.Href,
+		Updated:    updated,
+		Rights:     a.Copyright,
 	}
 	if a.Author != nil {
 		feed.Author = &AtomAuthor{AtomPerson: AtomPerson{Name: a.Author.Name, Email: a.Author.Email}}
