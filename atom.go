@@ -80,7 +80,7 @@ type AtomFeed struct {
 	Link        *AtomLink
 	Author      *AtomAuthor `xml:"author,omitempty"`
 	Contributor *AtomContributor
-	Entries     []*AtomEntry
+	Entries     []*AtomEntry `xml:"entry"`
 }
 
 type Atom struct {

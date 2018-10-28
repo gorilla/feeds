@@ -11,7 +11,7 @@ import (
 )
 
 // private wrapper around the RssFeed which gives us the <rss>..</rss> xml
-type rssFeedXml struct {
+type RssFeedXml struct {
 	XMLName          xml.Name `xml:"rss"`
 	Version          string   `xml:"version,attr"`
 	ContentNamespace string   `xml:"xmlns:content,attr"`
@@ -61,7 +61,7 @@ type RssFeed struct {
 	SkipDays       string   `xml:"skipDays,omitempty"`
 	Image          *RssImage
 	TextInput      *RssTextInput
-	Items          []*RssItem
+	Items          []*RssItem `xml:"item"`
 }
 
 type RssItem struct {
@@ -160,7 +160,7 @@ func (r *Rss) FeedXml() interface{} {
 
 // return an XML-ready object for an RssFeed object
 func (r *RssFeed) FeedXml() interface{} {
-	return &rssFeedXml{
+	return &RssFeedXml{
 		Version:          "2.0",
 		Channel:          r,
 		ContentNamespace: "http://purl.org/rss/1.0/modules/content/",
