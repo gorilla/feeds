@@ -180,6 +180,193 @@ var testRssFeedXML = RssFeedXml{
 	},
 }
 
+var testAtomFeedXML = AtomFeed{
+	XMLName:  xml.Name{Space: "", Local: "feed"},
+	Xmlns:    "",
+	Title:    "Lorem ipsum feed for an interval of 1 minutes",
+	Id:       "",
+	Updated:  "",
+	Category: "",
+	Icon:     "",
+	Logo:     "",
+	Rights:   "",
+	Subtitle: "",
+	Link: &AtomLink{
+		XMLName: xml.Name{Space: "", Local: "link"},
+		Href:    "",
+		Rel:     "",
+		Type:    "",
+		Length:  "",
+	},
+	Author: &AtomAuthor{
+		XMLName:    xml.Name{Space: "", Local: "author"},
+		AtomPerson: AtomPerson{},
+	},
+	Contributor: (*AtomContributor)(nil),
+	Entries: []*AtomEntry{
+		&AtomEntry{
+			XMLName:     xml.Name{Space: "", Local: "entry"},
+			Xmlns:       "",
+			Title:       "Lorem ipsum 2018-10-30T23:22:00+00:00",
+			Updated:     "",
+			Id:          "",
+			Category:    "",
+			Content:     (*AtomContent)(nil),
+			Rights:      "",
+			Source:      "",
+			Published:   "",
+			Contributor: (*AtomContributor)(nil),
+			Links:       nil,
+			Summary:     (*AtomSummary)(nil),
+			Author:      (*AtomAuthor)(nil),
+		},
+		&AtomEntry{
+			XMLName:     xml.Name{Space: "", Local: "entry"},
+			Xmlns:       "",
+			Title:       "Lorem ipsum 2018-10-30T23:21:00+00:00",
+			Updated:     "",
+			Id:          "",
+			Category:    "",
+			Content:     (*AtomContent)(nil),
+			Rights:      "",
+			Source:      "",
+			Published:   "",
+			Contributor: (*AtomContributor)(nil),
+			Links:       nil,
+			Summary:     (*AtomSummary)(nil),
+			Author:      (*AtomAuthor)(nil),
+		},
+		&AtomEntry{
+			XMLName:     xml.Name{Space: "", Local: "entry"},
+			Xmlns:       "",
+			Title:       "Lorem ipsum 2018-10-30T23:20:00+00:00",
+			Updated:     "",
+			Id:          "",
+			Category:    "",
+			Content:     (*AtomContent)(nil),
+			Rights:      "",
+			Source:      "",
+			Published:   "",
+			Contributor: (*AtomContributor)(nil),
+			Links:       nil,
+			Summary:     (*AtomSummary)(nil),
+			Author:      (*AtomAuthor)(nil),
+		},
+		&AtomEntry{
+			XMLName:     xml.Name{Space: "", Local: "entry"},
+			Xmlns:       "",
+			Title:       "Lorem ipsum 2018-10-30T23:19:00+00:00",
+			Updated:     "",
+			Id:          "",
+			Category:    "",
+			Content:     (*AtomContent)(nil),
+			Rights:      "",
+			Source:      "",
+			Published:   "",
+			Contributor: (*AtomContributor)(nil),
+			Links:       nil,
+			Summary:     (*AtomSummary)(nil),
+			Author:      (*AtomAuthor)(nil),
+		},
+		&AtomEntry{
+			XMLName:     xml.Name{Space: "", Local: "entry"},
+			Xmlns:       "",
+			Title:       "Lorem ipsum 2018-10-30T23:18:00+00:00",
+			Updated:     "",
+			Id:          "",
+			Category:    "",
+			Content:     (*AtomContent)(nil),
+			Rights:      "",
+			Source:      "",
+			Published:   "",
+			Contributor: (*AtomContributor)(nil),
+			Links:       nil,
+			Summary:     (*AtomSummary)(nil),
+			Author:      (*AtomAuthor)(nil),
+		},
+		&AtomEntry{
+			XMLName:     xml.Name{Space: "", Local: "entry"},
+			Xmlns:       "",
+			Title:       "Lorem ipsum 2018-10-30T23:17:00+00:00",
+			Updated:     "",
+			Id:          "",
+			Category:    "",
+			Content:     (*AtomContent)(nil),
+			Rights:      "",
+			Source:      "",
+			Published:   "",
+			Contributor: (*AtomContributor)(nil),
+			Links:       nil,
+			Summary:     (*AtomSummary)(nil),
+			Author:      (*AtomAuthor)(nil),
+		},
+		&AtomEntry{
+			XMLName:     xml.Name{Space: "", Local: "entry"},
+			Xmlns:       "",
+			Title:       "Lorem ipsum 2018-10-30T23:16:00+00:00",
+			Updated:     "",
+			Id:          "",
+			Category:    "",
+			Content:     (*AtomContent)(nil),
+			Rights:      "",
+			Source:      "",
+			Published:   "",
+			Contributor: (*AtomContributor)(nil),
+			Links:       nil,
+			Summary:     (*AtomSummary)(nil),
+			Author:      (*AtomAuthor)(nil),
+		},
+		&AtomEntry{
+			XMLName:     xml.Name{Space: "", Local: "entry"},
+			Xmlns:       "",
+			Title:       "Lorem ipsum 2018-10-30T23:15:00+00:00",
+			Updated:     "",
+			Id:          "",
+			Category:    "",
+			Content:     (*AtomContent)(nil),
+			Rights:      "",
+			Source:      "",
+			Published:   "",
+			Contributor: (*AtomContributor)(nil),
+			Links:       nil,
+			Summary:     (*AtomSummary)(nil),
+			Author:      (*AtomAuthor)(nil),
+		},
+		&AtomEntry{
+			XMLName:     xml.Name{Space: "", Local: "entry"},
+			Xmlns:       "",
+			Title:       "Lorem ipsum 2018-10-30T23:14:00+00:00",
+			Updated:     "",
+			Id:          "",
+			Category:    "",
+			Content:     (*AtomContent)(nil),
+			Rights:      "",
+			Source:      "",
+			Published:   "",
+			Contributor: (*AtomContributor)(nil),
+			Links:       nil,
+			Summary:     (*AtomSummary)(nil),
+			Author:      (*AtomAuthor)(nil),
+		},
+		&AtomEntry{
+			XMLName:     xml.Name{Space: "", Local: "entry"},
+			Xmlns:       "",
+			Title:       "Lorem ipsum 2018-10-30T23:13:00+00:00",
+			Updated:     "",
+			Id:          "",
+			Category:    "",
+			Content:     (*AtomContent)(nil),
+			Rights:      "",
+			Source:      "",
+			Published:   "",
+			Contributor: (*AtomContributor)(nil),
+			Links:       nil,
+			Summary:     (*AtomSummary)(nil),
+			Author:      (*AtomAuthor)(nil),
+		},
+	},
+}
+
 func TestRssUnmarshal(t *testing.T) {
 	var xmlFeed RssFeedXml
 	xmlFile, err := os.Open("test.rss")
@@ -195,4 +382,20 @@ func TestRssUnmarshal(t *testing.T) {
 		t.Error("object was not unmarshalled correctly")
 	}
 
+}
+
+func TestAtomUnmarshal(t *testing.T) {
+	var xmlFeed AtomFeed
+	xmlFile, err := os.Open("test.atom")
+	if err != nil {
+		panic("AHH file bad")
+	}
+	bytes, _ := ioutil.ReadAll(xmlFile)
+	xml.Unmarshal(bytes, &xmlFeed)
+
+	if !reflect.DeepEqual(testAtomFeedXML, xmlFeed) {
+		diffs := pretty.Diff(testAtomFeedXML, xmlFeed)
+		t.Log(pretty.Println(diffs))
+		t.Error("object was not unmarshalled correctly")
+	}
 }
