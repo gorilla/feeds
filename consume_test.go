@@ -36,7 +36,7 @@ var testRssFeedXML = RssFeedXml{
 		Image:          (*RssImage)(nil),
 		TextInput:      (*RssTextInput)(nil),
 		Items: []*RssItem{
-			&RssItem{
+			{
 				XMLName:     xml.Name{Space: "", Local: "item"},
 				Title:       "Lorem ipsum 2018-10-30T23:22:00+00:00",
 				Link:        "http://example.com/test/1540941720",
@@ -50,7 +50,7 @@ var testRssFeedXML = RssFeedXml{
 				PubDate:     "Tue, 30 Oct 2018 23:22:00 GMT",
 				Source:      "",
 			},
-			&RssItem{
+			{
 				XMLName:     xml.Name{Space: "", Local: "item"},
 				Title:       "Lorem ipsum 2018-10-30T23:21:00+00:00",
 				Link:        "http://example.com/test/1540941660",
@@ -64,7 +64,7 @@ var testRssFeedXML = RssFeedXml{
 				PubDate:     "Tue, 30 Oct 2018 23:21:00 GMT",
 				Source:      "",
 			},
-			&RssItem{
+			{
 				XMLName:     xml.Name{Space: "", Local: "item"},
 				Title:       "Lorem ipsum 2018-10-30T23:20:00+00:00",
 				Link:        "http://example.com/test/1540941600",
@@ -78,7 +78,7 @@ var testRssFeedXML = RssFeedXml{
 				PubDate:     "Tue, 30 Oct 2018 23:20:00 GMT",
 				Source:      "",
 			},
-			&RssItem{
+			{
 				XMLName:     xml.Name{Space: "", Local: "item"},
 				Title:       "Lorem ipsum 2018-10-30T23:19:00+00:00",
 				Link:        "http://example.com/test/1540941540",
@@ -92,7 +92,7 @@ var testRssFeedXML = RssFeedXml{
 				PubDate:     "Tue, 30 Oct 2018 23:19:00 GMT",
 				Source:      "",
 			},
-			&RssItem{
+			{
 				XMLName:     xml.Name{Space: "", Local: "item"},
 				Title:       "Lorem ipsum 2018-10-30T23:18:00+00:00",
 				Link:        "http://example.com/test/1540941480",
@@ -106,7 +106,7 @@ var testRssFeedXML = RssFeedXml{
 				PubDate:     "Tue, 30 Oct 2018 23:18:00 GMT",
 				Source:      "",
 			},
-			&RssItem{
+			{
 				XMLName:     xml.Name{Space: "", Local: "item"},
 				Title:       "Lorem ipsum 2018-10-30T23:17:00+00:00",
 				Link:        "http://example.com/test/1540941420",
@@ -120,7 +120,7 @@ var testRssFeedXML = RssFeedXml{
 				PubDate:     "Tue, 30 Oct 2018 23:17:00 GMT",
 				Source:      "",
 			},
-			&RssItem{
+			{
 				XMLName:     xml.Name{Space: "", Local: "item"},
 				Title:       "Lorem ipsum 2018-10-30T23:16:00+00:00",
 				Link:        "http://example.com/test/1540941360",
@@ -134,7 +134,7 @@ var testRssFeedXML = RssFeedXml{
 				PubDate:     "Tue, 30 Oct 2018 23:16:00 GMT",
 				Source:      "",
 			},
-			&RssItem{
+			{
 				XMLName:     xml.Name{Space: "", Local: "item"},
 				Title:       "Lorem ipsum 2018-10-30T23:15:00+00:00",
 				Link:        "http://example.com/test/1540941300",
@@ -148,7 +148,7 @@ var testRssFeedXML = RssFeedXml{
 				PubDate:     "Tue, 30 Oct 2018 23:15:00 GMT",
 				Source:      "",
 			},
-			&RssItem{
+			{
 				XMLName:     xml.Name{Space: "", Local: "item"},
 				Title:       "Lorem ipsum 2018-10-30T23:14:00+00:00",
 				Link:        "http://example.com/test/1540941240",
@@ -162,7 +162,7 @@ var testRssFeedXML = RssFeedXml{
 				PubDate:     "Tue, 30 Oct 2018 23:14:00 GMT",
 				Source:      "",
 			},
-			&RssItem{
+			{
 				XMLName:     xml.Name{Space: "", Local: "item"},
 				Title:       "Lorem ipsum 2018-10-30T23:13:00+00:00",
 				Link:        "http://example.com/test/1540941180",
@@ -204,7 +204,7 @@ var testAtomFeedXML = AtomFeed{
 	},
 	Contributor: (*AtomContributor)(nil),
 	Entries: []*AtomEntry{
-		&AtomEntry{
+		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
 			Xmlns:       "",
 			Title:       "Lorem ipsum 2018-10-30T23:22:00+00:00",
@@ -220,7 +220,7 @@ var testAtomFeedXML = AtomFeed{
 			Summary:     (*AtomSummary)(nil),
 			Author:      (*AtomAuthor)(nil),
 		},
-		&AtomEntry{
+		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
 			Xmlns:       "",
 			Title:       "Lorem ipsum 2018-10-30T23:21:00+00:00",
@@ -236,7 +236,7 @@ var testAtomFeedXML = AtomFeed{
 			Summary:     (*AtomSummary)(nil),
 			Author:      (*AtomAuthor)(nil),
 		},
-		&AtomEntry{
+		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
 			Xmlns:       "",
 			Title:       "Lorem ipsum 2018-10-30T23:20:00+00:00",
@@ -252,7 +252,7 @@ var testAtomFeedXML = AtomFeed{
 			Summary:     (*AtomSummary)(nil),
 			Author:      (*AtomAuthor)(nil),
 		},
-		&AtomEntry{
+		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
 			Xmlns:       "",
 			Title:       "Lorem ipsum 2018-10-30T23:19:00+00:00",
@@ -268,7 +268,7 @@ var testAtomFeedXML = AtomFeed{
 			Summary:     (*AtomSummary)(nil),
 			Author:      (*AtomAuthor)(nil),
 		},
-		&AtomEntry{
+		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
 			Xmlns:       "",
 			Title:       "Lorem ipsum 2018-10-30T23:18:00+00:00",
@@ -284,7 +284,7 @@ var testAtomFeedXML = AtomFeed{
 			Summary:     (*AtomSummary)(nil),
 			Author:      (*AtomAuthor)(nil),
 		},
-		&AtomEntry{
+		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
 			Xmlns:       "",
 			Title:       "Lorem ipsum 2018-10-30T23:17:00+00:00",
@@ -300,7 +300,7 @@ var testAtomFeedXML = AtomFeed{
 			Summary:     (*AtomSummary)(nil),
 			Author:      (*AtomAuthor)(nil),
 		},
-		&AtomEntry{
+		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
 			Xmlns:       "",
 			Title:       "Lorem ipsum 2018-10-30T23:16:00+00:00",
@@ -316,7 +316,7 @@ var testAtomFeedXML = AtomFeed{
 			Summary:     (*AtomSummary)(nil),
 			Author:      (*AtomAuthor)(nil),
 		},
-		&AtomEntry{
+		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
 			Xmlns:       "",
 			Title:       "Lorem ipsum 2018-10-30T23:15:00+00:00",
@@ -332,7 +332,7 @@ var testAtomFeedXML = AtomFeed{
 			Summary:     (*AtomSummary)(nil),
 			Author:      (*AtomAuthor)(nil),
 		},
-		&AtomEntry{
+		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
 			Xmlns:       "",
 			Title:       "Lorem ipsum 2018-10-30T23:14:00+00:00",
@@ -348,7 +348,7 @@ var testAtomFeedXML = AtomFeed{
 			Summary:     (*AtomSummary)(nil),
 			Author:      (*AtomAuthor)(nil),
 		},
-		&AtomEntry{
+		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
 			Xmlns:       "",
 			Title:       "Lorem ipsum 2018-10-30T23:13:00+00:00",
