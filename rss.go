@@ -6,6 +6,7 @@ package feeds
 
 import (
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"time"
 )
@@ -119,7 +120,7 @@ func newRssItem(i *Item) *RssItem {
 }
 
 // create a new RssFeed with a generic Feed struct's data
-func (r *Rss) RssFeed() *RssFeed {
+func (r *Rss) RssFeed() (*RssFeed, error) {
 	pub := anyTimeFormat(time.RFC1123Z, r.Created, r.Updated)
 	build := anyTimeFormat(time.RFC1123Z, r.Updated)
 	author := ""
@@ -128,6 +129,10 @@ func (r *Rss) RssFeed() *RssFeed {
 		if len(r.Author.Name) > 0 {
 			author = fmt.Sprintf("%s (%s)", r.Author.Email, r.Author.Name)
 		}
+	}
+
+	if r.Link == nil {
+		return nil, errors.New("link field is required for RSS feed")
 	}
 
 	var image *RssImage
@@ -148,21 +153,25 @@ func (r *Rss) RssFeed() *RssFeed {
 	for _, i := range r.Items {
 		channel.Items = append(channel.Items, newRssItem(i))
 	}
-	return channel
+	return channel, nil
 }
 
 // return an XML-Ready object for an Rss object
-func (r *Rss) FeedXml() interface{} {
+func (r *Rss) FeedXml() (interface{}, error) {
 	// only generate version 2.0 feeds for now
-	return r.RssFeed().FeedXml()
+	feed, err := r.RssFeed()
+	if err != nil {
+		return nil, err
+	}
+	return feed.FeedXml()
 
 }
 
 // return an XML-ready object for an RssFeed object
-func (r *RssFeed) FeedXml() interface{} {
+func (r *RssFeed) FeedXml() (interface{}, error) {
 	return &RssFeedXml{
 		Version:          "2.0",
 		Channel:          r,
 		ContentNamespace: "http://purl.org/rss/1.0/modules/content/",
-	}
+	}, nil
 }

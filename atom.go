@@ -2,6 +2,7 @@ package feeds
 
 import (
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"net/url"
 	"time"
@@ -138,8 +139,11 @@ func newAtomEntry(i *Item) *AtomEntry {
 }
 
 // create a new AtomFeed with a generic Feed struct's data
-func (a *Atom) AtomFeed() *AtomFeed {
+func (a *Atom) AtomFeed() (*AtomFeed, error) {
 	updated := anyTimeFormat(time.RFC3339, a.Updated, a.Created)
+	if a.Link == nil {
+		return nil, errors.New("link field is required for Atom feed")
+	}
 	feed := &AtomFeed{
 		Xmlns:    ns,
 		Title:    a.Title,
@@ -155,15 +159,15 @@ func (a *Atom) AtomFeed() *AtomFeed {
 	for _, e := range a.Items {
 		feed.Entries = append(feed.Entries, newAtomEntry(e))
 	}
-	return feed
+	return feed, nil
 }
 
 // return an XML-Ready object for an Atom object
-func (a *Atom) FeedXml() interface{} {
+func (a *Atom) FeedXml() (interface{}, error) {
 	return a.AtomFeed()
 }
 
 // return an XML-ready object for an AtomFeed object
-func (a *AtomFeed) FeedXml() interface{} {
-	return a
+func (a *AtomFeed) FeedXml() (interface{}, error) {
+	return a, nil
 }

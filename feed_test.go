@@ -481,3 +481,65 @@ func TestFeedSorted(t *testing.T) {
 		t.Errorf("JSON not what was expected.  Got:\n||%s||\n\nExpected:\n||%s||\n", got, jsonOutputSorted)
 	}
 }
+
+func TestLinkFieldIsRequiredForAtomFeed(t *testing.T) {
+	timestamp, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
+	feed := &Feed{
+		Title:   "title",
+		Author:  &Author{Name: "name"},
+		Updated: timestamp,
+	}
+	atom, err := feed.ToAtom()
+	if err == nil {
+		t.Error("Error not reported properly")
+	}
+	if atom != "" {
+		t.Error("Atom feed should not be generated")
+	}
+	if err.Error() != "link field is required for Atom feed" {
+		t.Errorf("wrong error reported  Got:\n||%s||\n\nExpected:\n||%s||\n", err.Error(), "link field is required for Atom feed")
+	}
+}
+
+func TestLinkFieldIsNotRequiredForJSONFeed(t *testing.T) {
+	expectedJsonOutput := `{
+  "version": "https://jsonfeed.org/version/1",
+  "title": "title",
+  "author": {
+    "name": "name"
+  }
+}`
+
+	timestamp, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
+	feed := &Feed{
+		Title:   "title",
+		Author:  &Author{Name: "name"},
+		Updated: timestamp,
+	}
+	json, err := feed.ToJSON()
+	if err != nil {
+		t.Errorf("unexpected error generating atom feed: %v", err)
+	}
+	if json != expectedJsonOutput {
+		t.Errorf("Json feed content does not match.  Got:\n||%s||\n\nExpected:\n||%s||\n", json, expectedJsonOutput)
+	}
+}
+
+func TestLinkFieldIsRequiredForRSSFeed(t *testing.T) {
+	timestamp, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05Z")
+	feed := &Feed{
+		Title:   "title",
+		Author:  &Author{Name: "name"},
+		Updated: timestamp,
+	}
+	rss, err := feed.ToRss()
+	if err == nil {
+		t.Error("Error not reported properly")
+	}
+	if rss != "" {
+		t.Error("Rss feed should not be generated")
+	}
+	if err.Error() != "link field is required for RSS feed" {
+		t.Errorf("wrong error reported  Got:\n||%s||\n\nExpected:\n||%s||\n", err.Error(), "link field is required for RSS feed")
+	}
+}

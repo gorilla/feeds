@@ -69,13 +69,16 @@ func anyTimeFormat(format string, times ...time.Time) string {
 
 // interface used by ToXML to get a object suitable for exporting XML.
 type XmlFeed interface {
-	FeedXml() interface{}
+	FeedXml() (interface{}, error)
 }
 
 // turn a feed object (either a Feed, AtomFeed, or RssFeed) into xml
 // returns an error if xml marshaling fails
 func ToXML(feed XmlFeed) (string, error) {
-	x := feed.FeedXml()
+	x, err := feed.FeedXml()
+	if err != nil {
+		return "", err
+	}
 	data, err := xml.MarshalIndent(x, "", "  ")
 	if err != nil {
 		return "", err
@@ -88,7 +91,10 @@ func ToXML(feed XmlFeed) (string, error) {
 // Write a feed object (either a Feed, AtomFeed, or RssFeed) as XML into
 // the writer. Returns an error if XML marshaling fails.
 func WriteXML(feed XmlFeed, w io.Writer) error {
-	x := feed.FeedXml()
+	x, err := feed.FeedXml()
+	if err != nil {
+		return err
+	}
 	// write default xml header, without the newline
 	if _, err := w.Write([]byte(xml.Header[:len(xml.Header)-1])); err != nil {
 		return err
