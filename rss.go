@@ -151,14 +151,14 @@ func (r *Rss) RssFeed() *RssFeed {
 	return channel
 }
 
-// return an XML-Ready object for an Rss object
+// FeedXml returns an XML-Ready object for an Rss object
 func (r *Rss) FeedXml() interface{} {
 	// only generate version 2.0 feeds for now
 	return r.RssFeed().FeedXml()
 
 }
 
-// return an XML-ready object for an RssFeed object
+// FeedXml returns an XML-ready object for an RssFeed object
 func (r *RssFeed) FeedXml() interface{} {
 	return &RssFeedXml{
 		Version:          "2.0",
