@@ -216,9 +216,11 @@ var testAtomFeedXML = AtomFeed{
 			Source:      "",
 			Published:   "",
 			Contributor: (*AtomContributor)(nil),
-			Links:       nil,
-			Summary:     (*AtomSummary)(nil),
-			Author:      (*AtomAuthor)(nil),
+			Links: []AtomLink{{
+				XMLName: xml.Name{Space: "", Local: "link"},
+				Href:    "http://example.com/test/1540941720"}},
+			Summary: (*AtomSummary)(nil),
+			Author:  (*AtomAuthor)(nil),
 		},
 		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
@@ -232,9 +234,11 @@ var testAtomFeedXML = AtomFeed{
 			Source:      "",
 			Published:   "",
 			Contributor: (*AtomContributor)(nil),
-			Links:       nil,
-			Summary:     (*AtomSummary)(nil),
-			Author:      (*AtomAuthor)(nil),
+			Links: []AtomLink{{
+				XMLName: xml.Name{Space: "", Local: "link"},
+				Href:    "http://example.com/test/1540941660"}},
+			Summary: (*AtomSummary)(nil),
+			Author:  (*AtomAuthor)(nil),
 		},
 		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
@@ -248,9 +252,11 @@ var testAtomFeedXML = AtomFeed{
 			Source:      "",
 			Published:   "",
 			Contributor: (*AtomContributor)(nil),
-			Links:       nil,
-			Summary:     (*AtomSummary)(nil),
-			Author:      (*AtomAuthor)(nil),
+			Links: []AtomLink{{
+				XMLName: xml.Name{Space: "", Local: "link"},
+				Href:    "http://example.com/test/1540941600"}},
+			Summary: (*AtomSummary)(nil),
+			Author:  (*AtomAuthor)(nil),
 		},
 		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
@@ -264,9 +270,11 @@ var testAtomFeedXML = AtomFeed{
 			Source:      "",
 			Published:   "",
 			Contributor: (*AtomContributor)(nil),
-			Links:       nil,
-			Summary:     (*AtomSummary)(nil),
-			Author:      (*AtomAuthor)(nil),
+			Links: []AtomLink{{
+				XMLName: xml.Name{Space: "", Local: "link"},
+				Href:    "http://example.com/test/1540941540"}},
+			Summary: (*AtomSummary)(nil),
+			Author:  (*AtomAuthor)(nil),
 		},
 		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
@@ -280,9 +288,11 @@ var testAtomFeedXML = AtomFeed{
 			Source:      "",
 			Published:   "",
 			Contributor: (*AtomContributor)(nil),
-			Links:       nil,
-			Summary:     (*AtomSummary)(nil),
-			Author:      (*AtomAuthor)(nil),
+			Links: []AtomLink{{
+				XMLName: xml.Name{Space: "", Local: "link"},
+				Href:    "http://example.com/test/1540941480"}},
+			Summary: (*AtomSummary)(nil),
+			Author:  (*AtomAuthor)(nil),
 		},
 		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
@@ -296,9 +306,11 @@ var testAtomFeedXML = AtomFeed{
 			Source:      "",
 			Published:   "",
 			Contributor: (*AtomContributor)(nil),
-			Links:       nil,
-			Summary:     (*AtomSummary)(nil),
-			Author:      (*AtomAuthor)(nil),
+			Links: []AtomLink{{
+				XMLName: xml.Name{Space: "", Local: "link"},
+				Href:    "http://example.com/test/1540941420"}},
+			Summary: (*AtomSummary)(nil),
+			Author:  (*AtomAuthor)(nil),
 		},
 		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
@@ -312,9 +324,11 @@ var testAtomFeedXML = AtomFeed{
 			Source:      "",
 			Published:   "",
 			Contributor: (*AtomContributor)(nil),
-			Links:       nil,
-			Summary:     (*AtomSummary)(nil),
-			Author:      (*AtomAuthor)(nil),
+			Links: []AtomLink{{
+				XMLName: xml.Name{Space: "", Local: "link"},
+				Href:    "http://example.com/test/1540941360"}},
+			Summary: (*AtomSummary)(nil),
+			Author:  (*AtomAuthor)(nil),
 		},
 		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
@@ -328,9 +342,11 @@ var testAtomFeedXML = AtomFeed{
 			Source:      "",
 			Published:   "",
 			Contributor: (*AtomContributor)(nil),
-			Links:       nil,
-			Summary:     (*AtomSummary)(nil),
-			Author:      (*AtomAuthor)(nil),
+			Links: []AtomLink{{
+				XMLName: xml.Name{Space: "", Local: "link"},
+				Href:    "http://example.com/test/1540941300"}},
+			Summary: (*AtomSummary)(nil),
+			Author:  (*AtomAuthor)(nil),
 		},
 		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
@@ -344,9 +360,11 @@ var testAtomFeedXML = AtomFeed{
 			Source:      "",
 			Published:   "",
 			Contributor: (*AtomContributor)(nil),
-			Links:       nil,
-			Summary:     (*AtomSummary)(nil),
-			Author:      (*AtomAuthor)(nil),
+			Links: []AtomLink{{
+				XMLName: xml.Name{Space: "", Local: "link"},
+				Href:    "http://example.com/test/1540941240"}},
+			Summary: (*AtomSummary)(nil),
+			Author:  (*AtomAuthor)(nil),
 		},
 		{
 			XMLName:     xml.Name{Space: "", Local: "entry"},
@@ -360,9 +378,11 @@ var testAtomFeedXML = AtomFeed{
 			Source:      "",
 			Published:   "",
 			Contributor: (*AtomContributor)(nil),
-			Links:       nil,
-			Summary:     (*AtomSummary)(nil),
-			Author:      (*AtomAuthor)(nil),
+			Links: []AtomLink{{
+				XMLName: xml.Name{Space: "", Local: "link"},
+				Href:    "http://example.com/test/1540941180"}},
+			Summary: (*AtomSummary)(nil),
+			Author:  (*AtomAuthor)(nil),
 		},
 	},
 }
