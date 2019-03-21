@@ -51,7 +51,7 @@ type AtomEntry struct {
 	Source      string `xml:"source,omitempty"`
 	Published   string `xml:"published,omitempty"`
 	Contributor *AtomContributor
-	Links       []AtomLink   // required if no child 'content' elements
+	Links       []AtomLink   `xml:"link,omitempty"` // required if no child 'content' elements
 	Summary     *AtomSummary // required if content has src or content is base64
 	Author      *AtomAuthor  // required if feed lacks an author
 }
