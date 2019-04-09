@@ -15,6 +15,7 @@ type RssFeedXml struct {
 	XMLName          xml.Name `xml:"rss"`
 	Version          string   `xml:"version,attr"`
 	ContentNamespace string   `xml:"xmlns:content,attr"`
+	DublinCoreNamespace string `xml:"xmlns:dc,attr"`
 	Channel          *RssFeed
 }
 
@@ -77,6 +78,7 @@ type RssItem struct {
 	Guid        string `xml:"guid,omitempty"`    // Id used
 	PubDate     string `xml:"pubDate,omitempty"` // created or updated
 	Source      string `xml:"source,omitempty"`
+	Creator     string `xml:"dc:creator,omitempty"`
 }
 
 type RssEnclosure struct {
@@ -164,5 +166,6 @@ func (r *RssFeed) FeedXml() interface{} {
 		Version:          "2.0",
 		Channel:          r,
 		ContentNamespace: "http://purl.org/rss/1.0/modules/content/",
+		DublinCoreNamespace: "http://purl.org/dc/elements/1.1/",
 	}
 }
