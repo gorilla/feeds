@@ -1,33 +1,59 @@
 package feeds
 
-// rss support
+// itunes rss support
 // validation done according to spec here:
-//    http://cyber.law.harvard.edu/rss/rss.html
+//    https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 
 import (
+	"encoding/xml"
 	"fmt"
 	"time"
 )
 
 // private wrapper around the RssFeed which gives us the <rss>..</rss> xml
 type ItunesRssFeedXml struct {
-	*RssFeedXml
-	Channel         *ItunesRssFeed
-	ItunesNamespace string `xml:"xmlns:itunes,attr"`
+	XMLName          xml.Name `xml:"rss"`
+	Version          string   `xml:"version,attr"`
+	ContentNamespace string   `xml:"xmlns:content,attr"`
+	Channel          *ItunesRssFeed
+	ItunesNamespace  string `xml:"xmlns:itunes,attr"`
 }
 
 type ItunesRssFeed struct {
-	*RssFeed
-	Iimage      string           `xml:"itunes:image"`
-	ICategory   *ItunesCategory  `xml:"itunes:category"`
-	IExplicit   string           `xml:"itunes:explicit"`
-	IAuthor     string           `xml:"itunes:author,omitempty"`
-	IOwner      *ItunesOwner     `xml:"itunes:owner,omitempty"`
-	IType       string           `xml:"itunes:type,omitempty"`
-	INewFeedUrl string           `xml:"itunes:new-feed-url,omitempty"`
-	IBlock      string           `xml:"itunes:block,omitempty"`
-	IComplete   string           `xml:"itunes:complete,omitempty"`
-	Items       []*ItunesRssItem `xml:"item,omitempty"`
+	XMLName        xml.Name `xml:"channel"`
+	Title          string   `xml:"title"`       // required
+	Link           string   `xml:"link"`        // required
+	Description    string   `xml:"description"` // required
+	Language       string   `xml:"language,omitempty"`
+	Copyright      string   `xml:"copyright,omitempty"`
+	ManagingEditor string   `xml:"managingEditor,omitempty"` // Author used
+	WebMaster      string   `xml:"webMaster,omitempty"`
+	PubDate        string   `xml:"pubDate,omitempty"`       // created or updated
+	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
+	Category       string   `xml:"category,omitempty"`
+	Generator      string   `xml:"generator,omitempty"`
+	Docs           string   `xml:"docs,omitempty"`
+	Cloud          string   `xml:"cloud,omitempty"`
+	Ttl            int      `xml:"ttl,omitempty"`
+	Rating         string   `xml:"rating,omitempty"`
+	SkipHours      string   `xml:"skipHours,omitempty"`
+	SkipDays       string   `xml:"skipDays,omitempty"`
+	Image          *RssImage
+	TextInput      *RssTextInput
+	IImage         *ItunesImage     `xml:"itunes:image"`
+	ICategory      *ItunesCategory  `xml:"itunes:category"`
+	IExplicit      string           `xml:"itunes:explicit"`
+	IAuthor        string           `xml:"itunes:author,omitempty"`
+	IOwner         *ItunesOwner     `xml:"itunes:owner,omitempty"`
+	IType          string           `xml:"itunes:type,omitempty"`
+	INewFeedUrl    string           `xml:"itunes:new-feed-url,omitempty"`
+	IBlock         string           `xml:"itunes:block,omitempty"`
+	IComplete      string           `xml:"itunes:complete,omitempty"`
+	Items          []*ItunesRssItem `xml:"item,omitempty"`
+}
+
+type ItunesImage struct {
+	Href string `xml:"href,attr"`
 }
 
 type ItunesCategory struct {
@@ -45,7 +71,30 @@ type ItunesOwner struct {
 }
 
 type ItunesRssItem struct {
-	*RssItem
+	XMLName      xml.Name           `xml:"item"`
+	Title        string             `xml:"title"`       // required
+	Link         string             `xml:"link"`        // required
+	Description  *ItunesDescription `xml:"description"` // required
+	Content      *RssContent
+	Author       string `xml:"author,omitempty"`
+	Category     string `xml:"category,omitempty"`
+	Comments     string `xml:"comments,omitempty"`
+	Enclosure    *RssEnclosure
+	Guid         string `xml:"guid,omitempty"`    // Id used
+	PubDate      string `xml:"pubDate,omitempty"` // created or updated
+	Source       string `xml:"source,omitempty"`
+	ITitle       string `xml:"itunes:title"`
+	IDuration    string `xml:"itunes:duration,omitempty"`
+	IImage       string `xml:"itunes:image,omitempty"`
+	IExplicit    string `xml:"itunes:explicit,omitempty"`
+	IEpisode     string `xml:"itunes:episode,omitempty"`
+	ISeason      string `xml:"itunes:season,omitempty"`
+	IEpisodeType string `xml:"itunes:episodeType,omitempty"`
+	IBlock       string `xml:"itunes:block,omitempty"`
+}
+
+type ItunesDescription struct {
+	Content string `xml:"content:encoded"`
 }
 
 type ItunesRss struct {
@@ -54,13 +103,14 @@ type ItunesRss struct {
 
 // create a new ItunesRssItem with a generic Item struct's data
 func newItunesRssItem(i *Item) *ItunesRssItem {
-	item := &ItunesRssItem{}
-
-	item.Title = i.Title
-	item.Link = i.Link.Href
-	item.Description = i.Description
-	item.Guid = i.Id
-	item.PubDate = anyTimeFormat(time.RFC1123Z, i.Created, i.Updated)
+	item := &ItunesRssItem{
+		Title:       i.Title,
+		ITitle:      i.Title,
+		Link:        i.Link.Href,
+		Description: &ItunesDescription{Content: i.Description},
+		Guid:        i.Id,
+		PubDate:     anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
+	}
 
 	if len(i.Content) > 0 {
 		item.Content = &RssContent{Content: i.Content}
@@ -80,13 +130,17 @@ func newItunesRssItem(i *Item) *ItunesRssItem {
 	return item
 }
 
-// create a new RssFeed with a generic Feed struct's data
+// create a new ItunesRssFeed with a generic Feed struct's data
 func (r *ItunesRss) ItunesRssFeed() *ItunesRssFeed {
 	pub := anyTimeFormat(time.RFC1123Z, r.Created, r.Updated)
 	build := anyTimeFormat(time.RFC1123Z, r.Updated)
 	author := ""
+	ownerName := ""
+	ownerEmail := ""
 	if r.Author != nil {
 		author = r.Author.Email
+		ownerEmail = r.Author.Email
+		ownerName = r.Author.Name
 		if len(r.Author.Name) > 0 {
 			author = fmt.Sprintf("%s (%s)", r.Author.Email, r.Author.Name)
 		}
@@ -97,7 +151,7 @@ func (r *ItunesRss) ItunesRssFeed() *ItunesRssFeed {
 		image = &RssImage{Url: r.Image.Url, Title: r.Image.Title, Link: r.Image.Link, Width: r.Image.Width, Height: r.Image.Height}
 	}
 
-	channelRss := &RssFeed{
+	channel := &ItunesRssFeed{
 		Title:          r.Title,
 		Link:           r.Link.Href,
 		Description:    r.Description,
@@ -108,26 +162,31 @@ func (r *ItunesRss) ItunesRssFeed() *ItunesRssFeed {
 		Image:          image,
 	}
 
-	channel := &ItunesRssFeed{RssFeed: channelRss}
+	if ownerEmail != "" || ownerName != "" {
+		owner := &ItunesOwner{Name: ownerName, Email: ownerEmail}
+		channel.IOwner = owner
+	}
 
-	// for _, i := range r.Items {
-	// 	channel.Items = append(channel.Items, newItunesRssItem(i))
-	// }
+	for _, i := range r.Items {
+		channel.Items = append(channel.Items, newItunesRssItem(i))
+	}
+
 	return channel
 }
 
-// FeedXml returns an XML-Ready object for an Rss object
+// FeedXml returns an XML-Ready object for an ItunesRss object
 func (r *ItunesRss) FeedXml() interface{} {
 	// only generate version 2.0 feeds for now
 	return r.ItunesRssFeed().FeedXml()
 
 }
 
-// FeedXml returns an XML-ready object for an RssFeed object
+// FeedXml returns an XML-ready object for an ItunesRssFeed object
 func (r *ItunesRssFeed) FeedXml() interface{} {
-	rssFeedXml := &RssFeedXml{
+	return &ItunesRssFeedXml{
 		Version:          "2.0",
 		ContentNamespace: "http://purl.org/rss/1.0/modules/content/",
+		Channel:          r,
+		ItunesNamespace:  "http://www.itunes.com/dtds/podcast-1.0.dtd",
 	}
-	return ItunesRssFeedXml{rssFeedXml, r, "http://www.itunes.com/dtds/podcast-1.0.dtd"}
 }
