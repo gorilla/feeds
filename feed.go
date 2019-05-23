@@ -136,6 +136,17 @@ func (f *Feed) WriteJSON(w io.Writer) error {
 	return e.Encode(feed)
 }
 
+// creates an Itunes Rss representation of this feed
+func (f *Feed) ToItunesRss() (string, error) {
+	r := &ItunesRss{f}
+	return ToXML(r)
+}
+
+// WriteRss writes an RSS representation of this feed to the writer.
+func (f *Feed) WriteItunesRss(w io.Writer) error {
+	return WriteXML(&ItunesRss{f}, w)
+}
+
 // Sort sorts the Items in the feed with the given less function.
 func (f *Feed) Sort(less func(a, b *Item) bool) {
 	lessFunc := func(i, j int) bool {
