@@ -12,23 +12,22 @@ import (
 // private wrapper around the RssFeed which gives us the <rss>..</rss> xml
 type ItunesRssFeedXml struct {
 	*RssFeedXml
-	Channel *ItunesRssFeed
-}
-
-type ItunesRssContent struct {
-	*RssContent
-}
-
-type ItunesRssTextInput struct {
-	*RssTextInput
+	Channel         *ItunesRssFeed
+	ItunesNamespace string `xml:"xmlns:itunes,attr"`
 }
 
 type ItunesRssFeed struct {
 	*RssFeed
-	Iimage    string          `xml:"itunes:image"`
-	ICategory *ItunesCategory `xml:"itunes:category"`
-	TextInput *ItunesRssTextInput
-	Items     []*ItunesRssItem `xml:"item"`
+	Iimage      string           `xml:"itunes:image"`
+	ICategory   *ItunesCategory  `xml:"itunes:category"`
+	IExplicit   string           `xml:"itunes:explicit"`
+	IAuthor     string           `xml:"itunes:author,omitempty"`
+	IOwner      *ItunesOwner     `xml:"itunes:owner,omitempty"`
+	IType       string           `xml:"itunes:type,omitempty"`
+	INewFeedUrl string           `xml:"itunes:new-feed-url,omitempty"`
+	IBlock      string           `xml:"itunes:block,omitempty"`
+	IComplete   string           `xml:"itunes:complete,omitempty"`
+	Items       []*ItunesRssItem `xml:"item,omitempty"`
 }
 
 type ItunesCategory struct {
@@ -40,14 +39,13 @@ type ItunesSubCategory struct {
 	Text string `xml:"text,attr"`
 }
 
-type ItunesRssItem struct {
-	*RssItem
-	Content   *ItunesRssContent
-	Enclosure *ItunesRssEnclosure
+type ItunesOwner struct {
+	Name  string `xml:"itunes:name,omitempty"`
+	Email string `xml:"itunes:email,omitempty"`
 }
 
-type ItunesRssEnclosure struct {
-	*RssEnclosure
+type ItunesRssItem struct {
+	*RssItem
 }
 
 type ItunesRss struct {
@@ -65,8 +63,7 @@ func newItunesRssItem(i *Item) *ItunesRssItem {
 	item.PubDate = anyTimeFormat(time.RFC1123Z, i.Created, i.Updated)
 
 	if len(i.Content) > 0 {
-		item.Content = &ItunesRssContent{}
-		item.Content.Content = i.Content
+		item.Content = &RssContent{Content: i.Content}
 	}
 	if i.Source != nil {
 		item.Source = i.Source.Href
@@ -74,10 +71,7 @@ func newItunesRssItem(i *Item) *ItunesRssItem {
 
 	// Define a closure
 	if i.Enclosure != nil && i.Enclosure.Type != "" && i.Enclosure.Length != "" {
-		item.Enclosure = &ItunesRssEnclosure{}
-		item.Enclosure.Url = i.Enclosure.Url
-		item.Enclosure.Type = i.Enclosure.Type
-		item.Enclosure.Length = i.Enclosure.Length
+		item.Enclosure = &RssEnclosure{Url: i.Enclosure.Url, Type: i.Enclosure.Type, Length: i.Enclosure.Length}
 	}
 
 	if i.Author != nil {
@@ -100,28 +94,25 @@ func (r *ItunesRss) ItunesRssFeed() *ItunesRssFeed {
 
 	var image *RssImage
 	if r.Image != nil {
-		image = &RssImage{}
-		image.Url = r.Image.Url
-		image.Title = r.Image.Title
-		image.Link = r.Image.Link
-		image.Width = r.Image.Width
-		image.Height = r.Image.Height
+		image = &RssImage{Url: r.Image.Url, Title: r.Image.Title, Link: r.Image.Link, Width: r.Image.Width, Height: r.Image.Height}
 	}
 
-	channel := &ItunesRssFeed{}
-
-	channel.Title = r.Title
-	channel.Link = r.Link.Href
-	channel.Description = r.Description
-	channel.ManagingEditor = author
-	channel.PubDate = pub
-	channel.LastBuildDate = build
-	channel.Copyright = r.Copyright
-	channel.Image = image
-
-	for _, i := range r.Items {
-		channel.Items = append(channel.Items, newItunesRssItem(i))
+	channelRss := &RssFeed{
+		Title:          r.Title,
+		Link:           r.Link.Href,
+		Description:    r.Description,
+		ManagingEditor: author,
+		PubDate:        pub,
+		LastBuildDate:  build,
+		Copyright:      r.Copyright,
+		Image:          image,
 	}
+
+	channel := &ItunesRssFeed{RssFeed: channelRss}
+
+	// for _, i := range r.Items {
+	// 	channel.Items = append(channel.Items, newItunesRssItem(i))
+	// }
 	return channel
 }
 
@@ -134,9 +125,9 @@ func (r *ItunesRss) FeedXml() interface{} {
 
 // FeedXml returns an XML-ready object for an RssFeed object
 func (r *ItunesRssFeed) FeedXml() interface{} {
-	itunesRssFeedXml := &ItunesRssFeedXml{}
-	itunesRssFeedXml.Version = "2.0"
-	itunesRssFeedXml.Channel = r
-	itunesRssFeedXml.ContentNamespace = "http://purl.org/rss/1.0/modules/content/"
-	return itunesRssFeedXml
+	rssFeedXml := &RssFeedXml{
+		Version:          "2.0",
+		ContentNamespace: "http://purl.org/rss/1.0/modules/content/",
+	}
+	return ItunesRssFeedXml{rssFeedXml, r, "http://www.itunes.com/dtds/podcast-1.0.dtd"}
 }
