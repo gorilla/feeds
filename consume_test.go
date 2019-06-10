@@ -367,6 +367,39 @@ var testAtomFeedXML = AtomFeed{
 	},
 }
 
+var testItunesRssFeedXML = ItunesRssFeedXml{
+	Version:          "2.0",
+	ContentNamespace: "",
+	ItunesNamespace:  "",
+	Channel: &ItunesRssFeed{
+		XMLName:     xml.Name{Space: "", Local: "channel"},
+		Title:       "Hiking Treks",
+		Link:        "https://www.apple.com/itunes/podcasts/",
+		Description: "Love to get outdoors and discover nature's treasures? Hiking Treks is the show for you. We review hikes and excursions, review outdoor gear and interview a variety of naturalists and adventurers. Look for new episodes each week.",
+		Language:    "en-us",
+		Copyright:   "2019 John Appleseed",
+		IAuthor:     "The Sunset Explorers",
+		IType:       "serial",
+		IOwner:      &ItunesOwner{Name: "Sunset Explorers", Email: "mountainscape@icloud.com"},
+		IImage:      &ItunesImage{Href: "https://applehosted.podcasts.apple.com/hiking_treks/artwork.png"},
+		ICategory:   &ItunesCategory{Text: "Sports & Recreation", Category: &ItunesSubCategory{Text: "Outdoor"}},
+		IExplicit:   "no",
+		Items: []*ItunesRssItem{
+			{
+				XMLName:      xml.Name{Space: "", Local: "item"},
+				IEpisodeType: "trailer",
+				ITitle:       "Hiking Treks Trailer",
+				Description:  &ItunesDescription{Content: "The Sunset Explorers share tips, techniques and recommendations for great hikes and adventures around the United States. Listen on <a href=\"https://www.apple.com/itunes/podcasts/\">Apple Podcasts</a>."},
+				Enclosure:    &RssEnclosure{Length: "498537", Type: "audio/mpeg", Url: "http://example.com/podcasts/everything/AllAboutEverythingEpisode4.mp3"},
+				Guid:         "http://example.com/podcasts/archive/aae20190418.mp3",
+				PubDate:      "Tue, 12 Apr 2019 01:15:00 GMT",
+				IDuration:    "1079",
+				IExplicit:    "no",
+			},
+		},
+	},
+}
+
 func TestRssUnmarshal(t *testing.T) {
 	var xmlFeed RssFeedXml
 	xmlFile, err := os.Open("test.rss")
@@ -398,4 +431,21 @@ func TestAtomUnmarshal(t *testing.T) {
 		t.Log(pretty.Println(diffs))
 		t.Error("object was not unmarshalled correctly")
 	}
+}
+
+func TestItunesRssUnmarshal(t *testing.T) {
+	var xmlFeed ItunesRssFeedXml
+	xmlFile, err := os.Open("itunes_test.rss")
+	if err != nil {
+		panic("AHH file bad")
+	}
+	bytes, _ := ioutil.ReadAll(xmlFile)
+	xml.Unmarshal(bytes, &xmlFeed)
+
+	if !reflect.DeepEqual(testItunesRssFeedXML, xmlFeed) {
+		diffs := pretty.Diff(testItunesRssFeedXML, xmlFeed)
+		t.Log(pretty.Println(diffs))
+		t.Error("object was not unmarshalled correctly")
+	}
+
 }

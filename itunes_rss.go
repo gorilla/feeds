@@ -26,7 +26,7 @@ type ItunesRssFeed struct {
 	Description    string   `xml:"description"` // required
 	Language       string   `xml:"language,omitempty"`
 	Copyright      string   `xml:"copyright,omitempty"`
-	ManagingEditor string   `xml:"managingEditor,omitempty"` // Author used
+	ManagingEditor string   `xml:"author,omitempty"` // Author used
 	WebMaster      string   `xml:"webMaster,omitempty"`
 	PubDate        string   `xml:"pubDate,omitempty"`       // created or updated
 	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
@@ -40,11 +40,11 @@ type ItunesRssFeed struct {
 	SkipDays       string   `xml:"skipDays,omitempty"`
 	Image          *RssImage
 	TextInput      *RssTextInput
-	IImage         *ItunesImage     `xml:"itunes:image"`
-	ICategory      *ItunesCategory  `xml:"itunes:category"`
-	IExplicit      string           `xml:"itunes:explicit"`
-	IAuthor        string           `xml:"itunes:author,omitempty"`
-	IOwner         *ItunesOwner     `xml:"itunes:owner,omitempty"`
+	IImage         *ItunesImage `xml:"itunes:image"`
+	ICategory      *ItunesCategory
+	IExplicit      string `xml:"itunes:explicit"`
+	IAuthor        string `xml:"itunes:author,omitempty"`
+	IOwner         *ItunesOwner
 	IType          string           `xml:"itunes:type,omitempty"`
 	INewFeedUrl    string           `xml:"itunes:new-feed-url,omitempty"`
 	IBlock         string           `xml:"itunes:block,omitempty"`
@@ -57,24 +57,27 @@ type ItunesImage struct {
 }
 
 type ItunesCategory struct {
-	Text     string             `xml:"text,attr"`
-	Category *ItunesSubCategory `xml:"itunes:category"`
+	XMLName  xml.Name `xml:"itunes:category"`
+	Text     string   `xml:"text,attr"`
+	Category *ItunesSubCategory
 }
 
 type ItunesSubCategory struct {
-	Text string `xml:"text,attr"`
+	XMLName xml.Name `xml:"itunes:category"`
+	Text    string   `xml:"text,attr"`
 }
 
 type ItunesOwner struct {
-	Name  string `xml:"itunes:name,omitempty"`
-	Email string `xml:"itunes:email,omitempty"`
+	XMLName xml.Name `xml:"itunes:owner"`
+	Name    string   `xml:"itunes:name,omitempty"`
+	Email   string   `xml:"itunes:email,omitempty"`
 }
 
 type ItunesRssItem struct {
 	XMLName      xml.Name           `xml:"item"`
-	Title        string             `xml:"title"`       // required
-	Link         string             `xml:"link"`        // required
-	Description  *ItunesDescription `xml:"description"` // required
+	Title        string             `xml:"title"` // required
+	Link         string             `xml:"link"`  // required
+	Description  *ItunesDescription // required
 	Content      *RssContent
 	Author       string `xml:"author,omitempty"`
 	Category     string `xml:"category,omitempty"`
@@ -94,7 +97,8 @@ type ItunesRssItem struct {
 }
 
 type ItunesDescription struct {
-	Content string `xml:"content:encoded"`
+	XMLName xml.Name `xml:"description"`
+	Content *RssContent
 }
 
 type ItunesRss struct {
@@ -107,7 +111,7 @@ func newItunesRssItem(i *Item) *ItunesRssItem {
 		Title:       i.Title,
 		ITitle:      i.Title,
 		Link:        i.Link.Href,
-		Description: &ItunesDescription{Content: i.Description},
+		Description: &ItunesDescription{Content: &RssContent{Content: i.Description}},
 		Guid:        i.Id,
 		PubDate:     anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
 	}
@@ -152,14 +156,14 @@ func (r *ItunesRss) ItunesRssFeed() *ItunesRssFeed {
 	}
 
 	channel := &ItunesRssFeed{
-		Title:          r.Title,
-		Link:           r.Link.Href,
-		Description:    r.Description,
-		ManagingEditor: author,
-		PubDate:        pub,
-		LastBuildDate:  build,
-		Copyright:      r.Copyright,
-		Image:          image,
+		Title:         r.Title,
+		Link:          r.Link.Href,
+		Description:   r.Description,
+		PubDate:       pub,
+		LastBuildDate: build,
+		Copyright:     r.Copyright,
+		Image:         image,
+		IAuthor:       author,
 	}
 
 	if ownerEmail != "" || ownerName != "" {
