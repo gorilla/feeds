@@ -46,10 +46,6 @@ jobs:
     docker:
       - image: circleci/golang:1.8
 
-  "1.7":
-    <<: *test
-    docker:
-      - image: circleci/golang:1.7
 
 
 workflows:
@@ -62,4 +58,3 @@ workflows:
       - "1.10"
       - "1.9"
       - "1.8"
-      - "1.7"
