@@ -103,7 +103,7 @@ type JSONFeed struct {
 	Favicon     string      `json:"favicon,omitempty"`
 	Author      *JSONAuthor `json:"author,omitempty"`
 	Expired     *bool       `json:"expired,omitempty"`
-	Hubs        []*JSONItem `json:"hubs,omitempty"`
+	Hubs        []*JSONHub  `json:"hubs,omitempty"`
 	Items       []*JSONItem `json:"items,omitempty"`
 }
 
