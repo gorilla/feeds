@@ -509,6 +509,6 @@ func TestJSONHub(t *testing.T) {
 		t.Errorf("unexpected error encoding JSON: %v", err)
 	}
 	if json != jsonOutputHub {
-		t.Errorf("JSON not what was expected.  Got:\n%s\n\nExpected:\n%s\n", json, jsonOutputSorted)
+		t.Errorf("JSON not what was expected.  Got:\n%s\n\nExpected:\n%s\n", json, jsonOutputHub)
 	}
 }
