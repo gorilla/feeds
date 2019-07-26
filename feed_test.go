@@ -481,3 +481,34 @@ func TestFeedSorted(t *testing.T) {
 		t.Errorf("JSON not what was expected.  Got:\n||%s||\n\nExpected:\n||%s||\n", got, jsonOutputSorted)
 	}
 }
+
+var jsonOutputHub = `{
+  "version": "https://jsonfeed.org/version/1",
+  "title": "feed title",
+  "hubs": [
+    {
+      "type": "WebSub",
+      "url": "https://websub-hub.example"
+    }
+  ]
+}`
+
+func TestJSONHub(t *testing.T) {
+	feed := &JSONFeed{
+		Version: "https://jsonfeed.org/version/1",
+		Title:   "feed title",
+		Hubs: []*JSONHub{
+			&JSONHub{
+				Type: "WebSub",
+				Url:  "https://websub-hub.example",
+			},
+		},
+	}
+	json, err := feed.ToJSON()
+	if err != nil {
+		t.Errorf("unexpected error encoding JSON: %v", err)
+	}
+	if json != jsonOutputHub {
+		t.Errorf("JSON not what was expected.  Got:\n%s\n\nExpected:\n%s\n", json, jsonOutputHub)
+	}
+}
