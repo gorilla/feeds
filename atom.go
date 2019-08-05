@@ -145,7 +145,7 @@ func (a *Atom) AtomFeed() *AtomFeed {
 		Title:    a.Title,
 		Link:     &AtomLink{Href: a.Link.Href, Rel: a.Link.Rel},
 		Subtitle: a.Description,
-		Id:       a.Link.Href,
+		Id:       a.Id,
 		Updated:  updated,
 		Rights:   a.Copyright,
 	}
