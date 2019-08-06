@@ -8,7 +8,7 @@ import (
 
 var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>jmoiron.net blog</title>
-  <id>http://jmoiron.net/blog</id>
+  <id>ID</id>
   <updated>2013-01-16T21:52:35-05:00</updated>
   <rights>This work is copyright © Benjamin Button</rights>
   <subtitle>discussion about tech, footie, photos</subtitle>
@@ -171,6 +171,7 @@ func TestFeed(t *testing.T) {
 		Link:        &Link{Href: "http://jmoiron.net/blog"},
 		Description: "discussion about tech, footie, photos",
 		Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
+		Id:          "ID",
 		Created:     now,
 		Copyright:   "This work is copyright © Benjamin Button",
 	}
