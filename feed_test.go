@@ -65,14 +65,14 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:
   <channel>
     <title>jmoiron.net blog</title>
     <link>http://jmoiron.net/blog</link>
-    <description><![CDATA[Ndiscussion about tech, footie, photos]]</description>
+    <description><![CDATA[discussion about tech, footie, photos]]></description>
     <copyright>This work is copyright © Benjamin Button</copyright>
     <managingEditor>jmoiron@jmoiron.net (Jason Moiron)</managingEditor>
     <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     <item>
       <title>Limiting Concurrency in Go</title>
       <link>http://jmoiron.net/blog/limiting-concurrency-in-go/</link>
-      <description><![CDATA[NA discussion on controlled parallelism in golang]]</description>
+      <description><![CDATA[A discussion on controlled parallelism in golang]]></description>
       <content:encoded><![CDATA[<p>Go's goroutines make it easy to make <a href="http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/">embarrassingly parallel programs</a>, but in many &quot;real world&quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.</p>]]></content:encoded>
       <author>Jason Moiron</author>
       <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
@@ -80,27 +80,27 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:
     <item>
       <title>Logic-less Template Redux</title>
       <link>http://jmoiron.net/blog/logicless-template-redux/</link>
-      <description><![CDATA[NMore thoughts on logicless templates]]</description>
+      <description><![CDATA[More thoughts on logicless templates]]></description>
       <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
     <item>
       <title>Idiomatic Code Reuse in Go</title>
       <link>http://jmoiron.net/blog/idiomatic-code-reuse-in-go/</link>
-      <description><![CDATA[NHow to use interfaces <em>effectively<em>]]</description>
+      <description><![CDATA[How to use interfaces <em>effectively</em>]]></description>
       <enclosure url="http://example.com/cover.jpg" length="123456" type="image/jpg"></enclosure>
       <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
     <item>
       <title>Never Gonna Give You Up Mp3</title>
       <link>http://example.com/RickRoll.mp3</link>
-      <description><![CDATA[NNever gonna give you up - Never gonna let you down.]]</description>
+      <description><![CDATA[Never gonna give you up - Never gonna let you down.]]></description>
       <enclosure url="http://example.com/RickRoll.mp3" length="123456" type="audio/mpeg"></enclosure>
       <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
     <item>
       <title>String formatting in Go</title>
       <link>http://example.com/strings</link>
-      <description><![CDATA[NHow to use things like %s, %v, %d, etc.]]</description>
+      <description><![CDATA[How to use things like %s, %v, %d, etc.]]></description>
       <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
     </item>
   </channel>
@@ -309,7 +309,7 @@ var rssOutputSorted = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" 
   <channel>
     <title>jmoiron.net blog</title>
     <link>http://jmoiron.net/blog</link>
-    <description><![CDATA[Ndiscussion about tech, footie, photos]]</description>
+    <description><![CDATA[discussion about tech, footie, photos]]></description>
     <copyright>This work is copyright © Benjamin Button</copyright>
     <managingEditor>jmoiron@jmoiron.net (Jason Moiron)</managingEditor>
     <pubDate>Wed, 16 Jan 2013 21:52:35 -0500</pubDate>
