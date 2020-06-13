@@ -74,23 +74,22 @@ type XmlFeed interface {
 
 // turn a feed object (either a Feed, AtomFeed, or RssFeed) into xml
 // returns an error if xml marshaling fails
-func ToXML(feed XmlFeed) (string, error) {
+func ToXML(feed XmlFeed, header string) (string, error) {
 	x := feed.FeedXml()
 	data, err := xml.MarshalIndent(x, "", "  ")
 	if err != nil {
 		return "", err
 	}
-	// strip empty line from default xml header
-	s := xml.Header[:len(xml.Header)-1] + string(data)
+	s := header + string(data)
 	return s, nil
 }
 
 // WriteXML writes a feed object (either a Feed, AtomFeed, or RssFeed) as XML into
 // the writer. Returns an error if XML marshaling fails.
-func WriteXML(feed XmlFeed, w io.Writer) error {
+func WriteXML(feed XmlFeed, header string, w io.Writer) error {
 	x := feed.FeedXml()
 	// write default xml header, without the newline
-	if _, err := w.Write([]byte(xml.Header[:len(xml.Header)-1])); err != nil {
+	if _, err := w.Write([]byte(header)); err != nil {
 		return err
 	}
 	e := xml.NewEncoder(w)
@@ -98,26 +97,47 @@ func WriteXML(feed XmlFeed, w io.Writer) error {
 	return e.Encode(x)
 }
 
-// creates an Atom representation of this feed
+// ToAtom creates an Atom representation of this feed
 func (f *Feed) ToAtom() (string, error) {
+	return f.ToAtomWithHeader(xml.Header[:len(xml.Header)-1])
+}
+
+// ToAtomWithHeader creates an Atom representation of this feed with a custom header
+func (f *Feed) ToAtomWithHeader(header string) (string, error) {
 	a := &Atom{f}
-	return ToXML(a)
+	return ToXML(a, header)
 }
 
 // WriteAtom writes an Atom representation of this feed to the writer.
 func (f *Feed) WriteAtom(w io.Writer) error {
-	return WriteXML(&Atom{f}, w)
+	return WriteXML(&Atom{f}, xml.Header[:len(xml.Header)-1], w)
 }
 
-// creates an Rss representation of this feed
+// WriteAtomWithHeader writes an Atom representation of this feed to the writer along with a custom header.
+func (f *Feed) WriteAtomWithHeader(w io.Writer, header string) error {
+	return WriteXML(&Atom{f}, header, w)
+}
+
+//ToRss creates an Rss representation of this feed
 func (f *Feed) ToRss() (string, error) {
 	r := &Rss{f}
-	return ToXML(r)
+	return ToXML(r, xml.Header[:len(xml.Header)-1])
+}
+
+//ToRssWithHeader creates an Rss representation of this feed with a custom header
+func (f *Feed) ToRssWithHeader(header string) (string, error) {
+	r := &Rss{f}
+	return ToXML(r, header)
 }
 
 // WriteRss writes an RSS representation of this feed to the writer.
 func (f *Feed) WriteRss(w io.Writer) error {
-	return WriteXML(&Rss{f}, w)
+	return WriteXML(&Rss{f}, xml.Header[:len(xml.Header)-1], w)
+}
+
+// WriteRssWithHeader writes an RSS representation of this feed to the writer along with a custom header.
+func (f *Feed) WriteRssWithHeader(w io.Writer, header string) error {
+	return WriteXML(&Rss{f}, header, w)
 }
 
 // ToJSON creates a JSON Feed representation of this feed
