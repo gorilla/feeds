@@ -54,7 +54,6 @@ type RssFeed struct {
 	PubDate        string   `xml:"pubDate,omitempty"`       // created or updated
 	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
 	Category       string   `xml:"category,omitempty"`
-	MediaCategory  string   `xml:"media:category,omitempty"`
 	Generator      string   `xml:"generator,omitempty"`
 	Docs           string   `xml:"docs,omitempty"`
 	Cloud          string   `xml:"cloud,omitempty"`
@@ -68,19 +67,20 @@ type RssFeed struct {
 }
 
 type RssItem struct {
-	XMLName     xml.Name `xml:"item"`
-	Title       string   `xml:"title"`       // required
-	Link        string   `xml:"link"`        // required
-	Description string   `xml:"description"` // required
-	Content     *RssContent
-	Author      string   `xml:"author,omitempty"`
-	Category    []string `xml:"category,omitempty"`
-	Comments    string   `xml:"comments,omitempty"`
-	Enclosure   *RssEnclosure
-	Guid        string `xml:"guid,omitempty"`    // Id used
-	PubDate     string `xml:"pubDate,omitempty"` // created or updated
-	Source      string `xml:"source,omitempty"`
-	Creator     string `xml:"dc:creator,omitempty"`
+	XMLName       xml.Name `xml:"item"`
+	Title         string   `xml:"title"`       // required
+	Link          string   `xml:"link"`        // required
+	Description   string   `xml:"description"` // required
+	Content       *RssContent
+	Author        string   `xml:"author,omitempty"`
+	Category      []string `xml:"category,omitempty"`
+	MediaCategory []string `xml:"media:category,omitempty"`
+	Comments      string   `xml:"comments,omitempty"`
+	Enclosure     *RssEnclosure
+	Guid          string `xml:"guid,omitempty"`    // Id used
+	PubDate       string `xml:"pubDate,omitempty"` // created or updated
+	Source        string `xml:"source,omitempty"`
+	Creator       string `xml:"dc:creator,omitempty"`
 }
 
 type RssEnclosure struct {
