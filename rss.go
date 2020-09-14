@@ -16,6 +16,7 @@ type RssFeedXml struct {
 	Version             string   `xml:"version,attr"`
 	ContentNamespace    string   `xml:"xmlns:content,attr"`
 	DublinCoreNamespace string   `xml:"xmlns:dc,attr"`
+	MediaNamespace      string   `xml:"xmlns:media,attr"`
 	Channel             *RssFeed
 }
 
@@ -72,7 +73,7 @@ type RssItem struct {
 	Description string   `xml:"description"` // required
 	Content     *RssContent
 	Author      string `xml:"author,omitempty"`
-	Category    string `xml:"category,omitempty"`
+	Category    []string `xml:"category,omitempty"`
 	Comments    string `xml:"comments,omitempty"`
 	Enclosure   *RssEnclosure
 	Guid        string `xml:"guid,omitempty"`    // Id used
@@ -167,5 +168,6 @@ func (r *RssFeed) FeedXml() interface{} {
 		Channel:             r,
 		ContentNamespace:    "http://purl.org/rss/1.0/modules/content/",
 		DublinCoreNamespace: "http://purl.org/dc/elements/1.1/",
+		MediaNamespace:      "http://search.yahoo.com/mrss/",
 	}
 }
