@@ -69,13 +69,16 @@ type RssFeed struct {
 type RssItem struct {
 	XMLName       xml.Name `xml:"item"`
 	Title         string   `xml:"title"`       // required
+	MediaTitle	string `xml:"media:title,omitempty"`
 	Link          string   `xml:"link"`        // required
 	Description   string   `xml:"description"` // required
+	MediaDescription string `xml:"media:description"`
 	Content       *RssContent
 	Author        string   `xml:"author,omitempty"`
 	Category      []string `xml:"category,omitempty"`
 	MediaCategory []string `xml:"media:category,omitempty"`
 	Comments      string   `xml:"comments,omitempty"`
+	MediaContent *MediaContent `xml:"media:content,omitempty"`
 	Enclosure     *RssEnclosure
 	Guid          string `xml:"guid,omitempty"`    // Id used
 	PubDate       string `xml:"pubDate,omitempty"` // created or updated
@@ -89,6 +92,23 @@ type RssEnclosure struct {
 	Url     string   `xml:"url,attr"`
 	Length  string   `xml:"length,attr"`
 	Type    string   `xml:"type,attr"`
+}
+
+type MediaContent struct {
+	Url string `xml:"url,attr"`
+	FileSize string `xml:"file_size,attr,omitempty"`
+	Type string `xml:"type,attr,omitempty"`
+	Medium string `xml:"medium,attr,omitempty"`
+	IsDefault string `xml:"isDefault,attr,omitempty"`
+	Expression string `xml:"expression,attr,omitempty"`
+	Bitrate string `xml:"bitrate,attr,omitempty"`
+	Framerate string `xml:"framerate,attr,omitempty"`
+	Samplingrate string `xml:"samplingrate,attr,omitempty"`
+	Channels string `xml:"channels,attr,omitempty"`
+	Duration string `xml:"duration,attr,omitempty"`
+	Height string `xml:"height,attr,omitempty"`
+	Width string `xml:"width,attr,omitempty"`
+	Lang string `xml:"lang,attr,omitempty"`
 }
 
 type Rss struct {
