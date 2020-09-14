@@ -54,6 +54,7 @@ type RssFeed struct {
 	PubDate        string   `xml:"pubDate,omitempty"`       // created or updated
 	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
 	Category       string   `xml:"category,omitempty"`
+	MediaCategory  string   `xml:"media:category,omitempty"`
 	Generator      string   `xml:"generator,omitempty"`
 	Docs           string   `xml:"docs,omitempty"`
 	Cloud          string   `xml:"cloud,omitempty"`
@@ -72,9 +73,9 @@ type RssItem struct {
 	Link        string   `xml:"link"`        // required
 	Description string   `xml:"description"` // required
 	Content     *RssContent
-	Author      string `xml:"author,omitempty"`
+	Author      string   `xml:"author,omitempty"`
 	Category    []string `xml:"category,omitempty"`
-	Comments    string `xml:"comments,omitempty"`
+	Comments    string   `xml:"comments,omitempty"`
 	Enclosure   *RssEnclosure
 	Guid        string `xml:"guid,omitempty"`    // Id used
 	PubDate     string `xml:"pubDate,omitempty"` // created or updated
