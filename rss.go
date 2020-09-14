@@ -84,6 +84,8 @@ type RssItem struct {
 	PubDate       string `xml:"pubDate,omitempty"` // created or updated
 	Source        string `xml:"source,omitempty"`
 	Creator       string `xml:"dc:creator,omitempty"`
+	MediaThumbnail *MediaThumbnail `xml:"media:thumbnail,omitempty"`
+	MediaCopyright string `xml:"media:copyright,omitempty"`
 }
 
 type RssEnclosure struct {
@@ -109,6 +111,13 @@ type MediaContent struct {
 	Height string `xml:"height,attr,omitempty"`
 	Width string `xml:"width,attr,omitempty"`
 	Lang string `xml:"lang,attr,omitempty"`
+}
+
+type MediaThumbnail struct {
+	Url string `xml:"url,attr"`
+	Height string `xml:"height,attr,omitempty"`
+	With string `xml:"with,attr,omitempty"`
+	Time string `xml:"time,attr,omitempty"`
 }
 
 type Rss struct {
