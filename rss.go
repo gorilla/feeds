@@ -76,7 +76,7 @@ type RssItem struct {
 	Content       *RssContent
 	Author        string   `xml:"author,omitempty"`
 	Category      []string `xml:"category,omitempty"`
-	MediaCategory []string `xml:"media:category,omitempty"`
+//	MediaCategory []string `xml:"media:category,omitempty"` // TODO implement correctly
 	Comments      string   `xml:"comments,omitempty"`
 	MediaContent *MediaContent `xml:"media:content,omitempty"`
 	Enclosure     *RssEnclosure
