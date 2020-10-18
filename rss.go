@@ -144,6 +144,7 @@ func (r *Rss) RssFeed() *RssFeed {
 		LastBuildDate:  build,
 		Copyright:      r.Copyright,
 		Image:          image,
+		Language:       r.Language,
 	}
 	for _, i := range r.Items {
 		channel.Items = append(channel.Items, newRssItem(i))

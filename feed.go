@@ -50,6 +50,7 @@ type Feed struct {
 	Items       []*Item
 	Copyright   string
 	Image       *Image
+	Language    string
 }
 
 // add a new Item to a Feed
