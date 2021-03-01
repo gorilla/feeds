@@ -112,8 +112,16 @@ func newRssItem(i *Item) *RssItem {
 		item.Enclosure = &RssEnclosure{Url: i.Enclosure.Url, Type: i.Enclosure.Type, Length: i.Enclosure.Length}
 	}
 
-	if i.Author != nil {
-		item.Author = i.Author.Name
+	//https://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+	//An E-Mail is required as per spec. RSS readers that closely follow the
+	//spec will fail if there's no E-Mail. Since the name is optional, it's
+	//only added if an E-Mail is there.
+	if i.Author != nil && i.Author.Email != "" {
+		if i.Author.Name != "" {
+			item.Author = fmt.Sprintf("%s (%s)", i.Author.Email, i.Author.Name)
+		} else {
+			item.Author = i.Author.Email
+		}
 	}
 	return item
 }
