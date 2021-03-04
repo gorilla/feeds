@@ -35,6 +35,8 @@ type RssImage struct {
 	Height  int      `xml:"height,omitempty"`
 }
 
+// deprecated
+// will be removed soon
 type RssTextInput struct {
 	XMLName     xml.Name `xml:"textInput"`
 	Title       string   `xml:"title"`
@@ -62,31 +64,32 @@ type RssFeed struct {
 	Rating         string   `xml:"rating,omitempty"`
 	SkipHours      string   `xml:"skipHours,omitempty"`
 	SkipDays       string   `xml:"skipDays,omitempty"`
+	SelfLink       AtomLink `xml:"atom:link,omitempty"`
 	Image          *RssImage
 	TextInput      *RssTextInput
 	Items          []*RssItem `xml:"item"`
 }
 
 type RssItem struct {
-	XMLName       xml.Name `xml:"item"`
-	Title         string   `xml:"title"`       // required
-	MediaTitle	string `xml:"media:title,omitempty"`
-	Link          string   `xml:"link"`        // required
-	Description   string   `xml:"description"` // required
-	MediaDescription string `xml:"media:description"`
-	Content       *RssContent
-	Author        string   `xml:"author,omitempty"`
-	Category      []string `xml:"category,omitempty"`
-//	MediaCategory []string `xml:"media:category,omitempty"` // TODO implement correctly
-	Comments      string   `xml:"comments,omitempty"`
-	MediaContent *MediaContent `xml:"media:content,omitempty"`
-	Enclosure     *RssEnclosure
-	Guid          string `xml:"guid,omitempty"`    // Id used
-	PubDate       string `xml:"pubDate,omitempty"` // created or updated
-	Source        string `xml:"source,omitempty"`
-	Creator       string `xml:"dc:creator,omitempty"`
+	XMLName          xml.Name `xml:"item"`
+	Title            string   `xml:"title"` // required
+	MediaTitle       string   `xml:"media:title,omitempty"`
+	Link             string   `xml:"link"`        // required
+	Description      string   `xml:"description"` // required
+	MediaDescription string   `xml:"media:description"`
+	Content          *RssContent
+	Author           string   `xml:"author,omitempty"`
+	Category         []string `xml:"category,omitempty"`
+	//	MediaCategory []string `xml:"media:category,omitempty"` // TODO implement correctly
+	Comments       string        `xml:"comments,omitempty"`
+	MediaContent   *MediaContent `xml:"media:content,omitempty"`
+	Enclosure      *RssEnclosure
+	Guid           string          `xml:"guid,omitempty"`    // Id used
+	PubDate        string          `xml:"pubDate,omitempty"` // created or updated
+	Source         string          `xml:"source,omitempty"`
+	Creator        string          `xml:"dc:creator,omitempty"`
 	MediaThumbnail *MediaThumbnail `xml:"media:thumbnail,omitempty"`
-	MediaCopyright string `xml:"media:copyright,omitempty"`
+	MediaCopyright string          `xml:"media:copyright,omitempty"`
 }
 
 type RssEnclosure struct {
@@ -98,27 +101,27 @@ type RssEnclosure struct {
 }
 
 type MediaContent struct {
-	Url string `xml:"url,attr"`
-	FileSize string `xml:"file_size,attr,omitempty"`
-	Type string `xml:"type,attr,omitempty"`
-	Medium string `xml:"medium,attr,omitempty"`
-	IsDefault string `xml:"isDefault,attr,omitempty"`
-	Expression string `xml:"expression,attr,omitempty"`
-	Bitrate string `xml:"bitrate,attr,omitempty"`
-	Framerate string `xml:"framerate,attr,omitempty"`
+	Url          string `xml:"url,attr"`
+	FileSize     string `xml:"file_size,attr,omitempty"`
+	Type         string `xml:"type,attr,omitempty"`
+	Medium       string `xml:"medium,attr,omitempty"`
+	IsDefault    string `xml:"isDefault,attr,omitempty"`
+	Expression   string `xml:"expression,attr,omitempty"`
+	Bitrate      string `xml:"bitrate,attr,omitempty"`
+	Framerate    string `xml:"framerate,attr,omitempty"`
 	Samplingrate string `xml:"samplingrate,attr,omitempty"`
-	Channels string `xml:"channels,attr,omitempty"`
-	Duration string `xml:"duration,attr,omitempty"`
-	Height string `xml:"height,attr,omitempty"`
-	Width string `xml:"width,attr,omitempty"`
-	Lang string `xml:"lang,attr,omitempty"`
+	Channels     string `xml:"channels,attr,omitempty"`
+	Duration     string `xml:"duration,attr,omitempty"`
+	Height       string `xml:"height,attr,omitempty"`
+	Width        string `xml:"width,attr,omitempty"`
+	Lang         string `xml:"lang,attr,omitempty"`
 }
 
 type MediaThumbnail struct {
-	Url string `xml:"url,attr"`
+	Url    string `xml:"url,attr"`
 	Height string `xml:"height,attr,omitempty"`
-	With string `xml:"with,attr,omitempty"`
-	Time string `xml:"time,attr,omitempty"`
+	With   string `xml:"with,attr,omitempty"`
+	Time   string `xml:"time,attr,omitempty"`
 }
 
 type Rss struct {
