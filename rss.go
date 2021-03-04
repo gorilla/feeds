@@ -17,6 +17,7 @@ type RssFeedXml struct {
 	ContentNamespace    string   `xml:"xmlns:content,attr"`
 	DublinCoreNamespace string   `xml:"xmlns:dc,attr"`
 	MediaNamespace      string   `xml:"xmlns:media,attr"`
+	AtomNamespace       string   `xml:"xmlns:atom,attr"`
 	Channel             *RssFeed
 }
 
@@ -199,5 +200,6 @@ func (r *RssFeed) FeedXml() interface{} {
 		ContentNamespace:    "http://purl.org/rss/1.0/modules/content/",
 		DublinCoreNamespace: "http://purl.org/dc/elements/1.1/",
 		MediaNamespace:      "http://search.yahoo.com/mrss/",
+		AtomNamespace:       "http://www.w3.org/2005/Atom",
 	}
 }
