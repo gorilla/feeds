@@ -143,6 +143,11 @@ func (f *JSON) JSONFeed() *JSONFeed {
 			Name: f.Author.Name,
 		}
 	}
+	for _, l := range f.Links {
+		if strings.ToLower(l.Rel) == "next" {
+			feed.NextUrl = l.Href
+		}
+	}
 	for _, e := range f.Items {
 		feed.Items = append(feed.Items, newJSONItem(e))
 	}

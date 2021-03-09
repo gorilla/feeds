@@ -14,7 +14,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
   <subtitle>discussion about tech, footie, photos</subtitle>
   <link href="http://jmoiron.net/blog"></link>
   <link href="http://jmoiron.net/blog/first" rel="First"></link>
-  <link href="http://jmoiron.net/blog/last" rel="Last"></link>
+  <link href="http://jmoiron.net/blog/next" rel="Next"></link>
   <author>
     <name>Jason Moiron</name>
     <email>jmoiron@jmoiron.net</email>
@@ -113,6 +113,7 @@ var jsonOutput = `{
   "title": "jmoiron.net blog",
   "home_page_url": "http://jmoiron.net/blog",
   "description": "discussion about tech, footie, photos",
+  "next_url": "http://jmoiron.net/blog/next",
   "author": {
     "name": "Jason Moiron"
   },
@@ -173,7 +174,7 @@ func TestFeed(t *testing.T) {
 		Link:  &Link{Href: "http://jmoiron.net/blog"},
 		Links: []Link{
 			Link{Href: "http://jmoiron.net/blog/first", Rel: "First"},
-			Link{Href: "http://jmoiron.net/blog/last", Rel: "Last"},
+			Link{Href: "http://jmoiron.net/blog/next", Rel: "Next"},
 		},
 		Description: "discussion about tech, footie, photos",
 		Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
@@ -271,7 +272,7 @@ var atomOutputSorted = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http:
   <subtitle>discussion about tech, footie, photos</subtitle>
   <link href="http://jmoiron.net/blog"></link>
   <link href="http://jmoiron.net/blog/first" rel="First"></link>
-  <link href="http://jmoiron.net/blog/last" rel="Last"></link>
+  <link href="http://jmoiron.net/blog/next" rel="Next"></link>
   <author>
     <name>Jason Moiron</name>
     <email>jmoiron@jmoiron.net</email>
@@ -359,6 +360,7 @@ var jsonOutputSorted = `{
   "title": "jmoiron.net blog",
   "home_page_url": "http://jmoiron.net/blog",
   "description": "discussion about tech, footie, photos",
+  "next_url": "http://jmoiron.net/blog/next",
   "author": {
     "name": "Jason Moiron"
   },
@@ -409,7 +411,7 @@ func TestFeedSorted(t *testing.T) {
 		Link:  &Link{Href: "http://jmoiron.net/blog"},
 		Links: []Link{
 			Link{Href: "http://jmoiron.net/blog/first", Rel: "First"},
-			Link{Href: "http://jmoiron.net/blog/last", Rel: "Last"},
+			Link{Href: "http://jmoiron.net/blog/next", Rel: "Next"},
 		},
 		Description: "discussion about tech, footie, photos",
 		Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
