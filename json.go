@@ -16,12 +16,10 @@ type JSONAuthor struct {
 	Avatar string `json:"avatar,omitempty"`
 }
 
-// JSONLinks represent the links as described in RFC5005 for Atom feeds
-type JSONLinks struct {
-	First    string `json:"first,omitempty"`
-	Last     string `json:"last,omitempty"`
-	Previous string `json:"previous,omitempty"`
-	Next     string `json:"next,omitempty"`
+// JSONLink represent the link as wanted by eminfra
+type JSONLink struct {
+	Rel  string `json:"rel"`
+	Href string `json:"href"`
 }
 
 // JSONAttachment represents a related resource. Podcasts, for instance, would
@@ -106,7 +104,7 @@ type JSONFeed struct {
 	FeedUrl     string      `json:"feed_url,omitempty"`
 	Description string      `json:"description,omitempty"`
 	UserComment string      `json:"user_comment,omitempty"`
-	Links       *JSONLinks  `json:"links,omitempty"`
+	Links       []*JSONLink `json:"links,omitempty"`
 	Icon        string      `json:"icon,omitempty"`
 	Favicon     string      `json:"favicon,omitempty"`
 	Author      *JSONAuthor `json:"author,omitempty"`
@@ -151,21 +149,8 @@ func (f *JSON) JSONFeed() *JSONFeed {
 			Name: f.Author.Name,
 		}
 	}
-	feed.Links = &JSONLinks{}
 	for _, l := range f.Links {
-		switch strings.ToLower(l.Rel) {
-		case "next":
-			/* code */
-			feed.Links.Next = l.Href
-		case "previous":
-			feed.Links.Previous = l.Href
-		case "first":
-			feed.Links.First = l.Href
-		case "last":
-			feed.Links.Last = l.Href
-		default:
-			continue
-		}
+		feed.Links = append(feed.Links, &JSONLink{Rel: l.Rel, Href: l.Href})
 	}
 	for _, e := range f.Items {
 		feed.Items = append(feed.Items, newJSONItem(e))
