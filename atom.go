@@ -158,6 +158,9 @@ func (a *Atom) AtomFeed() *AtomFeed {
 	if a.Author != nil {
 		feed.Author = &AtomAuthor{AtomPerson: AtomPerson{Name: a.Author.Name, Email: a.Author.Email}}
 	}
+	for _, l := range a.Links {
+		feed.Links = append(feed.Links, AtomLink{Href: l.Href, Rel: l.Rel})
+	}
 	for _, e := range a.Items {
 		feed.Entries = append(feed.Entries, newAtomEntry(e))
 	}
