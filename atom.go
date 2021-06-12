@@ -44,7 +44,8 @@ type AtomEntry struct {
 	Xmlns       string   `xml:"xmlns,attr,omitempty"`
 	Title       string   `xml:"title"`   // required
 	Updated     string   `xml:"updated"` // required
-	Id          string   `xml:"id"`      // required
+	Created     string   `xml:"created"`
+	Id          string   `xml:"id"` // required
 	Category    string   `xml:"category,omitempty"`
 	Content     *AtomContent
 	Rights      string `xml:"rights,omitempty"`
@@ -72,12 +73,14 @@ type AtomFeed struct {
 	Title       string   `xml:"title"`   // required
 	Id          string   `xml:"id"`      // required
 	Updated     string   `xml:"updated"` // required
+	Created     string   `xml:"created"` // required
 	Category    string   `xml:"category,omitempty"`
 	Icon        string   `xml:"icon,omitempty"`
 	Logo        string   `xml:"logo,omitempty"`
 	Rights      string   `xml:"rights,omitempty"` // copyright used
 	Subtitle    string   `xml:"subtitle,omitempty"`
 	Link        *AtomLink
+	Links       []AtomLink
 	Author      *AtomAuthor `xml:"author,omitempty"`
 	Contributor *AtomContributor
 	Entries     []*AtomEntry `xml:"entry"`
@@ -119,6 +122,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 		Links:   []AtomLink{{Href: i.Link.Href, Rel: link_rel, Type: i.Link.Type}},
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
+		Created: anyTimeFormat(time.RFC3339, i.Created),
 		Summary: s,
 	}
 
@@ -140,6 +144,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 // create a new AtomFeed with a generic Feed struct's data
 func (a *Atom) AtomFeed() *AtomFeed {
 	updated := anyTimeFormat(time.RFC3339, a.Updated, a.Created)
+	created := anyTimeFormat(time.RFC3339, a.Created)
 	feed := &AtomFeed{
 		Xmlns:    ns,
 		Title:    a.Title,
@@ -147,10 +152,14 @@ func (a *Atom) AtomFeed() *AtomFeed {
 		Subtitle: a.Description,
 		Id:       a.Link.Href,
 		Updated:  updated,
+		Created:  created,
 		Rights:   a.Copyright,
 	}
 	if a.Author != nil {
 		feed.Author = &AtomAuthor{AtomPerson: AtomPerson{Name: a.Author.Name, Email: a.Author.Email}}
+	}
+	for _, l := range a.Links {
+		feed.Links = append(feed.Links, AtomLink{Href: l.Href, Rel: l.Rel})
 	}
 	for _, e := range a.Items {
 		feed.Entries = append(feed.Entries, newAtomEntry(e))

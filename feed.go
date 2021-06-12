@@ -41,6 +41,7 @@ type Item struct {
 type Feed struct {
 	Title       string
 	Link        *Link
+	Links       []Link
 	Description string
 	Author      *Author
 	Updated     time.Time

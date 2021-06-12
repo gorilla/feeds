@@ -16,6 +16,12 @@ type JSONAuthor struct {
 	Avatar string `json:"avatar,omitempty"`
 }
 
+// JSONLink represent the link as wanted by eminfra
+type JSONLink struct {
+	Rel  string `json:"rel"`
+	Href string `json:"href"`
+}
+
 // JSONAttachment represents a related resource. Podcasts, for instance, would
 // include an attachment that’s an audio or video file.
 type JSONAttachment struct {
@@ -98,7 +104,7 @@ type JSONFeed struct {
 	FeedUrl     string      `json:"feed_url,omitempty"`
 	Description string      `json:"description,omitempty"`
 	UserComment string      `json:"user_comment,omitempty"`
-	NextUrl     string      `json:"next_url,omitempty"`
+	Links       []*JSONLink `json:"links,omitempty"`
 	Icon        string      `json:"icon,omitempty"`
 	Favicon     string      `json:"favicon,omitempty"`
 	Author      *JSONAuthor `json:"author,omitempty"`
@@ -142,6 +148,9 @@ func (f *JSON) JSONFeed() *JSONFeed {
 		feed.Author = &JSONAuthor{
 			Name: f.Author.Name,
 		}
+	}
+	for _, l := range f.Links {
+		feed.Links = append(feed.Links, &JSONLink{Rel: l.Rel, Href: l.Href})
 	}
 	for _, e := range f.Items {
 		feed.Items = append(feed.Items, newJSONItem(e))
