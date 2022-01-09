@@ -56,7 +56,7 @@ type AtomEntry struct {
 	Author      *AtomAuthor  // required if feed lacks an author
 }
 
-// Multiple links with different rel can coexist
+// AtomLink Multiple links with different rel can coexist
 type AtomLink struct {
 	//Atom 1.0 <link rel="enclosure" type="audio/mpeg" title="MP3" href="http://www.example.org/myaudiofile.mp3" length="1234" />
 	XMLName xml.Name `xml:"link"`
@@ -137,7 +137,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 	return x
 }
 
-// create a new AtomFeed with a generic Feed struct's data
+// AtomFeed create a new AtomFeed with a generic Feed struct's data
 func (a *Atom) AtomFeed() *AtomFeed {
 	updated := anyTimeFormat(time.RFC3339, a.Updated, a.Created)
 	feed := &AtomFeed{
@@ -155,6 +155,10 @@ func (a *Atom) AtomFeed() *AtomFeed {
 	for _, e := range a.Items {
 		feed.Entries = append(feed.Entries, newAtomEntry(e))
 	}
+	if a.Image != nil {
+		feed.Icon = a.Image.Url
+	}
+
 	return feed
 }
 

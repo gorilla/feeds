@@ -146,6 +146,10 @@ func (f *JSON) JSONFeed() *JSONFeed {
 	for _, e := range f.Items {
 		feed.Items = append(feed.Items, newJSONItem(e))
 	}
+	if f.Image != nil {
+		feed.Icon = f.Image.Url
+	}
+
 	return feed
 }
 
