@@ -156,7 +156,7 @@ func (a *Atom) AtomFeed() *AtomFeed {
 		feed.Entries = append(feed.Entries, newAtomEntry(e))
 	}
 	if a.Image != nil {
-		feed.Icon = a.Image.Url
+		feed.Logo = a.Image.Url
 	}
 
 	return feed
