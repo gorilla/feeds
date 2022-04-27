@@ -24,7 +24,7 @@ import (
     "fmt"
     "log"
     "time"
-    "github.com/gorilla/feeds"
+    "github.com/donuts-are-good/feeds"
 )
 
 func main() {
