@@ -2,11 +2,6 @@
 [![GoDoc](https://godoc.org/github.com/gorilla/feeds?status.svg)](https://godoc.org/github.com/gorilla/feeds)
 [![CircleCI](https://circleci.com/gh/gorilla/feeds.svg?style=svg)](https://circleci.com/gh/gorilla/feeds)
 
----
-
-**The Gorilla project has been archived, and is no longer under active maintainenance. You can read more here: https://github.com/gorilla#gorilla-toolkit**
-
----
 
 feeds is a web feed generator library for generating RSS, Atom and JSON feeds from Go
 applications.
