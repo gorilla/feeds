@@ -2,7 +2,7 @@ package feeds
 
 import (
 	"encoding/xml"
-	"io/ioutil"
+	"io"
 	"os"
 	"reflect"
 	"testing"
@@ -373,8 +373,10 @@ func TestRssUnmarshal(t *testing.T) {
 	if err != nil {
 		panic("AHH file bad")
 	}
-	bytes, _ := ioutil.ReadAll(xmlFile)
-	xml.Unmarshal(bytes, &xmlFeed)
+	bytes, _ := io.ReadAll(xmlFile)
+	if err := xml.Unmarshal(bytes, &xmlFeed); err != nil {
+		panic(err)
+	}
 
 	if !reflect.DeepEqual(testRssFeedXML, xmlFeed) {
 		diffs := pretty.Diff(testRssFeedXML, xmlFeed)
@@ -390,8 +392,10 @@ func TestAtomUnmarshal(t *testing.T) {
 	if err != nil {
 		panic("AHH file bad")
 	}
-	bytes, _ := ioutil.ReadAll(xmlFile)
-	xml.Unmarshal(bytes, &xmlFeed)
+	bytes, _ := io.ReadAll(xmlFile)
+	if err := xml.Unmarshal(bytes, &xmlFeed); err != nil {
+		panic(err)
+	}
 
 	if !reflect.DeepEqual(testAtomFeedXML, xmlFeed) {
 		diffs := pretty.Diff(testAtomFeedXML, xmlFeed)

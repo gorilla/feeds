@@ -95,10 +95,12 @@ type Rss struct {
 func newRssItem(i *Item) *RssItem {
 	item := &RssItem{
 		Title:       i.Title,
-		Link:        i.Link.Href,
 		Description: i.Description,
 		Guid:        i.Id,
 		PubDate:     anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
+	}
+	if i.Link != nil {
+		item.Link = i.Link.Href
 	}
 	if len(i.Content) > 0 {
 		item.Content = &RssContent{Content: i.Content}
