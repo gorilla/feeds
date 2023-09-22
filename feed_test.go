@@ -121,13 +121,18 @@ var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:
 </rss>`
 
 var jsonOutput = `{
-  "version": "https://jsonfeed.org/version/1",
+  "version": "https://jsonfeed.org/version/1.1",
   "title": "jmoiron.net blog",
   "home_page_url": "http://jmoiron.net/blog",
   "description": "discussion about tech, footie, photos",
   "author": {
     "name": "Jason Moiron"
   },
+  "authors": [
+    {
+      "name": "Jason Moiron"
+    }
+  ],
   "items": [
     {
       "id": "",
@@ -138,7 +143,12 @@ var jsonOutput = `{
       "date_published": "2013-01-16T21:52:35-05:00",
       "author": {
         "name": "Jason Moiron"
-      }
+      },
+      "authors": [
+        {
+          "name": "Jason Moiron"
+        }
+      ]
     },
     {
       "id": "",
@@ -369,13 +379,18 @@ var rssOutputSorted = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" 
 </rss>`
 
 var jsonOutputSorted = `{
-  "version": "https://jsonfeed.org/version/1",
+  "version": "https://jsonfeed.org/version/1.1",
   "title": "jmoiron.net blog",
   "home_page_url": "http://jmoiron.net/blog",
   "description": "discussion about tech, footie, photos",
   "author": {
     "name": "Jason Moiron"
   },
+  "authors": [
+    {
+      "name": "Jason Moiron"
+    }
+  ],
   "items": [
     {
       "id": "",
@@ -572,7 +587,7 @@ func TestJSONHub(t *testing.T) {
 		Version: "https://jsonfeed.org/version/1",
 		Title:   "feed title",
 		Hubs: []*JSONHub{
-			&JSONHub{
+			{
 				Type: "WebSub",
 				Url:  "https://websub-hub.example",
 			},

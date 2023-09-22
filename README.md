@@ -17,7 +17,7 @@ applications.
 
 [atom]: https://tools.ietf.org/html/rfc4287
 [rss]: http://www.rssboard.org/rss-specification
-[jsonfeed]: https://jsonfeed.org/version/1
+[jsonfeed]: https://jsonfeed.org/version/1.1
 
 ### Usage
 
@@ -151,13 +151,18 @@ Outputs:
 </rss>
 
 {
-  "version": "https://jsonfeed.org/version/1",
+  "version": "https://jsonfeed.org/version/1.1",
   "title": "jmoiron.net blog",
   "home_page_url": "http://jmoiron.net/blog",
   "description": "discussion about tech, footie, photos",
   "author": {
     "name": "Jason Moiron"
   },
+  "authors": [
+    {
+      "name": "Jason Moiron"
+    }
+  ],
   "items": [
     {
       "id": "",
@@ -167,7 +172,12 @@ Outputs:
       "date_published": "2013-01-16T03:22:24.530817846-05:00",
       "author": {
         "name": "Jason Moiron"
-      }
+      },
+      "authors": [
+        {
+          "name": "Jason Moiron"
+        }
+      ]
     },
     {
       "id": "",
