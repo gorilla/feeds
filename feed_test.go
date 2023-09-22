@@ -504,6 +504,58 @@ func TestFeedSorted(t *testing.T) {
 	}
 }
 
+func TestFeedNil(t *testing.T) {
+	now, err := time.Parse(time.RFC3339, "2013-01-16T21:52:35-05:00")
+	if err != nil {
+		t.Error(err)
+	}
+	tz := time.FixedZone("EST", -5*60*60)
+	now = now.In(tz)
+
+	feed := &Feed{
+		Title:       "jmoiron.net blog",
+		Link:        nil,
+		Description: "discussion about tech, footie, photos",
+		Author:      nil,
+		Created:     now,
+		Copyright:   "This work is copyright © Benjamin Button",
+	}
+
+	feed.Items = []*Item{
+		{
+			Title:       "Limiting Concurrency in Go",
+			Link:        nil,
+			Description: "A discussion on controlled parallelism in golang",
+			Author:      nil,
+			Created:     now,
+			Content:     `<p>Go's goroutines make it easy to make <a href="http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/">embarrassingly parallel programs</a>, but in many &quot;real world&quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.</p>`,
+		}}
+
+	if _, err := feed.ToAtom(); err != nil {
+		t.Errorf("unexpected error encoding Atom: %v", err)
+	}
+	var buf bytes.Buffer
+	if err := feed.WriteAtom(&buf); err != nil {
+		t.Errorf("unexpected error writing Atom: %v", err)
+	}
+
+	if _, err := feed.ToRss(); err != nil {
+		t.Errorf("unexpected error encoding RSS: %v", err)
+	}
+	buf.Reset()
+	if err := feed.WriteRss(&buf); err != nil {
+		t.Errorf("unexpected error writing RSS: %v", err)
+	}
+
+	if _, err := feed.ToJSON(); err != nil {
+		t.Errorf("unexpected error encoding JSON: %v", err)
+	}
+	buf.Reset()
+	if err := feed.WriteJSON(&buf); err != nil {
+		t.Errorf("unexpected error writing JSON: %v", err)
+	}
+}
+
 var jsonOutputHub = `{
   "version": "https://jsonfeed.org/version/1",
   "title": "feed title",
