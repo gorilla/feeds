@@ -36,6 +36,7 @@ type Item struct {
 	Created     time.Time
 	Enclosure   *Enclosure
 	Content     string
+	ITunes      *ITunesItem
 }
 
 type Feed struct {
@@ -50,6 +51,7 @@ type Feed struct {
 	Items       []*Item
 	Copyright   string
 	Image       *Image
+	ITunes      *ITunesFeed
 }
 
 // add a new Item to a Feed
