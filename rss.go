@@ -175,6 +175,6 @@ func (r *RssFeed) FeedXml() interface{} {
 		Version:          "2.0",
 		Channel:          r,
 		ContentNamespace: "http://purl.org/rss/1.0/modules/content/",
-		ITunesNamespace:  "http://www.itunes.com/dtds/podcast-1.0.dtd",
+		ITunesNamespace:  ITunesXmlNamespace,
 	}
 }

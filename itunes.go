@@ -2,6 +2,10 @@ package feeds
 
 // https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 
+const (
+	ITunesXmlNamespace string = "http://www.itunes.com/dtds/podcast-1.0.dtd"
+)
+
 type ITunesFeed struct {
 	Category []*ITunesCategory `xml:"itunes:category,omitempty"` // The show category information.
 	Explicit bool              `xml:"itunes:explicit"`           // The episode parental advisory information.

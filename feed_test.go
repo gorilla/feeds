@@ -1,9 +1,12 @@
-package feeds
+package feeds_test
 
 import (
 	"bytes"
+	_ "embed"
 	"testing"
 	"time"
+
+	. "github.com/gorilla/feeds"
 )
 
 var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
@@ -68,7 +71,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
   </entry>
 </feed>`
 
-var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+var rssOutput = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
     <title>jmoiron.net blog</title>
     <link>http://jmoiron.net/blog</link>
@@ -337,7 +340,7 @@ var atomOutputSorted = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http:
   </entry>
 </feed>`
 
-var rssOutputSorted = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+var rssOutputSorted = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
     <title>jmoiron.net blog</title>
     <link>http://jmoiron.net/blog</link>
@@ -599,5 +602,80 @@ func TestJSONHub(t *testing.T) {
 	}
 	if json != jsonOutputHub {
 		t.Errorf("JSON not what was expected.  Got:\n%s\n\nExpected:\n%s\n", json, jsonOutputHub)
+	}
+}
+
+//go:embed testItunes.rss
+var wantItunesRss string
+
+func TestRssFeedITunes(t *testing.T) {
+
+	now, err := time.Parse(time.RFC3339, "2013-01-16T21:52:35-05:00")
+	if err != nil {
+		t.Error(err)
+	}
+	tz := time.FixedZone("EST", -5*60*60)
+	now = now.In(tz)
+
+	feed := &Feed{
+		Title:       "My Awesome Podcast",
+		Link:        &Link{Href: "http://mypodcast.com/rss"},
+		Description: "a really cool podcast",
+		Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
+		Created:     now,
+		Copyright:   "This work is copyright © Benjamin Button",
+		ITunes: &ITunesFeed{
+			Category: []*ITunesCategory{{Category: "technology"}},
+			Explicit: false,
+			Type:     ITunesFeedTypeEpisodic,
+			Title:    "My Awesome Podcast in ITunes",
+			Image:    &ITunesImage{Href: "http://mypodcast.com/static/ituneslogo.jpg"},
+		},
+	}
+
+	feed.Items = []*Item{
+		{
+			Title:       "Episode 1",
+			Link:        &Link{Href: "http://mypodcast.com/rss/1"},
+			Description: "The first episode of the podcast.",
+			Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
+			Created:     now,
+			Enclosure: &Enclosure{
+				Url:    "http://mypodcast.com/static/1.mp3",
+				Length: "100",
+				Type:   "audio/mpeg",
+			},
+			ITunes: &ITunesItem{
+				Duration:    "2m30s",
+				EpisodeType: ITunesEpisodeTypeTrailer,
+				Author:      "Jason Moiron",
+			},
+		},
+		{
+			Title:       "Episode 2",
+			Link:        &Link{Href: "http://mypodcast.com/rss/2"},
+			Description: "The second episode of the podcast.",
+			Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
+			Created:     now,
+			Enclosure: &Enclosure{
+				Url:    "http://mypodcast.com/static/2.mp3",
+				Length: "200",
+				Type:   "audio/mpeg",
+			},
+			ITunes: &ITunesItem{
+				Duration:    "1h0m",
+				EpisodeType: ITunesEpisodeTypeFull,
+				Author:      "Jason Moiron",
+			},
+		},
+	}
+
+	rss, err := feed.ToRss()
+	if err != nil {
+		t.Errorf("unexpected error writing RSS: %v", err)
+	}
+
+	if rss != wantItunesRss {
+		t.Errorf("Rss not what was expected.  Got:\n%s\n\nExpected:\n%s\n", rss, wantItunesRss)
 	}
 }
