@@ -7,6 +7,7 @@ package feeds
 import (
 	"encoding/xml"
 	"fmt"
+	"net/mail"
 	"time"
 )
 
@@ -135,9 +136,13 @@ func (r *Rss) RssFeed() *RssFeed {
 	build := anyTimeFormat(time.RFC1123Z, r.Updated)
 	author := ""
 	if r.Author != nil {
-		author = r.Author.Email
-		if len(r.Author.Name) > 0 {
-			author = fmt.Sprintf("%s (%s)", r.Author.Email, r.Author.Name)
+		// check if email is valid
+		email := r.Author.Email
+		if isValidEmail(email) {
+			author = email
+			if len(r.Author.Name) > 0 {
+				author = fmt.Sprintf("%s (%s)", r.Author.Email, r.Author.Name)
+			}
 		}
 	}
 
@@ -180,4 +185,9 @@ func (r *RssFeed) FeedXml() interface{} {
 		Channel:          r,
 		ContentNamespace: "http://purl.org/rss/1.0/modules/content/",
 	}
+}
+
+func isValidEmail(email string) bool {
+	_, err := mail.ParseAddress(email)
+	return err == nil
 }
