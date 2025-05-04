@@ -67,17 +67,17 @@ type AtomLink struct {
 }
 
 type AtomFeed struct {
-	XMLName     xml.Name `xml:"feed"`
-	Xmlns       string   `xml:"xmlns,attr"`
-	Title       string   `xml:"title"`   // required
-	Id          string   `xml:"id"`      // required
-	Updated     string   `xml:"updated"` // required
-	Category    string   `xml:"category,omitempty"`
-	Icon        string   `xml:"icon,omitempty"`
-	Logo        string   `xml:"logo,omitempty"`
-	Rights      string   `xml:"rights,omitempty"` // copyright used
-	Subtitle    string   `xml:"subtitle,omitempty"`
-	Link        *AtomLink
+	XMLName     xml.Name    `xml:"feed"`
+	Xmlns       string      `xml:"xmlns,attr"`
+	Title       string      `xml:"title"`   // required
+	Id          string      `xml:"id"`      // required
+	Updated     string      `xml:"updated"` // required
+	Category    string      `xml:"category,omitempty"`
+	Icon        string      `xml:"icon,omitempty"`
+	Logo        string      `xml:"logo,omitempty"`
+	Rights      string      `xml:"rights,omitempty"` // copyright used
+	Subtitle    string      `xml:"subtitle,omitempty"`
+	Links       []*AtomLink `xml:"link,omitempty"`
 	Author      *AtomAuthor `xml:"author,omitempty"`
 	Contributor *AtomContributor
 	Entries     []*AtomEntry `xml:"entry"`
@@ -145,16 +145,23 @@ func newAtomEntry(i *Item) *AtomEntry {
 // create a new AtomFeed with a generic Feed struct's data
 func (a *Atom) AtomFeed() *AtomFeed {
 	updated := anyTimeFormat(time.RFC3339, a.Updated, a.Created)
-	link := a.Link
-	if link == nil {
-		link = &Link{}
+
+	var atomLinks []*AtomLink
+	for _, link := range a.Links {
+		atomLinks = append(atomLinks, &AtomLink{Href: link.Href, Rel: link.Rel})
 	}
+
+	var id string
+	if a.Links != nil {
+		id = a.Links[0].Href
+	}
+
 	feed := &AtomFeed{
 		Xmlns:    ns,
 		Title:    a.Title,
-		Link:     &AtomLink{Href: link.Href, Rel: link.Rel},
+		Links:    atomLinks,
 		Subtitle: a.Description,
-		Id:       link.Href,
+		Id:       id,
 		Updated:  updated,
 		Rights:   a.Copyright,
 	}

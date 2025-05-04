@@ -12,7 +12,8 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
   <updated>2013-01-16T21:52:35-05:00</updated>
   <rights>This work is copyright © Benjamin Button</rights>
   <subtitle>discussion about tech, footie, photos</subtitle>
-  <link href="http://jmoiron.net/blog"></link>
+  <link href="http://jmoiron.net/blog" rel="alternate"></link>
+  <link href="http://jmoiron.net/feed.atom" rel="self"></link>
   <author>
     <name>Jason Moiron</name>
     <email>jmoiron@jmoiron.net</email>
@@ -199,7 +200,7 @@ func TestFeed(t *testing.T) {
 
 	feed := &Feed{
 		Title:       "jmoiron.net blog",
-		Link:        &Link{Href: "http://jmoiron.net/blog"},
+		Links:       []*Link{{Rel: "alternate", Href: "http://jmoiron.net/blog"}, {Rel: "self", Href: "http://jmoiron.net/feed.atom"}},
 		Description: "discussion about tech, footie, photos",
 		Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
 		Created:     now,
@@ -435,7 +436,7 @@ func TestFeedSorted(t *testing.T) {
 
 	feed := &Feed{
 		Title:       "jmoiron.net blog",
-		Link:        &Link{Href: "http://jmoiron.net/blog"},
+		Links:       []*Link{{Href: "http://jmoiron.net/blog"}},
 		Description: "discussion about tech, footie, photos",
 		Author:      &Author{Name: "Jason Moiron", Email: "jmoiron@jmoiron.net"},
 		Created:     now,
@@ -529,7 +530,7 @@ func TestFeedNil(t *testing.T) {
 
 	feed := &Feed{
 		Title:       "jmoiron.net blog",
-		Link:        nil,
+		Links:       nil,
 		Description: "discussion about tech, footie, photos",
 		Author:      nil,
 		Created:     now,

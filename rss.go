@@ -146,13 +146,14 @@ func (r *Rss) RssFeed() *RssFeed {
 		image = &RssImage{Url: r.Image.Url, Title: r.Image.Title, Link: r.Image.Link, Width: r.Image.Width, Height: r.Image.Height}
 	}
 
-	var href string
-	if r.Link != nil {
-		href = r.Link.Href
+	var link string
+	if r.Links != nil {
+		link = r.Links[0].Href
 	}
+
 	channel := &RssFeed{
 		Title:          r.Title,
-		Link:           href,
+		Link:           link,
 		Description:    r.Description,
 		ManagingEditor: author,
 		PubDate:        pub,

@@ -138,8 +138,8 @@ func (f *JSON) JSONFeed() *JSONFeed {
 		Description: f.Description,
 	}
 
-	if f.Link != nil {
-		feed.HomePageUrl = f.Link.Href
+	if f.Links != nil {
+		feed.HomePageUrl = f.Links[0].Href
 	}
 	if f.Author != nil {
 		author := &JSONAuthor{
