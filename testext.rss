@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:custom="http://www.example.com/custom"
+    xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+    <channel>
+        <title><![CDATA[Lorem ipsum feed for an interval of 1 minutes]]></title>
+        <description><![CDATA[This is a constantly updating lorem ipsum feed]]></description>
+        <link>http://example.com/</link>
+        <generator>RSS for Node</generator>
+        <lastBuildDate>Tue, 30 Oct 2018 23:22:37 GMT</lastBuildDate>
+        <author><![CDATA[John Smith]]></author>
+        <pubDate>Tue, 30 Oct 2018 23:22:00 GMT</pubDate>
+        <copyright><![CDATA[Michael Bertolacci, licensed under a Creative Commons Attribution 3.0 Unported License.]]></copyright>
+        <ttl>60</ttl>
+        <custom:group name="channel name">
+            <custom:elem>
+                channel content
+            </custom:elem>
+        </custom:group>
+        <item>
+            <title><![CDATA[Lorem ipsum 2018-10-30T23:22:00+00:00]]></title>
+            <description><![CDATA[Exercitation ut Lorem sint proident.]]></description>
+            <link>http://example.com/test/1540941720</link>
+            <guid isPermaLink="true">http://example.com/test/1540941720</guid>
+            <dc:creator><![CDATA[John Smith]]></dc:creator>
+            <pubDate>Tue, 30 Oct 2018 23:22:00 GMT</pubDate>
+            <custom:group name="item name">
+                <custom:elem>
+                    item content
+                </custom:elem>
+            </custom:group>
+        </item>
+    </channel>
+</rss>
