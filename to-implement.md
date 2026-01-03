@@ -16,5 +16,4 @@
 <itunes:owner>
 <itunes:subtitle>
 <itunes:summary>
-<language>
 ```

@@ -41,24 +41,24 @@ type RssTextInput struct {
 }
 
 type RssFeed struct {
-	XMLName        xml.Name `xml:"channel"`
-	Title          string   `xml:"title"`       // required
-	Link           string   `xml:"link"`        // required
-	Description    string   `xml:"description"` // required
-	Language       string   `xml:"language,omitempty"`
-	Copyright      string   `xml:"copyright,omitempty"`
-	ManagingEditor string   `xml:"managingEditor,omitempty"` // Author used
-	WebMaster      string   `xml:"webMaster,omitempty"`
-	PubDate        string   `xml:"pubDate,omitempty"`       // created or updated
-	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
-	Category       string   `xml:"category,omitempty"`
-	Generator      string   `xml:"generator,omitempty"`
-	Docs           string   `xml:"docs,omitempty"`
-	Cloud          string   `xml:"cloud,omitempty"`
-	Ttl            int      `xml:"ttl,omitempty"`
-	Rating         string   `xml:"rating,omitempty"`
-	SkipHours      string   `xml:"skipHours,omitempty"`
-	SkipDays       string   `xml:"skipDays,omitempty"`
+	XMLName        xml.Name   `xml:"channel"`
+	Title          string     `xml:"title"`       // required
+	Link           string     `xml:"link"`        // required
+	Description    string     `xml:"description"` // required
+	Language       ISO639Code `xml:"language,omitempty"`
+	Copyright      string     `xml:"copyright,omitempty"`
+	ManagingEditor string     `xml:"managingEditor,omitempty"` // Author used
+	WebMaster      string     `xml:"webMaster,omitempty"`
+	PubDate        string     `xml:"pubDate,omitempty"`       // created or updated
+	LastBuildDate  string     `xml:"lastBuildDate,omitempty"` // updated used
+	Category       string     `xml:"category,omitempty"`
+	Generator      string     `xml:"generator,omitempty"`
+	Docs           string     `xml:"docs,omitempty"`
+	Cloud          string     `xml:"cloud,omitempty"`
+	Ttl            int        `xml:"ttl,omitempty"`
+	Rating         string     `xml:"rating,omitempty"`
+	SkipHours      string     `xml:"skipHours,omitempty"`
+	SkipDays       string     `xml:"skipDays,omitempty"`
 	Image          *RssImage
 	TextInput      *RssTextInput
 	Items          []*RssItem `xml:"item"`
@@ -66,9 +66,10 @@ type RssFeed struct {
 
 type RssItem struct {
 	XMLName     xml.Name `xml:"item"`
-	Title       string   `xml:"title"`       // required
-	Link        string   `xml:"link"`        // required
-	Description string   `xml:"description"` // required
+	Title       string   `xml:"title"`              // required
+	Link        string   `xml:"link"`               // required
+	Description string   `xml:"description"`        // required
+	Language    string   `xml:"language,omitempty"` //
 	Content     *RssContent
 	Author      string `xml:"author,omitempty"`
 	Category    string `xml:"category,omitempty"`

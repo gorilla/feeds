@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"reflect"
+	"strings"
 	"testing"
 
 	"github.com/kr/pretty"
@@ -401,5 +402,39 @@ func TestAtomUnmarshal(t *testing.T) {
 		diffs := pretty.Diff(testAtomFeedXML, xmlFeed)
 		t.Log(pretty.Println(diffs))
 		t.Error("object was not unmarshalled correctly")
+	}
+}
+
+func TestRssFeedLanguageSerialization(t *testing.T) {
+	// Case 1: No language set (empty)
+	feed := &RssFeed{
+		Title:       "Test Feed",
+		Link:        "http://example.com",
+		Description: "Test Description",
+	}
+
+	// Marshal just the feed (channel)
+	bytes, err := xml.Marshal(feed)
+	if err != nil {
+		t.Fatalf("Failed to marshal feed without language: %v", err)
+	}
+	xmlStr := string(bytes)
+
+	if strings.Contains(xmlStr, "<language>") {
+		t.Errorf("Expected no <language> tag when empty, but found: %s", xmlStr)
+	}
+
+	// Case 2: Language set to "en"
+	feed.Language = "en"
+
+	bytes, err = xml.Marshal(feed)
+	if err != nil {
+		t.Fatalf("Failed to marshal feed with language: %v", err)
+	}
+	xmlStr = string(bytes)
+
+	expected := "<language>en</language>"
+	if !strings.Contains(xmlStr, expected) {
+		t.Errorf("Expected %q in output, got: %s", expected, xmlStr)
 	}
 }
