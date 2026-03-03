@@ -51,7 +51,7 @@ type RssFeed struct {
 	WebMaster      string   `xml:"webMaster,omitempty"`
 	PubDate        string   `xml:"pubDate,omitempty"`       // created or updated
 	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
-	Category       string   `xml:"category,omitempty"`
+	Categories     []string `xml:"category,omitempty"`
 	Generator      string   `xml:"generator,omitempty"`
 	Docs           string   `xml:"docs,omitempty"`
 	Cloud          string   `xml:"cloud,omitempty"`
@@ -70,9 +70,9 @@ type RssItem struct {
 	Link        string   `xml:"link"`        // required
 	Description string   `xml:"description"` // required
 	Content     *RssContent
-	Author      string `xml:"author,omitempty"`
-	Category    string `xml:"category,omitempty"`
-	Comments    string `xml:"comments,omitempty"`
+	Author      string   `xml:"author,omitempty"`
+	Categories  []string `xml:"category,omitempty"`
+	Comments    string   `xml:"comments,omitempty"`
 	Enclosure   *RssEnclosure
 	Guid        *RssGuid // Id used
 	PubDate     string   `xml:"pubDate,omitempty"` // created or updated
@@ -104,6 +104,7 @@ func newRssItem(i *Item) *RssItem {
 		Title:       i.Title,
 		Description: i.Description,
 		PubDate:     anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
+		Categories:  i.Categories,
 	}
 	if i.Id != "" {
 		item.Guid = &RssGuid{Id: i.Id, IsPermaLink: i.IsPermaLink}
@@ -159,6 +160,7 @@ func (r *Rss) RssFeed() *RssFeed {
 		LastBuildDate:  build,
 		Copyright:      r.Copyright,
 		Image:          image,
+		Categories:     r.Categories,
 	}
 	for _, i := range r.Items {
 		channel.Items = append(channel.Items, newRssItem(i))

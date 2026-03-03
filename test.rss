@@ -12,6 +12,8 @@
         <pubDate>Tue, 30 Oct 2018 23:22:00 GMT</pubDate>
         <copyright><![CDATA[Michael Bertolacci, licensed under a Creative Commons Attribution 3.0 Unported License.]]></copyright>
         <ttl>60</ttl>
+        <category>you say goodbye</category>
+        <category>i say hello</category>
         <item>
             <title><![CDATA[Lorem ipsum 2018-10-30T23:22:00+00:00]]></title>
             <description><![CDATA[Exercitation ut Lorem sint proident.]]></description>
@@ -27,6 +29,8 @@
             <guid isPermaLink="true">http://example.com/test/1540941660</guid>
             <dc:creator><![CDATA[John Smith]]></dc:creator>
             <pubDate>Tue, 30 Oct 2018 23:21:00 GMT</pubDate>
+            <category>i don't know why you say goodbye</category>
+            <category>i say hello, hello, hello-o-o</category>
         </item>
         <item>
             <title><![CDATA[Lorem ipsum 2018-10-30T23:20:00+00:00]]></title>

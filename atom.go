@@ -45,7 +45,7 @@ type AtomEntry struct {
 	Title       string   `xml:"title"`   // required
 	Updated     string   `xml:"updated"` // required
 	Id          string   `xml:"id"`      // required
-	Category    string   `xml:"category,omitempty"`
+	Categories  []string `xml:"category,omitempty"`
 	Content     *AtomContent
 	Rights      string `xml:"rights,omitempty"`
 	Source      string `xml:"source,omitempty"`
@@ -72,7 +72,7 @@ type AtomFeed struct {
 	Title       string   `xml:"title"`   // required
 	Id          string   `xml:"id"`      // required
 	Updated     string   `xml:"updated"` // required
-	Category    string   `xml:"category,omitempty"`
+	Categories  []string `xml:"category,omitempty"`
 	Icon        string   `xml:"icon,omitempty"`
 	Logo        string   `xml:"logo,omitempty"`
 	Rights      string   `xml:"rights,omitempty"` // copyright used

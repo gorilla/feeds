@@ -33,6 +33,7 @@ type Item struct {
 	Description string // used as description in rss, summary in atom
 	Id          string // used as guid in rss, id in atom
 	IsPermaLink string // an optional parameter for guid in rss
+	Categories  []string
 	Updated     time.Time
 	Created     time.Time
 	Enclosure   *Enclosure
@@ -51,6 +52,7 @@ type Feed struct {
 	Items       []*Item
 	Copyright   string
 	Image       *Image
+	Categories  []string
 }
 
 // add a new Item to a Feed
