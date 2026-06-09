@@ -22,6 +22,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/limiting-concurrency-in-go/</id>
     <content type="html">&lt;p&gt;Go&#39;s goroutines make it easy to make &lt;a href=&#34;http://collectiveidea.com/blog/archives/2012/12/03/playing-with-go-embarrassingly-parallel-scripts/&#34;&gt;embarrassingly parallel programs&lt;/a&gt;, but in many &amp;quot;real world&amp;quot; cases resources can be limited and attempting to do everything at once can exhaust your access to them.&lt;/p&gt;</content>
+    <published>2013-01-16T21:52:35-05:00</published>
     <link href="http://jmoiron.net/blog/limiting-concurrency-in-go/" rel="alternate"></link>
     <summary type="html">A discussion on controlled parallelism in golang</summary>
     <author>
@@ -33,6 +34,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <title>Logic-less Template Redux</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/logicless-template-redux/</id>
+    <published>2013-01-16T21:52:35-05:00</published>
     <link href="http://jmoiron.net/blog/logicless-template-redux/" rel="alternate"></link>
     <summary type="html">More thoughts on logicless templates</summary>
   </entry>
@@ -40,6 +42,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <title>Idiomatic Code Reuse in Go</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-16:/blog/idiomatic-code-reuse-in-go/</id>
+    <published>2013-01-16T21:52:35-05:00</published>
     <link href="http://jmoiron.net/blog/idiomatic-code-reuse-in-go/" rel="alternate"></link>
     <link href="http://example.com/cover.jpg" rel="enclosure" type="image/jpg" length="123456"></link>
     <summary type="html">How to use interfaces &lt;em&gt;effectively&lt;/em&gt;</summary>
@@ -48,6 +51,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <title>Never Gonna Give You Up Mp3</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:example.com,2013-01-16:/RickRoll.mp3</id>
+    <published>2013-01-16T21:52:35-05:00</published>
     <link href="http://example.com/RickRoll.mp3" rel="alternate"></link>
     <link href="http://example.com/RickRoll.mp3" rel="enclosure" type="audio/mpeg" length="123456"></link>
     <summary type="html">Never gonna give you up - Never gonna let you down.</summary>
@@ -56,6 +60,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <title>String formatting in Go</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:example.com,2013-01-16:/strings</id>
+    <published>2013-01-16T21:52:35-05:00</published>
     <link href="http://example.com/strings" rel="alternate"></link>
     <summary type="html">How to use things like %s, %v, %d, etc.</summary>
   </entry>
@@ -64,6 +69,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:go-proverbs.github.io,2013-01-16:/</id>
     <content type="html">Don&#39;t communicate by sharing memory, share memory by communicating.</content>
+    <published>2013-01-16T21:52:35-05:00</published>
     <link href="https://go-proverbs.github.io/" rel="alternate"></link>
   </entry>
 </feed>`
@@ -309,30 +315,35 @@ var atomOutputSorted = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http:
     <title>Limiting Concurrency in Go</title>
     <updated>2013-01-18T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-18:/blog/limiting-concurrency-in-go/</id>
+    <published>2013-01-18T21:52:35-05:00</published>
     <link href="http://jmoiron.net/blog/limiting-concurrency-in-go/" rel="alternate"></link>
   </entry>
   <entry>
     <title>Logic-less Template Redux</title>
     <updated>2013-01-17T21:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-17:/blog/logicless-template-redux/</id>
+    <published>2013-01-17T21:52:35-05:00</published>
     <link href="http://jmoiron.net/blog/logicless-template-redux/" rel="alternate"></link>
   </entry>
   <entry>
     <title>Idiomatic Code Reuse in Go</title>
     <updated>2013-01-17T09:52:35-05:00</updated>
     <id>tag:jmoiron.net,2013-01-17:/blog/idiomatic-code-reuse-in-go/</id>
+    <published>2013-01-17T09:52:35-05:00</published>
     <link href="http://jmoiron.net/blog/idiomatic-code-reuse-in-go/" rel="alternate"></link>
   </entry>
   <entry>
     <title>Never Gonna Give You Up Mp3</title>
     <updated>2013-01-17T07:52:35-05:00</updated>
     <id>tag:example.com,2013-01-17:/RickRoll.mp3</id>
+    <published>2013-01-17T07:52:35-05:00</published>
     <link href="http://example.com/RickRoll.mp3" rel="alternate"></link>
   </entry>
   <entry>
     <title>String formatting in Go</title>
     <updated>2013-01-16T21:52:35-05:00</updated>
     <id>tag:example.com,2013-01-16:/strings</id>
+    <published>2013-01-16T21:52:35-05:00</published>
     <link href="http://example.com/strings" rel="alternate"></link>
   </entry>
 </feed>`

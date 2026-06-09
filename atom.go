@@ -120,6 +120,7 @@ func newAtomEntry(i *Item) *AtomEntry {
 		Links:   []AtomLink{{Href: link.Href, Rel: link_rel, Type: link.Type}},
 		Id:      id,
 		Updated: anyTimeFormat(time.RFC3339, i.Updated, i.Created),
+		Published: anyTimeFormat(time.RFC3339, i.Created, i.Updated),
 	}
 
 	// if there's a description, assume it's html
