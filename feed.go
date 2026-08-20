@@ -8,23 +8,28 @@ import (
 	"time"
 )
 
+// Link represents an RSS/Atom link element.
 type Link struct {
 	Href, Rel, Type, Length string
 }
 
+// Author represents an author of a feed or item.
 type Author struct {
 	Name, Email string
 }
 
+// Image represents an image or logo for a feed.
 type Image struct {
 	Url, Title, Link string
 	Width, Height    int
 }
 
+// Enclosure represents an enclosure element in an RSS/Atom item.
 type Enclosure struct {
 	Url, Length, Type string
 }
 
+// Item represents a single feed item or story.
 type Item struct {
 	Title       string
 	Link        *Link
@@ -39,6 +44,7 @@ type Item struct {
 	Content     string
 }
 
+// Feed represents a syndication feed containing items and metadata.
 type Feed struct {
 	Title       string
 	Link        *Link
@@ -53,12 +59,12 @@ type Feed struct {
 	Image       *Image
 }
 
-// add a new Item to a Feed
+// Add adds a new Item to a Feed.
 func (f *Feed) Add(item *Item) {
 	f.Items = append(f.Items, item)
 }
 
-// returns the first non-zero time formatted as a string or ""
+// anyTimeFormat returns the first non-zero time formatted as a string or "".
 func anyTimeFormat(format string, times ...time.Time) string {
 	for _, t := range times {
 		if !t.IsZero() {
@@ -68,13 +74,13 @@ func anyTimeFormat(format string, times ...time.Time) string {
 	return ""
 }
 
-// interface used by ToXML to get a object suitable for exporting XML.
+// XmlFeed is an interface used by ToXML to get an object suitable for exporting XML.
 type XmlFeed interface {
 	FeedXml() interface{}
 }
 
-// turn a feed object (either a Feed, AtomFeed, or RssFeed) into xml
-// returns an error if xml marshaling fails
+// ToXML converts a feed object (either a Feed, AtomFeed, or RssFeed) into XML.
+// It returns an error if XML marshaling fails.
 func ToXML(feed XmlFeed) (string, error) {
 	x := feed.FeedXml()
 	data, err := xml.MarshalIndent(x, "", "  ")
