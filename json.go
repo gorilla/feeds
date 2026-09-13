@@ -29,13 +29,13 @@ type JSONAttachment struct {
 // MarshalJSON implements the json.Marshaler interface.
 // The Duration field is marshaled in seconds, all other fields are marshaled
 // based upon the definitions in struct tags.
-func (a *JSONAttachment) MarshalJSON() ([]byte, error) {
+func (a JSONAttachment) MarshalJSON() ([]byte, error) {
 	type EmbeddedJSONAttachment JSONAttachment
 	return json.Marshal(&struct {
 		Duration float64 `json:"duration_in_seconds,omitempty"`
 		*EmbeddedJSONAttachment
 	}{
-		EmbeddedJSONAttachment: (*EmbeddedJSONAttachment)(a),
+		EmbeddedJSONAttachment: (*EmbeddedJSONAttachment)(&a),
 		Duration:               a.Duration.Seconds(),
 	})
 }
