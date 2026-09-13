@@ -22,7 +22,7 @@ type JSONAttachment struct {
 	Url      string        `json:"url,omitempty"`
 	MIMEType string        `json:"mime_type,omitempty"`
 	Title    string        `json:"title,omitempty"`
-	Size     int32         `json:"size,omitempty"`
+	Size     int32         `json:"size_in_bytes,omitempty"`
 	Duration time.Duration `json:"duration_in_seconds,omitempty"`
 }
 
@@ -74,7 +74,7 @@ type JSONItem struct {
 	ContentText   string           `json:"content_text,omitempty"`
 	Summary       string           `json:"summary,omitempty"`
 	Image         string           `json:"image,omitempty"`
-	BannerImage   string           `json:"banner_,omitempty"`
+	BannerImage   string           `json:"banner_image,omitempty"`
 	PublishedDate *time.Time       `json:"date_published,omitempty"`
 	ModifiedDate  *time.Time       `json:"date_modified,omitempty"`
 	Author        *JSONAuthor      `json:"author,omitempty"` // deprecated in JSON Feed v1.1, keeping for backwards compatibility
