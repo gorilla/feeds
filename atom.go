@@ -149,10 +149,16 @@ func (a *Atom) AtomFeed() *AtomFeed {
 	if link == nil {
 		link = &Link{}
 	}
+	// W3C feed validator wants atom:link rel="self" on the feed.
+	// If the caller did not set Rel, treat the feed Link as the feed URL.
+	rel := link.Rel
+	if rel == "" {
+		rel = "self"
+	}
 	feed := &AtomFeed{
 		Xmlns:    ns,
 		Title:    a.Title,
-		Link:     &AtomLink{Href: link.Href, Rel: link.Rel},
+		Link:     &AtomLink{Href: link.Href, Rel: rel},
 		Subtitle: a.Description,
 		Id:       link.Href,
 		Updated:  updated,
