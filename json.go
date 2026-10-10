@@ -46,7 +46,7 @@ func (a *JSONAttachment) MarshalJSON() ([]byte, error) {
 func (a *JSONAttachment) UnmarshalJSON(data []byte) error {
 	type EmbeddedJSONAttachment JSONAttachment
 	var raw struct {
-		Duration float64 `json:"duration_in_seconds,omitempty"`
+		Duration *float64 `json:"duration_in_seconds,omitempty"`
 		*EmbeddedJSONAttachment
 	}
 	raw.EmbeddedJSONAttachment = (*EmbeddedJSONAttachment)(a)
@@ -56,8 +56,8 @@ func (a *JSONAttachment) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	if raw.Duration > 0 {
-		nsec := int64(raw.Duration * float64(time.Second))
+	if raw.Duration != nil && *raw.Duration >= 0 {
+		nsec := int64(*raw.Duration * float64(time.Second))
 		raw.EmbeddedJSONAttachment.Duration = time.Duration(nsec)
 	}
 
