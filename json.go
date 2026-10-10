@@ -107,7 +107,16 @@ type JSONFeed struct {
 	Authors     []*JSONAuthor `json:"authors,omitempty"`
 	Expired     *bool         `json:"expired,omitempty"`
 	Hubs        []*JSONHub    `json:"hubs,omitempty"`
-	Items       []*JSONItem   `json:"items,omitempty"`
+	Items       []*JSONItem   `json:"items"`
+}
+
+// MarshalJSON always includes the required items array, even for an empty feed.
+func (f JSONFeed) MarshalJSON() ([]byte, error) {
+	type jsonFeed JSONFeed
+	if f.Items == nil {
+		f.Items = []*JSONItem{}
+	}
+	return json.Marshal(jsonFeed(f))
 }
 
 // JSON is used to convert a generic Feed to a JSONFeed.

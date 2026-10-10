@@ -579,7 +579,8 @@ var jsonOutputHub = `{
       "type": "WebSub",
       "url": "https://websub-hub.example"
     }
-  ]
+  ],
+  "items": []
 }`
 
 func TestJSONHub(t *testing.T) {
