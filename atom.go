@@ -149,10 +149,14 @@ func (a *Atom) AtomFeed() *AtomFeed {
 	if link == nil {
 		link = &Link{}
 	}
+	rel := link.Rel
+	if rel == "" {
+		rel = "self"
+	}
 	feed := &AtomFeed{
 		Xmlns:    ns,
 		Title:    a.Title,
-		Link:     &AtomLink{Href: link.Href, Rel: link.Rel},
+		Link:     &AtomLink{Href: link.Href, Rel: rel},
 		Subtitle: a.Description,
 		Id:       link.Href,
 		Updated:  updated,
