@@ -12,7 +12,7 @@ var atomOutput = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.
   <updated>2013-01-16T21:52:35-05:00</updated>
   <rights>This work is copyright © Benjamin Button</rights>
   <subtitle>discussion about tech, footie, photos</subtitle>
-  <link href="http://jmoiron.net/blog"></link>
+  <link href="http://jmoiron.net/blog" rel="self"></link>
   <author>
     <name>Jason Moiron</name>
     <email>jmoiron@jmoiron.net</email>
@@ -300,7 +300,7 @@ var atomOutputSorted = `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http:
   <updated>2013-01-16T21:52:35-05:00</updated>
   <rights>This work is copyright © Benjamin Button</rights>
   <subtitle>discussion about tech, footie, photos</subtitle>
-  <link href="http://jmoiron.net/blog"></link>
+  <link href="http://jmoiron.net/blog" rel="self"></link>
   <author>
     <name>Jason Moiron</name>
     <email>jmoiron@jmoiron.net</email>
@@ -601,3 +601,65 @@ func TestJSONHub(t *testing.T) {
 		t.Errorf("JSON not what was expected.  Got:\n%s\n\nExpected:\n%s\n", json, jsonOutputHub)
 	}
 }
+
+func TestAtomFeedLinkRelDefaultSelf(t *testing.T) {
+	now := time.Now()
+	feed := &Feed{
+		Title:   "example",
+		Link:    &Link{Href: "https://example.com/atom.xml"},
+		Created: now,
+	}
+	atom, err := feed.ToAtom()
+	if err != nil {
+		t.Fatalf("ToAtom: %v", err)
+	}
+	if !bytes.Contains([]byte(atom), []byte(`<link href="https://example.com/atom.xml" rel="self"></link>`)) {
+		t.Fatalf("expected rel=self on feed link, got:\n%s", atom)
+	}
+
+	atomFeed := (&Atom{feed}).AtomFeed()
+	if atomFeed.Link == nil {
+		t.Fatalf("expected feed.Link to be non-nil")
+	}
+	if atomFeed.Link.Rel != "self" {
+		t.Fatalf("expected Link.Rel to be 'self', got '%s'", atomFeed.Link.Rel)
+	}
+}
+
+func TestAtomFeedLinkRelExplicit(t *testing.T) {
+	now := time.Now()
+	feed := &Feed{
+		Title:   "example",
+		Link:    &Link{Href: "https://example.com/atom.xml", Rel: "alternate"},
+		Created: now,
+	}
+	atom, err := feed.ToAtom()
+	if err != nil {
+		t.Fatalf("ToAtom: %v", err)
+	}
+	if !bytes.Contains([]byte(atom), []byte(`<link href="https://example.com/atom.xml" rel="alternate"></link>`)) {
+		t.Fatalf("expected explicit rel=alternate to be preserved, got:\n%s", atom)
+	}
+
+	atomFeed := (&Atom{feed}).AtomFeed()
+	if atomFeed.Link == nil {
+		t.Fatalf("expected feed.Link to be non-nil")
+	}
+	if atomFeed.Link.Rel != "alternate" {
+		t.Fatalf("expected Link.Rel to be 'alternate', got '%s'", atomFeed.Link.Rel)
+	}
+}
+
+func TestAtomFeedLinkNil(t *testing.T) {
+	feed := &Feed{
+		Title: "example",
+	}
+	atom, err := feed.ToAtom()
+	if err != nil {
+		t.Fatalf("ToAtom: %v", err)
+	}
+	if !bytes.Contains([]byte(atom), []byte(`rel="self"`)) {
+		t.Fatalf("expected default rel=self even when Link is nil, got:\n%s", atom)
+	}
+}
+
